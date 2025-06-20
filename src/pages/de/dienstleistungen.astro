@@ -1,0 +1,75 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout lang="de" currentPath={Astro.url.pathname}>
+  <div class="container mx-auto p-4">
+    <section class="py-8">
+      <h1 class="text-3xl font-bold mb-6">Unsere Dienstleistungen</h1>
+      <p class="text-lg mb-8">Entdecken Sie unsere umfassenden Dienstleistungen für Ihr Unternehmen</p>
+    </section>
+
+    <section class="grid md:grid-cols-2 gap-8 mb-12">
+      <div class="bg-gray-50 p-6 rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">Buchhaltung & Rechnungswesen</h2>
+        <p class="mb-4">Professionelle Buchhaltung und Finanzberichterstattung für Ihr Unternehmen. Wir sorgen für ordnungsgemäße Aufzeichnungen und transparente Finanzberichte.</p>
+        <ul class="list-disc list-inside space-y-2">
+          <li>Jahresabschlüsse</li>
+          <li>Monatliche Buchhaltung</li>
+          <li>Finanzberichterstattung</li>
+          <li>Controlling</li>
+        </ul>
+      </div>
+
+      <div class="bg-gray-50 p-6 rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">Steuerberatung</h2>
+        <p class="mb-4">Umfassende Steuerberatung und -optimierung für Unternehmen und Privatpersonen. Wir helfen Ihnen, Ihre Steuerlast zu optimieren.</p>
+        <ul class="list-disc list-inside space-y-2">
+          <li>Steuererklärungen</li>
+          <li>Steuerplanung</li>
+          <li>Steueroptimierung</li>
+          <li>Mehrwertsteuer</li>
+        </ul>
+      </div>
+
+      <div class="bg-gray-50 p-6 rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">Unternehmensberatung</h2>
+        <p class="mb-4">Strategische Beratung für Ihr Unternehmen. Wir unterstützen Sie bei wichtigen Geschäftsentscheidungen und der Unternehmensentwicklung.</p>
+        <ul class="list-disc list-inside space-y-2">
+          <li>Strategieentwicklung</li>
+          <li>Prozessoptimierung</li>
+          <li>Risikomanagement</li>
+          <li>Wachstumsstrategien</li>
+        </ul>
+      </div>
+
+      <div class="bg-gray-50 p-6 rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">Firmengründung</h2>
+        <p class="mb-4">Professionelle Unterstützung bei der Gründung Ihres Unternehmens. Von der ersten Idee bis zur erfolgreichen Umsetzung.</p>
+        <ul class="list-disc list-inside space-y-2">
+          <li>Rechtsformberatung</li>
+          <li>Gründungsprozess</li>
+          <li>Behördengänge</li>
+          <li>Nachgründungsbetreuung</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="py-8 bg-blue-50 rounded-lg">
+      <h2 class="text-2xl font-bold mb-4">Warum Argentatreuhand?</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="text-center">
+          <h3 class="font-bold mb-2">Erfahrung</h3>
+          <p>Jahrelange Erfahrung in der Unternehmensberatung</p>
+        </div>
+        <div class="text-center">
+          <h3 class="font-bold mb-2">Individuell</h3>
+          <p>Maßgeschneiderte Lösungen für Ihre Bedürfnisse</p>
+        </div>
+        <div class="text-center">
+          <h3 class="font-bold mb-2">Zuverlässig</h3>
+          <p>Pünktliche und qualitativ hochwertige Ergebnisse</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>

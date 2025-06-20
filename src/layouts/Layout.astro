@@ -1,0 +1,60 @@
+---
+import '../styles/global.css';
+const { lang = 'de', currentPath } = Astro.props;
+const navLinks = [
+  { href: `/${lang}/`, label: lang === 'de' ? 'Home' : 'Inicio' },
+  { href: `/${lang}/dienstleistungen`, label: lang === 'de' ? 'Dienstleistungen' : 'Servicios' },
+  { href: `/${lang}/ueber`, label: lang === 'de' ? 'Über Uns' : 'Sobre Nosotros' },
+  { href: `/${lang}/beratung`, label: lang === 'de' ? 'Kontakt' : 'Contacto' },
+];
+---
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Argentatreuhand</title>
+    <style>
+      .nav-link.active {
+        border-top: 2px solid #267272;
+        color: #267272;
+      }
+    </style>
+  </head>
+  <body class="bg-white text-gray-800 font-sans">
+    <header class="border-b">
+      <div class="container mx-auto flex justify-between items-center p-4">
+        <a href={`/${lang}/`} class="text-2xl font-bold text-brand-teal">
+          ARGENTATREUHAND
+        </a>
+        <nav class="flex items-center space-x-6">
+          {navLinks.map(link => (
+            <a
+              href={link.href}
+              class:list={["nav-link text-gray-600 hover:text-brand-teal pt-2", { active: currentPath === link.href }]}
+            >
+              {link.label}
+            </a>
+          ))}
+          <div class="flex space-x-2">
+            <a href="/de/" class:list={["font-semibold", { "text-brand-teal": lang === 'de' }]}>DE</a>
+            <span>|</span>
+            <a href="/es/" class:list={["font-semibold", { "text-brand-teal": lang === 'es' }]}>ES</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="border-t mt-12 py-6">
+      <div class="container mx-auto text-center text-gray-600">
+        <p>Impressum | Datenschutz | AGB</p>
+        <p>&copy; {new Date().getFullYear()} Argentatreuhand – All rights reserved</p>
+      </div>
+    </footer>
+  </body>
+</html>

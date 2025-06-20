@@ -1,0 +1,75 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout lang="es" currentPath={Astro.url.pathname}>
+  <div class="container mx-auto p-4">
+    <section class="py-8">
+      <h1 class="text-3xl font-bold mb-6">Nuestros Servicios</h1>
+      <p class="text-lg mb-8">Descubra nuestros servicios integrales para su empresa</p>
+    </section>
+
+    <section class="grid md:grid-cols-2 gap-8 mb-12">
+      <div class="bg-gray-50 p-6 rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">Contabilidad y Finanzas</h2>
+        <p class="mb-4">Contabilidad profesional e informes financieros para su empresa. Nos aseguramos de registros adecuados e informes financieros transparentes.</p>
+        <ul class="list-disc list-inside space-y-2">
+          <li>Estados financieros anuales</li>
+          <li>Contabilidad mensual</li>
+          <li>Informes financieros</li>
+          <li>Control de gestión</li>
+        </ul>
+      </div>
+
+      <div class="bg-gray-50 p-6 rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">Asesoría Fiscal</h2>
+        <p class="mb-4">Asesoría fiscal integral y optimización para empresas y particulares. Le ayudamos a optimizar su carga fiscal.</p>
+        <ul class="list-disc list-inside space-y-2">
+          <li>Declaraciones de impuestos</li>
+          <li>Planificación fiscal</li>
+          <li>Optimización fiscal</li>
+          <li>IVA</li>
+        </ul>
+      </div>
+
+      <div class="bg-gray-50 p-6 rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">Consultoría Empresarial</h2>
+        <p class="mb-4">Asesoría estratégica para su empresa. Le apoyamos en decisiones comerciales importantes y el desarrollo empresarial.</p>
+        <ul class="list-disc list-inside space-y-2">
+          <li>Desarrollo de estrategias</li>
+          <li>Optimización de procesos</li>
+          <li>Gestión de riesgos</li>
+          <li>Estrategias de crecimiento</li>
+        </ul>
+      </div>
+
+      <div class="bg-gray-50 p-6 rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">Constitución de Empresas</h2>
+        <p class="mb-4">Apoyo profesional en la constitución de su empresa. Desde la primera idea hasta la implementación exitosa.</p>
+        <ul class="list-disc list-inside space-y-2">
+          <li>Asesoría sobre forma jurídica</li>
+          <li>Proceso de constitución</li>
+          <li>Trámites administrativos</li>
+          <li>Seguimiento post-constitución</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="py-8 bg-blue-50 rounded-lg">
+      <h2 class="text-2xl font-bold mb-4">¿Por qué Argentatreuhand?</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="text-center">
+          <h3 class="font-bold mb-2">Experiencia</h3>
+          <p>Años de experiencia en consultoría empresarial</p>
+        </div>
+        <div class="text-center">
+          <h3 class="font-bold mb-2">Individual</h3>
+          <p>Soluciones personalizadas para sus necesidades</p>
+        </div>
+        <div class="text-center">
+          <h3 class="font-bold mb-2">Confiable</h3>
+          <p>Resultados puntuales y de alta calidad</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
