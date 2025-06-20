@@ -1,13 +1,27 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
 import '../styles/global.css';
-const { lang = 'de', currentPath } = Astro.props;
+
+interface Props {
+	title: string;
+	lang: 'de' | 'es';
+}
+
+const { title, lang = 'de' } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+const homeLink = `/${lang}/`;
+
 const navLinks = [
   { href: `/${lang}/`, label: lang === 'de' ? 'Home' : 'Inicio' },
   { href: `/${lang}/dienstleistungen`, label: lang === 'de' ? 'Dienstleistungen' : 'Servicios' },
-  { href: `/${lang}/ueber`, label: lang === 'de' ? 'Über Uns' : 'Sobre Nosotros' },
-  { href: `/${lang}/beratung`, label: lang === 'de' ? 'Kontakt' : 'Contacto' },
+  { href: `/${lang}/ueber`, label: lang === 'de' ? 'Über uns' : 'Sobre nosotros' },
+  { href: `/${lang}/beratung`, label: lang === 'de' ? 'Beratung' : 'Asesoramiento' },
+  { href: `/${lang}/blog`, label: lang === 'de' ? 'Blog' : 'Blog' },
 ];
+
+const otherLang = lang === 'de' ? 'es' : 'de';
+const otherLangText = lang === 'de' ? 'Español' : 'Deutsch';
 ---
 <html lang={lang}>
   <head>
@@ -15,35 +29,40 @@ const navLinks = [
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>Argentatreuhand</title>
+    <title>{title}</title>
     <ViewTransitions />
     <style>
       .nav-link.active {
-        border-top: 2px solid #267272;
         color: #267272;
+        border-bottom: 2px solid #267272;
+      }
+
+      .logo-transparent {
+        background: transparent;
+        mix-blend-mode: multiply;
       }
     </style>
   </head>
   <body class="bg-white text-gray-800 font-sans">
-    <header class="border-b">
-      <div class="container mx-auto flex justify-between items-center p-4">
-        <a href={`/${lang}/`} class="text-2xl font-bold text-brand-teal">
-          ARGENTATREUHAND
-        </a>
-        <nav class="hidden md:flex items-center space-x-6">
+    <header class="bg-white text-gray-800 py-4 px-8 z-50 relative sticky top-0 shadow-md">
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="flex items-center">
+          <a href={homeLink} class="flex items-center">
+            <img src="/logo.png" alt="Argenta Treuhand Logo" class="h-12 mr-4 logo-transparent">
+          </a>
+        </div>
+        <nav class="hidden md:flex items-center space-x-8">
           {navLinks.map(link => (
             <a
               href={link.href}
-              class:list={["nav-link text-gray-600 hover:text-brand-teal pt-2", { active: currentPath === link.href }]}
+              class:list={["nav-link text-gray-600 hover:text-brand-teal py-2", { active: currentPath === link.href || (link.href.length > 4 && currentPath.startsWith(link.href)) }]}
             >
               {link.label}
             </a>
           ))}
-          <div class="flex space-x-2">
-            <a href="/de/" class:list={["font-semibold", { "text-brand-teal": lang === 'de' }]}>DE</a>
-            <span>|</span>
-            <a href="/es/" class:list={["font-semibold", { "text-brand-teal": lang === 'es' }]}>ES</a>
-          </div>
+          <a href={Astro.url.pathname.replace(`/${lang}/`, `/${otherLang}/`)} class="text-gray-600 hover:text-brand-teal transition-colors duration-300" hreflang={otherLang}>
+						{otherLangText}
+					</a>
         </nav>
         <div class="md:hidden">
           <button id="menu-btn" class="z-30 block text-gray-800 hover:text-brand-teal focus:outline-none">
@@ -56,36 +75,44 @@ const navLinks = [
     </header>
 
     <!-- Mobile Menu -->
-    <div id="menu" class="fixed inset-0 z-20 hidden flex-col items-center justify-center bg-white">
+    <div id="menu" class="fixed inset-0 z-40 hidden flex-col items-center justify-center bg-white">
+      <button id="menu-close-btn" class="absolute top-8 right-8 text-gray-800 hover:text-brand-teal focus:outline-none">
+        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
       <nav class="flex flex-col items-center space-y-8">
         {navLinks.map(link => (
           <a href={link.href} class="text-2xl hover:text-brand-teal">{link.label}</a>
         ))}
-        <div class="flex space-x-4 text-xl">
-          <a href="/de/" class:list={["font-semibold", { "text-brand-teal": lang === 'de' }]}>DE</a>
-          <span>|</span>
-          <a href="/es/" class:list={["font-semibold", { "text-brand-teal": lang === 'es' }]}>ES</a>
-        </div>
+         <a href={Astro.url.pathname.replace(`/${lang}/`, `/${otherLang}/`)} class="text-2xl hover:text-brand-teal" hreflang={otherLang}>
+						{otherLangText}
+					</a>
       </nav>
     </div>
 
-    <main>
+    <main class="container mx-auto px-8 py-8">
       <slot />
     </main>
 
-    <footer class="border-t mt-12 py-6">
+    <footer class="border-t mt-12 py-8 bg-gray-50">
       <div class="container mx-auto text-center text-gray-600">
-        <p>Impressum | Datenschutz | AGB</p>
-        <p>&copy; {new Date().getFullYear()} Argentatreuhand – All rights reserved</p>
+        <a href={`/${lang}/datenschutz`}>{lang === 'de' ? 'Datenschutz' : 'Protección de datos'}</a>
+        <p class="text-sm mt-4">&copy; {new Date().getFullYear()} Argenta Treuhand – All rights reserved</p>
       </div>
     </footer>
 
     <script>
-      const btn = document.getElementById('menu-btn');
+      const menuBtn = document.getElementById('menu-btn');
+      const menuCloseBtn = document.getElementById('menu-close-btn');
       const menu = document.getElementById('menu');
 
-      if (btn && menu) {
-        btn.addEventListener('click', () => {
+      if (menuBtn && menu && menuCloseBtn) {
+        menuBtn.addEventListener('click', () => {
+          menu.classList.toggle('hidden');
+          menu.classList.toggle('flex');
+        });
+        menuCloseBtn.addEventListener('click', () => {
           menu.classList.toggle('hidden');
           menu.classList.toggle('flex');
         });
