@@ -28,7 +28,7 @@ const navLinks = [
         <a href={`/${lang}/`} class="text-2xl font-bold text-brand-teal">
           ARGENTATREUHAND
         </a>
-        <nav class="flex items-center space-x-6">
+        <nav class="hidden md:flex items-center space-x-6">
           {navLinks.map(link => (
             <a
               href={link.href}
@@ -43,8 +43,29 @@ const navLinks = [
             <a href="/es/" class:list={["font-semibold", { "text-brand-teal": lang === 'es' }]}>ES</a>
           </div>
         </nav>
+        <div class="md:hidden">
+          <button id="menu-btn" class="z-30 block text-gray-800 hover:text-brand-teal focus:outline-none">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+          </button>
+        </div>
       </div>
     </header>
+
+    <!-- Mobile Menu -->
+    <div id="menu" class="fixed inset-0 z-20 hidden flex-col items-center justify-center bg-white">
+      <nav class="flex flex-col items-center space-y-8">
+        {navLinks.map(link => (
+          <a href={link.href} class="text-2xl hover:text-brand-teal">{link.label}</a>
+        ))}
+        <div class="flex space-x-4 text-xl">
+          <a href="/de/" class:list={["font-semibold", { "text-brand-teal": lang === 'de' }]}>DE</a>
+          <span>|</span>
+          <a href="/es/" class:list={["font-semibold", { "text-brand-teal": lang === 'es' }]}>ES</a>
+        </div>
+      </nav>
+    </div>
 
     <main>
       <slot />
@@ -56,5 +77,17 @@ const navLinks = [
         <p>&copy; {new Date().getFullYear()} Argentatreuhand – All rights reserved</p>
       </div>
     </footer>
+
+    <script>
+      const btn = document.getElementById('menu-btn');
+      const menu = document.getElementById('menu');
+
+      if (btn && menu) {
+        btn.addEventListener('click', () => {
+          menu.classList.toggle('hidden');
+          menu.classList.toggle('flex');
+        });
+      }
+    </script>
   </body>
 </html>
