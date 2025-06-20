@@ -60,9 +60,11 @@ const otherLangText = lang === 'de' ? 'Español' : 'Deutsch';
               {link.label}
             </a>
           ))}
-          <a href={Astro.url.pathname.replace(`/${lang}/`, `/${otherLang}/`)} class="text-gray-600 hover:text-brand-teal transition-colors duration-300" hreflang={otherLang}>
-						{otherLangText}
-					</a>
+          <div class="flex space-x-2 items-center">
+            <a href={currentPath.replace(`/${lang}/`, `/de/`)} class:list={["font-semibold", { "text-brand-teal": lang === 'de' }]}>DE</a>
+            <span class="text-gray-300">|</span>
+            <a href={currentPath.replace(`/${lang}/`, `/es/`)} class:list={["font-semibold", { "text-brand-teal": lang === 'es' }]}>ES</a>
+          </div>
         </nav>
         <div class="md:hidden">
           <button id="menu-btn" class="z-30 block text-gray-800 hover:text-brand-teal focus:outline-none">
@@ -85,9 +87,11 @@ const otherLangText = lang === 'de' ? 'Español' : 'Deutsch';
         {navLinks.map(link => (
           <a href={link.href} class="text-2xl hover:text-brand-teal">{link.label}</a>
         ))}
-         <a href={Astro.url.pathname.replace(`/${lang}/`, `/${otherLang}/`)} class="text-2xl hover:text-brand-teal" hreflang={otherLang}>
-						{otherLangText}
-					</a>
+         <div class="flex space-x-4 text-xl items-center">
+            <a href={currentPath.replace(`/${lang}/`, `/de/`)} class:list={["font-semibold", { "text-brand-teal": lang === 'de' }]}>DE</a>
+            <span class="text-gray-300">|</span>
+            <a href={currentPath.replace(`/${lang}/`, `/es/`)} class:list={["font-semibold", { "text-brand-teal": lang === 'es' }]}>ES</a>
+          </div>
       </nav>
     </div>
 
