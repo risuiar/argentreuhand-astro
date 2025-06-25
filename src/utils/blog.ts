@@ -1,11 +1,31 @@
+declare const process: any;
 import type { BlogResponse, BlogPostData } from "../types/blog";
 
-const CMS_API_URL = import.meta.env.PUBLIC_CMS_API_URL;
-const CMS_BEARER_TOKEN = import.meta.env.CMS_BEARER_TOKEN;
+// Helper para acceder a process.env solo si existe
+const getProcessEnv = (key: string): string | undefined => {
+  return typeof process !== "undefined" && process.env
+    ? process.env[key]
+    : undefined;
+};
+
+const CMS_API_URL =
+  getProcessEnv("PUBLIC_CMS_API_URL") || import.meta.env.PUBLIC_CMS_API_URL;
+const CMS_BEARER_TOKEN =
+  getProcessEnv("CMS_BEARER_TOKEN") || import.meta.env.CMS_BEARER_TOKEN;
 
 // Debug logs
-console.log("CMS_API_URL:", CMS_API_URL);
-console.log("CMS_BEARER_TOKEN exists:", !!CMS_BEARER_TOKEN);
+console.log(
+  "CMS_API_URL:",
+  CMS_API_URL,
+  "| Source:",
+  getProcessEnv("PUBLIC_CMS_API_URL") ? "process.env" : "import.meta.env"
+);
+console.log(
+  "CMS_BEARER_TOKEN exists:",
+  !!CMS_BEARER_TOKEN,
+  "| Source:",
+  getProcessEnv("CMS_BEARER_TOKEN") ? "process.env" : "import.meta.env"
+);
 console.log("CMS_BEARER_TOKEN length:", CMS_BEARER_TOKEN?.length);
 
 export async function fetchBlogPosts(
