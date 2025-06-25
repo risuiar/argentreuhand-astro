@@ -1,6 +1,6 @@
 import type { BlogResponse, BlogPostData } from "../types/blog";
 
-const CMS_API_URL = import.meta.env.PUBLIC_CMS_API_URL;
+const CMS_API_URL = "https://cms.mateando.com/api";
 const CMS_BEARER_TOKEN = import.meta.env.CMS_BEARER_TOKEN;
 
 export async function fetchBlogPosts(
