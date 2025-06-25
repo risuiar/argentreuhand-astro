@@ -1,7 +1,12 @@
 import type { BlogResponse, BlogPostData } from "../types/blog";
 
-const CMS_API_URL = "https://cms.mateando.com/api";
+const CMS_API_URL = import.meta.env.PUBLIC_CMS_API_URL;
 const CMS_BEARER_TOKEN = import.meta.env.CMS_BEARER_TOKEN;
+
+// Debug logs
+console.log("CMS_API_URL:", CMS_API_URL);
+console.log("CMS_BEARER_TOKEN exists:", !!CMS_BEARER_TOKEN);
+console.log("CMS_BEARER_TOKEN length:", CMS_BEARER_TOKEN?.length);
 
 export async function fetchBlogPosts(
   locale: "de-CH" | "es-AR",
@@ -10,12 +15,21 @@ export async function fetchBlogPosts(
 ): Promise<BlogResponse> {
   const url = `${CMS_API_URL}/blogs/?filters[locale][$eq]=${locale}&sort=publishedAt:desc&pagination[page]=${page}&pagination[pageSize]=${pageSize}&populate[0]=image&populate[1]=image2`;
 
+  console.log("Fetching URL:", url);
+  console.log(
+    "Using Bearer Token:",
+    CMS_BEARER_TOKEN ? "Token exists" : "No token"
+  );
+
   const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${CMS_BEARER_TOKEN}`,
       "Content-Type": "application/json",
     },
   });
+
+  console.log("Response status:", response.status);
+  console.log("Response statusText:", response.statusText);
 
   if (!response.ok) {
     throw new Error(
