@@ -15,8 +15,8 @@ COPY . .
 # Build the application
 RUN npm run build
 
-# Expose port
-EXPOSE 4321
+# Expose port 3000 for Coolify
+EXPOSE 3000
 
 # Start the application
 CMD ["npm", "start"]
