@@ -8,6 +8,15 @@ console.log("CMS_API_URL:", CMS_API_URL);
 console.log("CMS_BEARER_TOKEN exists:", !!CMS_BEARER_TOKEN);
 console.log("CMS_BEARER_TOKEN length:", CMS_BEARER_TOKEN?.length);
 
+// Validate environment variables
+if (!CMS_API_URL) {
+  throw new Error("PUBLIC_CMS_API_URL environment variable is not set");
+}
+
+if (!CMS_BEARER_TOKEN) {
+  throw new Error("CMS_BEARER_TOKEN environment variable is not set");
+}
+
 export async function fetchBlogPosts(
   locale: "de-CH" | "es-AR",
   page: number = 1,
