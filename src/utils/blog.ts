@@ -8,20 +8,20 @@ console.log("CMS_API_URL:", CMS_API_URL);
 console.log("CMS_BEARER_TOKEN exists:", !!CMS_BEARER_TOKEN);
 console.log("CMS_BEARER_TOKEN length:", CMS_BEARER_TOKEN?.length);
 
-// Validate environment variables
-if (!CMS_API_URL) {
-  throw new Error("PUBLIC_CMS_API_URL environment variable is not set");
-}
-
-if (!CMS_BEARER_TOKEN) {
-  throw new Error("CMS_BEARER_TOKEN environment variable is not set");
-}
-
 export async function fetchBlogPosts(
   locale: "de-CH" | "es-AR",
   page: number = 1,
   pageSize: number = 10
 ): Promise<BlogResponse> {
+  // Validate environment variables
+  if (!CMS_API_URL) {
+    throw new Error("PUBLIC_CMS_API_URL environment variable is not set");
+  }
+
+  if (!CMS_BEARER_TOKEN) {
+    throw new Error("CMS_BEARER_TOKEN environment variable is not set");
+  }
+
   const url = `${CMS_API_URL}/blogs/?filters[locale][$eq]=${locale}&sort=publishedAt:desc&pagination[page]=${page}&pagination[pageSize]=${pageSize}&populate[0]=image&populate[1]=image2`;
 
   console.log("Fetching URL:", url);
@@ -53,6 +53,15 @@ export async function fetchBlogPost(
   documentId: string,
   locale: "de-CH" | "es-AR"
 ): Promise<BlogPostData | null> {
+  // Validate environment variables
+  if (!CMS_API_URL) {
+    throw new Error("PUBLIC_CMS_API_URL environment variable is not set");
+  }
+
+  if (!CMS_BEARER_TOKEN) {
+    throw new Error("CMS_BEARER_TOKEN environment variable is not set");
+  }
+
   const url = `${CMS_API_URL}/blogs/?filters[documentId][$eq]=${documentId}&filters[locale][$eq]=${locale}&populate[0]=image&populate[1]=image2`;
 
   const response = await fetch(url, {
