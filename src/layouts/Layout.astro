@@ -107,20 +107,41 @@ const otherLangText = lang === 'de' ? 'Español' : 'Deutsch';
     </footer>
 
     <script>
-      const menuBtn = document.getElementById('menu-btn');
-      const menuCloseBtn = document.getElementById('menu-close-btn');
-      const menu = document.getElementById('menu');
+      function initializeMenu() {
+        const menuBtn = document.getElementById('menu-btn');
+        const menuCloseBtn = document.getElementById('menu-close-btn');
+        const menu = document.getElementById('menu');
 
-      if (menuBtn && menu && menuCloseBtn) {
-        menuBtn.addEventListener('click', () => {
-          menu.classList.toggle('hidden');
-          menu.classList.toggle('flex');
-        });
-        menuCloseBtn.addEventListener('click', () => {
-          menu.classList.toggle('hidden');
-          menu.classList.toggle('flex');
-        });
+        if (menuBtn && menu && menuCloseBtn) {
+          // Remove existing event listeners to prevent duplicates
+          menuBtn.removeEventListener('click', toggleMenu);
+          menuCloseBtn.removeEventListener('click', toggleMenu);
+
+          // Add event listeners
+          menuBtn.addEventListener('click', toggleMenu);
+          menuCloseBtn.addEventListener('click', toggleMenu);
+        }
       }
+
+      function toggleMenu() {
+        const menu = document.getElementById('menu');
+        if (menu) {
+          const isHidden = menu.classList.contains('hidden');
+          if (isHidden) {
+            menu.classList.remove('hidden');
+            menu.classList.add('flex');
+          } else {
+            menu.classList.remove('flex');
+            menu.classList.add('hidden');
+          }
+        }
+      }
+
+      // Initialize on page load
+      initializeMenu();
+
+      // Re-initialize after view transitions (for Astro)
+      document.addEventListener('astro:page-load', initializeMenu);
     </script>
   </body>
 </html>

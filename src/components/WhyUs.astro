@@ -1,0 +1,57 @@
+---
+interface Props {
+    lang: 'de' | 'es';
+}
+
+const { lang = 'de' } = Astro.props;
+
+const content = {
+    de: {
+        title: "Warum Argentatreuhand?",
+        items: [
+            {
+                title: "Erfahrung",
+                text: "Jahrelange Erfahrung in der Unternehmensberatung"
+            },
+            {
+                title: "Individuell",
+                text: "Maßgeschneiderte Lösungen für Ihre Bedürfnisse"
+            },
+            {
+                title: "Zuverlässig",
+                text: "Pünktliche und qualitativ hochwertige Ergebnisse"
+            }
+        ]
+    },
+    es: {
+        title: "¿Por qué Argentatreuhand?",
+        items: [
+            {
+                title: "Experiencia",
+                text: "Años de experiencia en consultoría empresarial"
+            },
+            {
+                title: "Individual",
+                text: "Soluciones a medida para sus necesidades"
+            },
+            {
+                title: "Confiable",
+                text: "Resultados puntuales y de alta calidad"
+            }
+        ]
+    }
+}
+
+const t = content[lang];
+---
+<section class="bg-slate-100 p-8 rounded-lg my-12">
+    <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">{t.title}</h2>
+    <div class="grid md:grid-cols-3 gap-8 text-center">
+        {t.items.map(item => (
+            <div>
+                <h3 class="font-bold text-xl mb-2 text-gray-800">{item.title}</h3>
+                <p class="text-gray-600">{item.text}</p>
+            </div>
+        ))}
+    </div>
+</section>
