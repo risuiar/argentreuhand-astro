@@ -1,0 +1,25 @@
+---
+import '@/styles/globals.css'
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Hero from '../../components/Hero';
+import Services from '../../components/Services';
+import WhyChooseUs from '../../components/WhyChooseUs';
+import Testimonials from '../../components/Testimonials';
+import Contact from '../../components/Contact';
+import Footer from '../../components/Footer';
+import { getLangFromUrl, useTranslations, translations } from '../../lib/i18n';
+
+const lang = getLangFromUrl(Astro.url);
+const t = translations[lang];
+---
+
+<Layout title="Argenta Treuhand - Experten für Steuerberatung und Unternehmensberatung">
+	<Header />
+	<Hero lang={lang} translations={t} client:load />
+	<Services lang={lang} translations={t} client:load />
+	<WhyChooseUs lang={lang} translations={t} client:load />
+	<Testimonials lang={lang} translations={t} client:load />
+	<Contact lang={lang} translations={t} client:load />
+	<Footer lang={lang} translations={t} client:load />
+</Layout>
