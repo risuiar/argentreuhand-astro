@@ -157,7 +157,7 @@ export default function Footer({ lang }: FooterProps) {
         <div className="border-t border-slate-800 mt-12 pt-8 text-center">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-slate-400">
-              © 2024 Argenta Treuhand.{" "}
+              © 2025 Argenta Treuhand.{" "}
               {lang === "es"
                 ? "Todos los derechos reservados."
                 : "Alle Rechte vorbehalten."}

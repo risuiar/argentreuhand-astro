@@ -583,7 +583,7 @@ export const translations = {
         title: "Kontakt",
       },
       legal: {
-        copyright: "© 2024 Argenta Treuhand. Alle Rechte vorbehalten.",
+        copyright: "© 2025 Argenta Treuhand. Alle Rechte vorbehalten.",
         privacy: "Datenschutzrichtlinie",
         terms: "Nutzungsbedingungen",
         cookies: "Cookies",
