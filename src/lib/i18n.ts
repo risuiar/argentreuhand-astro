@@ -19,7 +19,7 @@ export const translations = {
     cta: "Primeros 15 min gratis",
     ctaSubtext: "Luego 150 CHF/hora",
     location: "Zurich, Suiza",
-    phone: "+41 44 123 45 67",
+    phone: "+41 76 510 03 80",
     email: "info@argentatreuhand.com",
 
     // Hero
@@ -221,7 +221,7 @@ export const translations = {
         placeholders: {
           name: "Tu nombre",
           email: "tu@email.com",
-          phone: "+41 44 123 45 67",
+          phone: "+41 76 510 03 80",
           message: "Describe tu consulta...",
         },
         submit: "Enviar Mensaje",
@@ -287,7 +287,7 @@ export const translations = {
         placeholders: {
           name: "Tu nombre completo",
           email: "tu@email.com",
-          phone: "+41 44 123 45 67",
+          phone: "+41 76 510 03 80",
           message: "Describe brevemente tu consulta...",
         },
         services: {
@@ -343,7 +343,7 @@ export const translations = {
     cta: "Erste 15 Min kostenlos",
     ctaSubtext: "Dann 150 CHF/Std",
     location: "Zürich, Schweiz",
-    phone: "+41 44 123 45 67",
+    phone: "+41 76 510 03 80",
     email: "info@argentatreuhand.com",
 
     // Hero
@@ -546,7 +546,7 @@ export const translations = {
         placeholders: {
           name: "Ihr Name",
           email: "ihre@email.com",
-          phone: "+41 44 123 45 67",
+          phone: "+41 76 510 03 80",
           message: "Beschreiben Sie Ihre Anfrage...",
         },
         submit: "Nachricht senden",
@@ -583,7 +583,7 @@ export const translations = {
         title: "Kontakt",
       },
       legal: {
-        copyright: "© 2025 Argenta Treuhand. Alle Rechte vorbehalten.",
+        copyright: `© ${new Date().getFullYear()} Argenta Treuhand. Alle Rechte vorbehalten.`,
         privacy: "Datenschutzrichtlinie",
         terms: "Nutzungsbedingungen",
         cookies: "Cookies",
@@ -612,7 +612,7 @@ export const translations = {
         placeholders: {
           name: "Ihr vollständiger Name",
           email: "ihre@email.com",
-          phone: "+41 44 123 45 67",
+          phone: "+41 76 510 03 80",
           message: "Beschreiben Sie kurz Ihre Anfrage...",
         },
         services: {
