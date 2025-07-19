@@ -11,3 +11,6 @@ cmd = "node ./dist/server/entry.mjs"
 NODE_ENV = "production"
 PORT = "4321"
 HOSTNAME = "0.0.0.0"
+
+[phases.setup]
+nixPkgs = ["nodejs_18"]
