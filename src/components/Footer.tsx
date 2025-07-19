@@ -10,12 +10,9 @@ import {
 
 interface FooterProps {
   lang: "es" | "de";
-  translations: any;
 }
 
-export default function Footer({ lang, translations }: FooterProps) {
-  const t = translations;
-
+export default function Footer({ lang }: FooterProps) {
   return (
     <footer className="bg-slate-900 text-white py-16">
       <div className="container mx-auto px-4">
@@ -28,11 +25,17 @@ export default function Footer({ lang, translations }: FooterProps) {
               </div>
               <div>
                 <h3 className="text-xl font-bold">Argenta Treuhand</h3>
-                <p className="text-slate-400 text-sm">{t.tagline}</p>
+                <p className="text-slate-400 text-sm">
+                  {lang === "es"
+                    ? "Asesoría Fiscal & Consultoría Empresarial"
+                    : "Steuerberatung & Unternehmensberatung"}
+                </p>
               </div>
             </div>
             <p className="text-slate-400 leading-relaxed">
-              {t.footer.description}
+              {lang === "es"
+                ? "Expertos en consultoría fiscal y empresarial con más de 15 años de experiencia ayudando a emprendedores y empresas a crecer."
+                : "Experten für Steuer- und Unternehmensberatung mit über 15 Jahren Erfahrung, die Unternehmern und Unternehmen beim Wachstum helfen."}
             </p>
             <div className="flex space-x-4">
               <a
@@ -65,10 +68,21 @@ export default function Footer({ lang, translations }: FooterProps) {
           {/* Services */}
           <div>
             <h4 className="text-lg font-semibold mb-4">
-              {t.footer.services.title}
+              {lang === "es" ? "Servicios" : "Dienstleistungen"}
             </h4>
             <ul className="space-y-2">
-              {t.footer.services.items.map((service, index) => (
+              {[
+                lang === "es" ? "Declaración de Impuestos" : "Steuererklärung",
+                lang === "es"
+                  ? "Constitución de Empresas"
+                  : "Unternehmensgründung",
+                lang === "es" ? "Planificación Fiscal" : "Steuerplanung",
+                lang === "es"
+                  ? "Contabilidad Completa"
+                  : "Vollständige Buchhaltung",
+                lang === "es" ? "Consultoría Financiera" : "Finanzberatung",
+                lang === "es" ? "Defensa Fiscal" : "Steuerverteidigung",
+              ].map((service, index) => (
                 <li key={index}>
                   <a
                     href="#"
@@ -84,10 +98,24 @@ export default function Footer({ lang, translations }: FooterProps) {
           {/* Quick Links */}
           <div>
             <h4 className="text-lg font-semibold mb-4">
-              {t.footer.quickLinks.title}
+              {lang === "es" ? "Enlaces Rápidos" : "Schnelllinks"}
             </h4>
             <ul className="space-y-2">
-              {t.footer.quickLinks.items.map((link, index) => (
+              {[
+                { label: lang === "es" ? "Inicio" : "Startseite", href: "/" },
+                {
+                  label: lang === "es" ? "Servicios" : "Dienstleistungen",
+                  href: "/#servicios",
+                },
+                {
+                  label: lang === "es" ? "Sobre Nosotros" : "Über uns",
+                  href: "/#sobre-nosotros",
+                },
+                {
+                  label: lang === "es" ? "Contacto" : "Kontakt",
+                  href: "/#contacto",
+                },
+              ].map((link, index) => (
                 <li key={index}>
                   <a
                     href={link.href}
@@ -103,16 +131,16 @@ export default function Footer({ lang, translations }: FooterProps) {
           {/* Contact Info */}
           <div>
             <h4 className="text-lg font-semibold mb-4">
-              {t.footer.contact.title}
+              {lang === "es" ? "Contacto" : "Kontakt"}
             </h4>
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
                 <Phone className="h-5 w-5 text-blue-400" />
-                <span className="text-slate-400">{t.phone}</span>
+                <span className="text-slate-400">+41 44 123 45 67</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-5 w-5 text-blue-400" />
-                <span className="text-slate-400">{t.email}</span>
+                <span className="text-slate-400">info@argentatreuhand.com</span>
               </div>
               <div className="flex items-start space-x-3">
                 <MapPin className="h-5 w-5 text-blue-400 mt-1" />
@@ -128,25 +156,30 @@ export default function Footer({ lang, translations }: FooterProps) {
 
         <div className="border-t border-slate-800 mt-12 pt-8 text-center">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-slate-400">{t.footer.legal.copyright}</p>
+            <p className="text-slate-400">
+              © 2024 Argenta Treuhand.{" "}
+              {lang === "es"
+                ? "Todos los derechos reservados."
+                : "Alle Rechte vorbehalten."}
+            </p>
             <div className="flex space-x-6">
               <a
                 href="#"
                 className="text-slate-400 hover:text-white transition-colors"
               >
-                {t.footer.legal.privacy}
+                {lang === "es" ? "Privacidad" : "Datenschutz"}
               </a>
               <a
                 href="#"
                 className="text-slate-400 hover:text-white transition-colors"
               >
-                {t.footer.legal.terms}
+                {lang === "es" ? "Términos" : "AGB"}
               </a>
               <a
                 href="#"
                 className="text-slate-400 hover:text-white transition-colors"
               >
-                {t.footer.legal.cookies}
+                {lang === "es" ? "Cookies" : "Cookies"}
               </a>
             </div>
           </div>

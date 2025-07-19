@@ -10,68 +10,68 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-interface ServicesProps {
-  lang: "es" | "de";
-  translations: any;
+interface ServiceFeature {
+  id: number;
+  name: string;
 }
 
-export default function Services({ lang, translations }: ServicesProps) {
-  const t = translations;
+interface Service {
+  id: number;
+  title: string;
+  description: string;
+  icon: string;
+  feature: ServiceFeature[];
+}
 
-  const services = [
-    {
-      icon: Calculator,
-      title: t.services.items.taxes.title,
-      description: t.services.items.taxes.description,
-      features: t.services.items.taxes.features,
-      color: "bg-blue-50 text-blue-600",
-    },
-    {
-      icon: Building,
-      title: t.services.items.company.title,
-      description: t.services.items.company.description,
-      features: t.services.items.company.features,
-      color: "bg-emerald-50 text-emerald-600",
-    },
-    {
-      icon: TrendingUp,
-      title: t.services.items.planning.title,
-      description: t.services.items.planning.description,
-      features: t.services.items.planning.features,
-      color: "bg-purple-50 text-purple-600",
-    },
-    {
-      icon: FileText,
-      title: t.services.items.accounting.title,
-      description: t.services.items.accounting.description,
-      features: t.services.items.accounting.features,
-      color: "bg-yellow-50 text-yellow-600",
-    },
-    {
-      icon: PiggyBank,
-      title: t.services.items.consulting.title,
-      description: t.services.items.consulting.description,
-      features: t.services.items.consulting.features,
-      color: "bg-rose-50 text-rose-600",
-    },
-    {
-      icon: Scale,
-      title: t.services.items.defense.title,
-      description: t.services.items.defense.description,
-      features: t.services.items.defense.features,
-      color: "bg-indigo-50 text-indigo-600",
-    },
+interface ServicesData {
+  id: number;
+  title: string;
+  description: string;
+  service: Service[];
+}
+
+interface ServicesProps {
+  lang: "es" | "de";
+  servicesData: ServicesData;
+}
+
+export default function Services({ lang, servicesData }: ServicesProps) {
+  // Map icon names to components
+  const iconMap: { [key: string]: any } = {
+    "lucide-calculator": Calculator,
+    "lucide-building": Building,
+    "lucide-trending-up": TrendingUp,
+    "lucide-file-text": FileText,
+    "lucide-piggy-bank": PiggyBank,
+    "lucide-scale": Scale,
+  };
+
+  const colors = [
+    "bg-blue-50 text-blue-600",
+    "bg-emerald-50 text-emerald-600",
+    "bg-purple-50 text-purple-600",
+    "bg-yellow-50 text-yellow-600",
+    "bg-rose-50 text-rose-600",
+    "bg-indigo-50 text-indigo-600",
   ];
+
+  const services = servicesData.service.map((service, index) => ({
+    icon: iconMap[service.icon] || Calculator,
+    title: service.title,
+    description: service.description,
+    features: service.feature.map((f) => f.name),
+    color: colors[index % colors.length],
+  }));
 
   return (
     <section id="servicios" className="py-20 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-            {t.services.title}
+            {servicesData.title}
           </h2>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            {t.services.subtitle}
+            {servicesData.description}
           </p>
         </div>
 
@@ -108,7 +108,7 @@ export default function Services({ lang, translations }: ServicesProps) {
                 variant="outline"
                 className="w-full group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all"
               >
-                {t.services.cta}
+                {lang === "es" ? "Más Información" : "Mehr Informationen"}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>

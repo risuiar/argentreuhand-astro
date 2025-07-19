@@ -1,14 +1,33 @@
 import { ArrowRight, Shield, TrendingUp, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-interface HeroProps {
-  lang: "es" | "de";
-  translations: any;
+interface HeroData {
+  id: number;
+  title: string;
+  subtitle: Array<{
+    type: string;
+    children: Array<{
+      text: string;
+      type: string;
+    }>;
+  }>;
+  ctaText: string;
+  ctaLink: string;
+  moto: string;
+  image: any;
+  stats?: {
+    clients: string;
+    savings: string;
+    experience: string;
+  };
 }
 
-export default function Hero({ lang, translations }: HeroProps) {
-  const t = translations;
+interface HeroProps {
+  lang: "es" | "de";
+  heroData: HeroData;
+}
 
+export default function Hero({ lang, heroData }: HeroProps) {
   return (
     <section
       id="inicio"
@@ -30,34 +49,24 @@ export default function Hero({ lang, translations }: HeroProps) {
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
             <Shield className="h-4 w-4 mr-2" />
-            {t.hero.badge}
+            {heroData.moto}
           </div>
 
           <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
-            {t.hero.title}{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800">
-              {t.hero.titleHighlight1}
-            </span>{" "}
-            {lang === "es" ? "y" : "und"}{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-emerald-800">
-              {t.hero.titleHighlight2}
-            </span>
+            {heroData.title}
           </h1>
 
           <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-            {t.hero.subtitle}
+            {heroData.subtitle[0]?.children[0]?.text || ""}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Button
               size="lg"
               className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg"
-              onClick={() =>
-                (window.location.href =
-                  lang === "de" ? "/de/reservar/" : "/reservar/")
-              }
+              onClick={() => (window.location.href = heroData.ctaLink)}
             >
-              {t.hero.ctaPrimary}
+              {heroData.ctaText}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button
@@ -70,7 +79,7 @@ export default function Hero({ lang, translations }: HeroProps) {
                   ?.scrollIntoView({ behavior: "smooth" })
               }
             >
-              {t.hero.ctaSecondary}
+              {lang === "es" ? "Ver Servicios" : "Dienstleistungen anzeigen"}
             </Button>
           </div>
 
@@ -82,9 +91,11 @@ export default function Hero({ lang, translations }: HeroProps) {
                   <Users className="h-6 w-6 text-blue-600" />
                 </div>
                 <div className="text-3xl font-bold text-slate-900 mb-2">
-                  500+
+                  {heroData.stats?.clients || "500+"}
                 </div>
-                <div className="text-slate-600">{t.hero.stats.clients}</div>
+                <div className="text-slate-600">
+                  {lang === "es" ? "Clientes Satisfechos" : "Zufriedene Kunden"}
+                </div>
               </div>
             </div>
 
@@ -94,9 +105,11 @@ export default function Hero({ lang, translations }: HeroProps) {
                   <TrendingUp className="h-6 w-6 text-emerald-600" />
                 </div>
                 <div className="text-3xl font-bold text-slate-900 mb-2">
-                  €2M+
+                  {heroData.stats?.savings || "€2M+"}
                 </div>
-                <div className="text-slate-600">{t.hero.stats.savings}</div>
+                <div className="text-slate-600">
+                  {lang === "es" ? "Ahorro Fiscal" : "Steuereinsparungen"}
+                </div>
               </div>
             </div>
 
@@ -106,9 +119,11 @@ export default function Hero({ lang, translations }: HeroProps) {
                   <Shield className="h-6 w-6 text-yellow-600" />
                 </div>
                 <div className="text-3xl font-bold text-slate-900 mb-2">
-                  15+
+                  {heroData.stats?.experience || "15+"}
                 </div>
-                <div className="text-slate-600">{t.hero.stats.experience}</div>
+                <div className="text-slate-600">
+                  {lang === "es" ? "Años de Experiencia" : "Jahre Erfahrung"}
+                </div>
               </div>
             </div>
           </div>

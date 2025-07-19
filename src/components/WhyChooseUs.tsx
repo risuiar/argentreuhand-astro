@@ -1,51 +1,59 @@
 import { Award, Clock, Users, Zap, Shield, HeartHandshake } from "lucide-react";
 
-interface WhyChooseUsProps {
-  lang: "es" | "de";
-  translations: any;
+interface WhyPoint {
+  id: number;
+  title: string;
+  text: string;
+  icon: string;
 }
 
-export default function WhyChooseUs({ lang, translations }: WhyChooseUsProps) {
-  const t = translations;
+interface WhyChooseUsData {
+  id: number;
+  sectionTitle: string;
+  description: string;
+  why_point: WhyPoint[];
+  stats?: {
+    clients: string;
+    satisfaction: string;
+    savings: string;
+    response: string;
+  };
+}
 
-  const reasons = [
-    {
-      icon: Award,
-      title: t.whyChooseUs.reasons.experience.title,
-      description: t.whyChooseUs.reasons.experience.description,
-      color: "bg-blue-50 text-blue-600",
-    },
-    {
-      icon: Clock,
-      title: t.whyChooseUs.reasons.response.title,
-      description: t.whyChooseUs.reasons.response.description,
-      color: "bg-emerald-50 text-emerald-600",
-    },
-    {
-      icon: Users,
-      title: t.whyChooseUs.reasons.personal.title,
-      description: t.whyChooseUs.reasons.personal.description,
-      color: "bg-purple-50 text-purple-600",
-    },
-    {
-      icon: Zap,
-      title: t.whyChooseUs.reasons.technology.title,
-      description: t.whyChooseUs.reasons.technology.description,
-      color: "bg-yellow-50 text-yellow-600",
-    },
-    {
-      icon: Shield,
-      title: t.whyChooseUs.reasons.security.title,
-      description: t.whyChooseUs.reasons.security.description,
-      color: "bg-rose-50 text-rose-600",
-    },
-    {
-      icon: HeartHandshake,
-      title: t.whyChooseUs.reasons.commitment.title,
-      description: t.whyChooseUs.reasons.commitment.description,
-      color: "bg-indigo-50 text-indigo-600",
-    },
+interface WhyChooseUsProps {
+  lang: "es" | "de";
+  whyChooseUsData: WhyChooseUsData;
+}
+
+export default function WhyChooseUs({
+  lang,
+  whyChooseUsData,
+}: WhyChooseUsProps) {
+  // Map icon names to components
+  const iconMap: { [key: string]: any } = {
+    "lucide-award": Award,
+    "lucide-clock": Clock,
+    "lucide-users": Users,
+    "lucide-zap": Zap,
+    "lucide-shield": Shield,
+    "lucide-heart-handshake": HeartHandshake,
+  };
+
+  const colors = [
+    "bg-blue-50 text-blue-600",
+    "bg-emerald-50 text-emerald-600",
+    "bg-purple-50 text-purple-600",
+    "bg-yellow-50 text-yellow-600",
+    "bg-rose-50 text-rose-600",
+    "bg-indigo-50 text-indigo-600",
   ];
+
+  const reasons = whyChooseUsData.why_point.map((point, index) => ({
+    icon: iconMap[point.icon] || Award,
+    title: point.title,
+    description: point.text,
+    color: colors[index % colors.length],
+  }));
 
   return (
     <section
@@ -55,10 +63,10 @@ export default function WhyChooseUs({ lang, translations }: WhyChooseUsProps) {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-            {t.whyChooseUs.title}
+            {whyChooseUsData.sectionTitle}
           </h2>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            {t.whyChooseUs.subtitle}
+            {whyChooseUsData.description}
           </p>
         </div>
 
@@ -86,38 +94,44 @@ export default function WhyChooseUs({ lang, translations }: WhyChooseUsProps) {
         </div>
 
         {/* Statistics */}
-        <div className="mt-20 bg-white rounded-3xl p-8 shadow-xl border border-slate-200">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600 mb-2">500+</div>
-              <div className="text-slate-600">
-                {t.whyChooseUs.stats.clients}
+        {whyChooseUsData.stats && (
+          <div className="mt-20 bg-white rounded-3xl p-8 shadow-xl border border-slate-200">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              <div className="text-center">
+                <div className="text-4xl font-bold text-blue-600 mb-2">
+                  {whyChooseUsData.stats.clients || "500+"}
+                </div>
+                <div className="text-slate-600">
+                  {lang === "es" ? "Clientes Activos" : "Aktive Kunden"}
+                </div>
               </div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-emerald-600 mb-2">
-                98%
+              <div className="text-center">
+                <div className="text-4xl font-bold text-emerald-600 mb-2">
+                  {whyChooseUsData.stats.satisfaction || "98%"}
+                </div>
+                <div className="text-slate-600">
+                  {lang === "es" ? "Satisfacción" : "Zufriedenheit"}
+                </div>
               </div>
-              <div className="text-slate-600">
-                {t.whyChooseUs.stats.satisfaction}
+              <div className="text-center">
+                <div className="text-4xl font-bold text-purple-600 mb-2">
+                  {whyChooseUsData.stats.savings || "€2M+"}
+                </div>
+                <div className="text-slate-600">
+                  {lang === "es" ? "Ahorro Fiscal" : "Steuereinsparungen"}
+                </div>
               </div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-purple-600 mb-2">
-                €2M+
-              </div>
-              <div className="text-slate-600">
-                {t.whyChooseUs.stats.savings}
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-yellow-600 mb-2">24h</div>
-              <div className="text-slate-600">
-                {t.whyChooseUs.stats.response}
+              <div className="text-center">
+                <div className="text-4xl font-bold text-yellow-600 mb-2">
+                  {whyChooseUsData.stats.response || "24h"}
+                </div>
+                <div className="text-slate-600">
+                  {lang === "es" ? "Tiempo Respuesta" : "Antwortzeit"}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );

@@ -1,30 +1,49 @@
 import { Star, Quote } from "lucide-react";
 
+interface TestimonialItem {
+  id: number;
+  name: string;
+  position: string;
+  quote: string;
+  photo: {
+    id: number;
+    url: string;
+    width: number;
+    height: number;
+    alternativeText?: string;
+  } | null;
+}
+
+interface TestimonialsData {
+  id: number;
+  title: string;
+  description: string;
+  testimonialItem: TestimonialItem[];
+}
+
 interface TestimonialsProps {
   lang: "es" | "de";
-  translations: any;
+  testimonialsData: TestimonialsData;
 }
 
 export default function Testimonials({
   lang,
-  translations,
+  testimonialsData,
 }: TestimonialsProps) {
-  const t = translations;
-
   return (
     <section className="py-20 bg-blue-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-            {t.testimonials.title}
+            {testimonialsData.title}
           </h2>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            {t.testimonials.subtitle}
+            {testimonialsData.description}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {t.testimonials.items.map((testimonial, index) => (
+          {testimonialsData.testimonialItem.map((testimonial, index) => (
             <div
               key={index}
               className="bg-white rounded-2xl p-8 shadow-lg border border-slate-200 relative"
@@ -34,28 +53,26 @@ export default function Testimonials({
               </div>
 
               <div className="flex items-center mb-6">
-                <img
-                  src={`https://images.pexels.com/photos/${
-                    index === 0
-                      ? "3785077"
-                      : index === 1
-                      ? "2381069"
-                      : "3586798"
-                  }/pexels-photo-${
-                    index === 0
-                      ? "3785077"
-                      : index === 1
-                      ? "2381069"
-                      : "3586798"
-                  }.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop`}
-                  alt={testimonial.name}
-                  className="w-16 h-16 rounded-full object-cover mr-4"
-                />
+                {testimonial.photo ? (
+                  <img
+                    src={`https://cms.mateando.com${testimonial.photo.url}`}
+                    alt={testimonial.name}
+                    className="w-16 h-16 rounded-full object-cover mr-4"
+                  />
+                ) : (
+                  <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                    <span className="text-blue-600 font-bold text-lg">
+                      {testimonial.name.charAt(0)}
+                    </span>
+                  </div>
+                )}
                 <div>
                   <h4 className="font-bold text-slate-900">
                     {testimonial.name}
                   </h4>
-                  <p className="text-slate-600 text-sm">{testimonial.role}</p>
+                  <p className="text-slate-600 text-sm">
+                    {testimonial.position}
+                  </p>
                 </div>
               </div>
 
@@ -69,7 +86,7 @@ export default function Testimonials({
               </div>
 
               <p className="text-slate-600 leading-relaxed italic">
-                "{testimonial.content}"
+                {testimonial.quote}
               </p>
             </div>
           ))}
