@@ -103,11 +103,13 @@ const getLocalizedLink = (path: string) => {
       <div class="hidden lg:flex items-center justify-between overflow-hidden">
       <!-- Logo -->
       <div class="flex items-center space-x-3">
-        <img
-          src="/argentatreuhand-logo.png"
-          alt="Argenta Treuhand Logo"
-          class="h-10 w-auto object-contain"
-        />
+        <a href={getLocalizedLink('/')} class="hover:opacity-80 transition-opacity">
+          <img
+            src="/argentatreuhand-logo.png"
+            alt="Argenta Treuhand Logo"
+            class="h-10 w-auto object-contain"
+          />
+        </a>
       </div>
 
       <!-- Navigation Links -->
@@ -198,11 +200,13 @@ const getLocalizedLink = (path: string) => {
       <div class="flex items-center justify-between overflow-hidden">
         <!-- Logo compacto -->
         <div class="flex items-center space-x-2">
-          <img
-            src="/argentatreuhand-logo.png"
-            alt="Argenta Treuhand Logo"
-            class="h-8 w-auto object-contain"
-          />
+          <a href={getLocalizedLink('/')} class="hover:opacity-80 transition-opacity">
+            <img
+              src="/argentatreuhand-logo.png"
+              alt="Argenta Treuhand Logo"
+              class="h-8 w-auto object-contain"
+            />
+          </a>
           <div class="min-w-0">
             <h1 class="text-base font-bold text-slate-900 truncate">Argenta Treuhand</h1>
           </div>
@@ -254,11 +258,13 @@ const getLocalizedLink = (path: string) => {
           <!-- Menu Header -->
           <div class="mobile-menu-header">
             <div class="flex items-center space-x-2">
-              <img
-                src="/argentatreuhand-logo.png"
-                alt="Argenta Treuhand Logo"
-                class="h-8 w-auto object-contain"
-              />
+              <a href={getLocalizedLink('/')} class="hover:opacity-80 transition-opacity">
+                <img
+                  src="/argentatreuhand-logo.png"
+                  alt="Argenta Treuhand Logo"
+                  class="h-8 w-auto object-contain"
+                />
+              </a>
               <span class="font-bold text-slate-900">Menú</span>
             </div>
             <label for="menu-toggle" class="close-button">
@@ -706,6 +712,27 @@ const getLocalizedLink = (path: string) => {
         // This is a simpler approach that avoids 404 errors
         const newUrl = targetLang === 'es' ? '/blog' : '/de/blog';
         window.location.href = newUrl;
+      });
+    });
+
+    // Handle smooth scrolling for anchor links
+    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+    anchorLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          const targetId = href.substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            const headerHeight = 120; // Approximate header height
+            const targetPosition = targetElement.offsetTop - headerHeight;
+            window.scrollTo({
+              top: targetPosition,
+              behavior: 'smooth'
+            });
+          }
+        }
       });
     });
   });

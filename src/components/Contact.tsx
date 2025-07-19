@@ -1,5 +1,6 @@
 import { Phone, Mail, MapPin, Clock, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getLocalizedLink } from "@/lib/i18n";
 
 interface ContactItem {
   id: number;
@@ -97,15 +98,12 @@ export default function Contact({ lang, contactData }: ContactProps) {
                   ? "Programa una consulta profesional de 60 minutos y descubre cómo podemos ayudarte."
                   : "Vereinbaren Sie eine 60-minütige professionelle Beratung und erfahren Sie, wie wir Ihnen helfen können."}
               </p>
-              <Button
-                className="bg-white text-blue-600 hover:bg-slate-100 w-full"
-                onClick={() =>
-                  (window.location.href =
-                    lang === "de" ? "/de/reservar/" : "/reservar/")
-                }
+              <a
+                href={getLocalizedLink("/reservar/", lang)}
+                className="inline-flex items-center justify-center bg-white text-blue-600 hover:bg-slate-100 w-full px-6 py-3 rounded-lg font-medium transition-colors"
               >
                 {lang === "es" ? "Reservar Consulta" : "Beratung buchen"}
-              </Button>
+              </a>
             </div>
           </div>
 

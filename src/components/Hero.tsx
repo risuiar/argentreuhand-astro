@@ -1,5 +1,6 @@
 import { ArrowRight, Shield, TrendingUp, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getLocalizedLink } from "@/lib/i18n";
 
 interface HeroData {
   id: number;
@@ -61,26 +62,19 @@ export default function Hero({ lang, heroData }: HeroProps) {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button
-              size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg"
-              onClick={() => (window.location.href = heroData.ctaLink)}
+            <a
+              href={getLocalizedLink("/reservar/", lang)}
+              className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg rounded-lg font-medium transition-colors"
             >
               {heroData.ctaText}
               <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-4 text-lg"
-              onClick={() =>
-                document
-                  .getElementById("servicios")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
+            </a>
+            <a
+              href={getLocalizedLink("/#servicios", lang)}
+              className="inline-flex items-center justify-center border border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-4 text-lg rounded-lg font-medium transition-colors"
             >
               {lang === "es" ? "Ver Servicios" : "Dienstleistungen anzeigen"}
-            </Button>
+            </a>
           </div>
 
           {/* Stats */}

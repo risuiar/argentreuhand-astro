@@ -662,6 +662,14 @@ export function getLangFromUrl(url: URL) {
   return defaultLang;
 }
 
+// Helper para generar URLs localizadas
+export function getLocalizedLink(path: string, currentLang: string = "es") {
+  if (currentLang === "de") {
+    return path === "/" ? "/de/" : `/de${path}`;
+  }
+  return path;
+}
+
 export function useTranslations(lang: keyof typeof translations) {
   return function t(key: string) {
     return (

@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { getLocalizedLink } from "@/lib/i18n";
 
 interface ContactItem {
   id: number;
@@ -14,14 +15,9 @@ interface FooterProps {
     title: string;
     contacts: ContactItem[];
   };
-  translations?: any; // Para compatibilidad con páginas que usan translations
 }
 
-export default function Footer({
-  lang,
-  contactData,
-  translations,
-}: FooterProps) {
+export default function Footer({ lang, contactData }: FooterProps) {
   // Map icon names to components
   const iconMap: { [key: string]: any } = {
     "lucide-phone": Phone,
@@ -37,11 +33,16 @@ export default function Footer({
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
-              <img
-                src="/logo.png"
-                alt="Argenta Treuhand Logo"
-                className="h-12 w-auto object-contain"
-              />
+              <a
+                href={getLocalizedLink("/", lang)}
+                className="hover:opacity-80 transition-opacity"
+              >
+                <img
+                  src="/logo.png"
+                  alt="Argenta Treuhand Logo"
+                  className="h-12 w-auto object-contain"
+                />
+              </a>
               <div>
                 <h3 className="text-xl font-bold">Argenta Treuhand</h3>
                 <p className="text-slate-400 text-sm">
@@ -65,23 +66,26 @@ export default function Footer({
             </h4>
             <ul className="space-y-2">
               {[
-                { label: lang === "es" ? "Inicio" : "Startseite", href: "/" },
+                {
+                  label: lang === "es" ? "Inicio" : "Startseite",
+                  href: getLocalizedLink("/", lang),
+                },
                 {
                   label: lang === "es" ? "Servicios" : "Dienstleistungen",
-                  href: "/#servicios",
+                  href: getLocalizedLink("/#servicios", lang),
                 },
                 {
                   label: lang === "es" ? "Sobre Nosotros" : "Über uns",
-                  href: "/#sobre-nosotros",
+                  href: getLocalizedLink("/#sobre-nosotros", lang),
                 },
                 {
                   label: lang === "es" ? "Contacto" : "Kontakt",
-                  href: "/#contacto",
+                  href: getLocalizedLink("/#contacto", lang),
                 },
                 {
                   label:
                     lang === "es" ? "Reservar Consulta" : "Beratung buchen",
-                  href: lang === "de" ? "/de/reservar/" : "/reservar/",
+                  href: getLocalizedLink("/reservar/", lang),
                 },
               ].map((link, index) => (
                 <li key={index}>
@@ -122,13 +126,21 @@ export default function Footer({
                 <>
                   <div className="flex items-center space-x-3">
                     <Phone className="h-5 w-5 text-blue-400" />
-                    <span className="text-slate-400">+41 76 510 03 80</span>
+                    <a
+                      href="tel:+41765100380"
+                      className="text-slate-400 hover:text-white transition-colors"
+                    >
+                      +41 76 510 03 80
+                    </a>
                   </div>
                   <div className="flex items-center space-x-3">
                     <Mail className="h-5 w-5 text-blue-400" />
-                    <span className="text-slate-400">
+                    <a
+                      href="mailto:info@argentatreuhand.com"
+                      className="text-slate-400 hover:text-white transition-colors"
+                    >
                       info@argentatreuhand.com
-                    </span>
+                    </a>
                   </div>
                   <div className="flex items-start space-x-3">
                     <MapPin className="h-5 w-5 text-blue-400 mt-1" />
@@ -136,6 +148,14 @@ export default function Footer({
                       Bahnhofstrasse 123
                       <br />
                       8001 Zürich, Schweiz
+                    </span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <Clock className="h-5 w-5 text-blue-400 mt-1" />
+                    <span className="text-slate-400 whitespace-pre-line">
+                      {lang === "es"
+                        ? "Lun - Vie: 9:00 - 18:00\nSáb: 9:00 - 14:00"
+                        : "Mo - Fr: 9:00 - 18:00\nSa: 9:00 - 14:00"}
                     </span>
                   </div>
                 </>
