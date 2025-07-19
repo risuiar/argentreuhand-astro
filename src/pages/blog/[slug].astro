@@ -8,7 +8,7 @@ import { getLangFromUrl, translations } from '../../lib/i18n';
 
 export async function getStaticPaths() {
   try {
-    const response = await fetchBlogPosts('es-AR', 1, 100); // Get all posts for static generation
+    const response = await fetchBlogPosts('es', 1, 100); // Get all posts for static generation
     return response.data.map((post: any) => ({
       params: { slug: post.documentId },
       props: { post: post.documentId }
@@ -25,7 +25,7 @@ let error = null;
 
 if (slug) {
   try {
-    post = await fetchBlogPost(slug, 'es-AR');
+    post = await fetchBlogPost(slug, 'es');
   } catch (err) {
     error = err instanceof Error ? err.message : 'Unknown error occurred';
     console.error('Error fetching blog post:', err);
@@ -73,8 +73,8 @@ const t = translations[lang];
             <h1 class="text-4xl font-bold text-gray-900 mb-4">{post.title}</h1>
 
             <div class="flex items-center text-gray-600 mb-6">
-              <time datetime={post.publishedAt} class="mr-4">
-                {formatDate(post.publishedAt, 'es-AR')}
+              <time datetime={post.publishedAt}>
+                {formatDate(post.publishedAt, 'es')}
               </time>
               {post.author && (
                 <>
@@ -122,9 +122,9 @@ const t = translations[lang];
           <footer class="mt-12 pt-8 border-t border-gray-200">
             <div class="flex items-center justify-between">
               <div class="text-sm text-gray-600">
-                <p>Publicado el {formatDate(post.publishedAt, 'es-AR')}</p>
-                {post.updatedAt !== post.publishedAt && (
-                  <p>Actualizado el {formatDate(post.updatedAt, 'es-AR')}</p>
+                <p>Publicado el {formatDate(post.publishedAt, 'es')}</p>
+                {post.updatedAt && post.updatedAt !== post.publishedAt && (
+                  <p>Actualizado el {formatDate(post.updatedAt, 'es')}</p>
                 )}
               </div>
               <a href="/blog" class="text-brand-teal hover:underline">

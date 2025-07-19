@@ -17,7 +17,7 @@ let totalPages = 0;
 let error = null;
 
 try {
-  const response = await fetchBlogPosts('es-AR', currentPage, pageSize);
+  const response = await fetchBlogPosts('es', currentPage, pageSize);
   blogPosts = response.data.map(post => transformBlogPost(post));
   totalPosts = response.meta.pagination.total;
   totalPages = response.meta.pagination.pageCount;

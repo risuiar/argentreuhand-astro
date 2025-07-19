@@ -8,26 +8,22 @@ const getProcessEnv = (key: string): string | undefined => {
     : undefined;
 };
 
-const CMS_API_URL =
-  getProcessEnv("PUBLIC_CMS_API_URL") || import.meta.env.PUBLIC_CMS_API_URL;
-const CMS_BEARER_TOKEN =
-  getProcessEnv("CMS_BEARER_TOKEN") || import.meta.env.CMS_BEARER_TOKEN;
-
 export async function fetchBlogPosts(
-  locale: "de-CH" | "es-AR",
+  locale: "de" | "es",
   page: number = 1,
   pageSize: number = 10
 ): Promise<BlogResponse> {
-  // Validate environment variables
-  if (!CMS_API_URL) {
-    throw new Error("PUBLIC_CMS_API_URL environment variable is not set");
-  }
+  // Use the correct CMS URL
+  const CMS_API_URL = "https://cms.mateando.com/api";
+  const CMS_BEARER_TOKEN =
+    getProcessEnv("CMS_BEARER_TOKEN") || import.meta.env.CMS_BEARER_TOKEN;
 
+  // Validate environment variables
   if (!CMS_BEARER_TOKEN) {
     throw new Error("CMS_BEARER_TOKEN environment variable is not set");
   }
 
-  const url = `${CMS_API_URL}/blogs/?filters[locale][$eq]=${locale}&sort=publishedAt:desc&pagination[page]=${page}&pagination[pageSize]=${pageSize}&populate[0]=image&populate[1]=image2`;
+  const url = `${CMS_API_URL}/arg-blogs/?filters[locale][$eq]=${locale}&sort=publishedAt:desc&pagination[page]=${page}&pagination[pageSize]=${pageSize}&populate[0]=image1&populate[1]=image2`;
 
   const response = await fetch(url, {
     headers: {
@@ -47,18 +43,19 @@ export async function fetchBlogPosts(
 
 export async function fetchBlogPost(
   documentId: string,
-  locale: "de-CH" | "es-AR"
+  locale: "de" | "es"
 ): Promise<BlogPostData | null> {
-  // Validate environment variables
-  if (!CMS_API_URL) {
-    throw new Error("PUBLIC_CMS_API_URL environment variable is not set");
-  }
+  // Use the correct CMS URL
+  const CMS_API_URL = "https://cms.mateando.com/api";
+  const CMS_BEARER_TOKEN =
+    getProcessEnv("CMS_BEARER_TOKEN") || import.meta.env.CMS_BEARER_TOKEN;
 
+  // Validate environment variables
   if (!CMS_BEARER_TOKEN) {
     throw new Error("CMS_BEARER_TOKEN environment variable is not set");
   }
 
-  const url = `${CMS_API_URL}/blogs/?filters[documentId][$eq]=${documentId}&filters[locale][$eq]=${locale}&populate[0]=image&populate[1]=image2`;
+  const url = `${CMS_API_URL}/arg-blogs/?filters[documentId][$eq]=${documentId}&filters[locale][$eq]=${locale}&populate[0]=image1&populate[1]=image2`;
 
   const response = await fetch(url, {
     headers: {
@@ -82,8 +79,131 @@ export async function fetchBlogPost(
   return transformBlogPost(data.data[0]);
 }
 
+export async function findCorrespondingBlogPost(
+  currentDocumentId: string,
+  currentLocale: "de" | "es",
+  targetLocale: "de" | "es"
+): Promise<string | null> {
+  // If we're looking for the same locale, return the same documentId
+  if (currentLocale === targetLocale) {
+    return currentDocumentId;
+  }
+
+  try {
+    // First, get the current post to extract its title
+    const currentPost = await fetchBlogPost(currentDocumentId, currentLocale);
+    if (!currentPost) {
+      return null;
+    }
+
+    // Get all posts in the target locale
+    const targetPosts = await fetchBlogPosts(targetLocale, 1, 100); // Get up to 100 posts
+
+    // Try to find a post with the same title (case-insensitive)
+    const matchingPost = targetPosts.data.find((post) => {
+      const currentTitle = currentPost.title.toLowerCase().trim();
+      const targetTitle = post.title.toLowerCase().trim();
+      return currentTitle === targetTitle;
+    });
+
+    if (matchingPost) {
+      return matchingPost.documentId;
+    }
+
+    // If no exact title match, try to find by similar content
+    // This is a fallback for when titles are translated differently
+    const currentExcerpt = currentPost.excerpt?.toLowerCase().trim() || "";
+
+    const similarPost = targetPosts.data.find((post) => {
+      const targetExcerpt = convertToHtml(post.description || [])
+        .toLowerCase()
+        .trim();
+      // Simple similarity check - if they share significant words
+      const currentWords = currentExcerpt
+        .split(/\s+/)
+        .filter((word) => word.length > 3);
+      const targetWords = targetExcerpt
+        .split(/\s+/)
+        .filter((word) => word.length > 3);
+
+      const commonWords = currentWords.filter((word) =>
+        targetWords.includes(word)
+      );
+      return (
+        commonWords.length >=
+        Math.min(2, Math.min(currentWords.length, targetWords.length) * 0.3)
+      );
+    });
+
+    if (similarPost) {
+      return similarPost.documentId;
+    }
+
+    return null;
+  } catch (error) {
+    console.error("Error finding corresponding blog post:", error);
+    return null;
+  }
+}
+
 export function transformBlogPost(post: any): BlogPostData {
   const baseUrl = "https://cms.mateando.com";
+
+  // Try to get featured image from image1 or image2
+  let featuredImage = undefined;
+  let featuredImageLarge = undefined;
+  let image2 = undefined;
+
+  // Check image1 first (can be object or array)
+  if (post.image1) {
+    const img1 = Array.isArray(post.image1) ? post.image1[0] : post.image1;
+
+    if (img1) {
+      if (img1.formats?.thumbnail?.url) {
+        featuredImage = `${baseUrl}${img1.formats.thumbnail.url}`;
+      } else if (img1.url) {
+        featuredImage = `${baseUrl}${img1.url}`;
+      }
+
+      if (img1.formats?.large?.url) {
+        featuredImageLarge = `${baseUrl}${img1.formats.large.url}`;
+      } else if (img1.url) {
+        featuredImageLarge = `${baseUrl}${img1.url}`;
+      }
+    }
+  }
+
+  // If no image1, try image2
+  if (!featuredImage && post.image2) {
+    const img2 = Array.isArray(post.image2) ? post.image2[0] : post.image2;
+
+    if (img2) {
+      if (img2.formats?.thumbnail?.url) {
+        featuredImage = `${baseUrl}${img2.formats.thumbnail.url}`;
+      } else if (img2.url) {
+        featuredImage = `${baseUrl}${img2.url}`;
+      }
+
+      if (img2.formats?.large?.url) {
+        featuredImageLarge = `${baseUrl}${img2.formats.large.url}`;
+      } else if (img2.url) {
+        featuredImageLarge = `${baseUrl}${img2.url}`;
+      }
+    }
+  }
+
+  // Set image2 separately
+  if (post.image2) {
+    const img2 = Array.isArray(post.image2) ? post.image2[0] : post.image2;
+
+    if (img2) {
+      if (img2.formats?.large?.url) {
+        image2 = `${baseUrl}${img2.formats.large.url}`;
+      } else if (img2.url) {
+        image2 = `${baseUrl}${img2.url}`;
+      }
+    }
+  }
 
   return {
     id: post.id,
@@ -95,22 +215,9 @@ export function transformBlogPost(post: any): BlogPostData {
     publishedAt: post.publishedAt,
     updatedAt: post.updatedAt,
     createdAt: post.createdAt,
-    featuredImage:
-      post.image && post.image.length > 0
-        ? `${baseUrl}${
-            post.image[0].formats?.thumbnail?.url || post.image[0].url
-          }`
-        : undefined,
-    featuredImageLarge:
-      post.image && post.image.length > 0
-        ? `${baseUrl}${post.image[0].formats?.large?.url || post.image[0].url}`
-        : undefined,
-    image2:
-      post.image2 && post.image2.length > 0
-        ? `${baseUrl}${
-            post.image2[0].formats?.large?.url || post.image2[0].url
-          }`
-        : undefined,
+    featuredImage,
+    featuredImageLarge,
+    image2,
     author: undefined,
     tags: [],
   };
@@ -142,10 +249,7 @@ function stripHtmlTags(html: string): string {
   return html.replace(/<[^>]*>/g, "");
 }
 
-export function formatDate(
-  dateString: string,
-  locale: "de-CH" | "es-AR"
-): string {
+export function formatDate(dateString: string, locale: "de" | "es"): string {
   const date = new Date(dateString);
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
@@ -154,8 +258,8 @@ export function formatDate(
   };
 
   const localeMap = {
-    "de-CH": "de-CH",
-    "es-AR": "es-AR",
+    de: "de-DE",
+    es: "es-ES",
   };
 
   return date.toLocaleDateString(localeMap[locale], options);

@@ -8,6 +8,10 @@ const currentLang = pathname.startsWith('/de') ? 'de' : 'es';
 const isBookingPage = pathname.includes('/reservar');
 const isHomePage = pathname === '/' || pathname === '/de/' || pathname === '/de';
 
+// Detectar si estamos en una página de detalle del blog
+const isBlogDetailPage = pathname.match(/\/blog\/([^\/]+)/);
+const blogDocumentId = isBlogDetailPage ? isBlogDetailPage[1] : null;
+
 // Traducciones
 const translations = {
   es: {
@@ -48,6 +52,7 @@ const t = translations[currentLang];
 
 // URLs para cambio de idioma
 const getLocalizedUrl = (lang: string) => {
+  // Para otras páginas, usar la lógica normal
   if (lang === 'es') {
     return pathname.replace('/de', '') || '/';
   } else {
@@ -155,12 +160,20 @@ const getLocalizedLink = (path: string) => {
           <a
             href={getLocalizedUrl('es')}
             class={`px-2 py-1 rounded text-xs font-medium transition-colors ${currentLang === 'es' ? 'bg-blue-100 text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}
+            data-lang="es"
+            data-blog-detail={isBlogDetailPage ? 'true' : 'false'}
+            data-blog-id={blogDocumentId || ''}
+            data-current-lang={currentLang}
           >
             ES
           </a>
           <a
             href={getLocalizedUrl('de')}
             class={`px-2 py-1 rounded text-xs font-medium transition-colors ${currentLang === 'de' ? 'bg-blue-100 text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}
+            data-lang="de"
+            data-blog-detail={isBlogDetailPage ? 'true' : 'false'}
+            data-blog-id={blogDocumentId || ''}
+            data-current-lang={currentLang}
           >
             DE
           </a>
@@ -205,12 +218,20 @@ const getLocalizedLink = (path: string) => {
             <a
               href={getLocalizedUrl('es')}
               class={`px-2 py-1 rounded text-xs font-medium transition-colors ${currentLang === 'es' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-600'}`}
+              data-lang="es"
+              data-blog-detail={isBlogDetailPage ? 'true' : 'false'}
+              data-blog-id={blogDocumentId || ''}
+              data-current-lang={currentLang}
             >
               ES
             </a>
             <a
               href={getLocalizedUrl('de')}
               class={`px-2 py-1 rounded text-xs font-medium transition-colors ${currentLang === 'de' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-600'}`}
+              data-lang="de"
+              data-blog-detail={isBlogDetailPage ? 'true' : 'false'}
+              data-blog-id={blogDocumentId || ''}
+              data-current-lang={currentLang}
             >
               DE
             </a>
@@ -654,5 +675,31 @@ const getLocalizedLink = (path: string) => {
         });
       });
     }
+  });
+</script>
+
+<script>
+  // Handle language switching for blog detail pages
+  document.addEventListener('DOMContentLoaded', function() {
+    const langLinks = document.querySelectorAll('[data-lang]');
+
+    langLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        const isBlogDetail = this.getAttribute('data-blog-detail') === 'true';
+        const targetLang = this.getAttribute('data-lang');
+
+        // Only handle blog detail pages
+        if (!isBlogDetail) {
+          return; // Let normal navigation happen
+        }
+
+        e.preventDefault();
+
+        // For blog detail pages, redirect to the blog list in the target language
+        // This is a simpler approach that avoids 404 errors
+        const newUrl = targetLang === 'es' ? '/blog' : '/de/blog';
+        window.location.href = newUrl;
+      });
+    });
   });
 </script>

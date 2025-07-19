@@ -8,7 +8,7 @@ export interface BlogPost {
   title: string;
   description?: any[];
   body?: any[];
-  image?: Array<{
+  image1?: Array<{
     id: number;
     documentId: string;
     name: string;
