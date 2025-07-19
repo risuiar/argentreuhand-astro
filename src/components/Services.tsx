@@ -95,7 +95,7 @@ export default function Services({ lang, servicesData }: ServicesProps) {
                 {service.description}
               </p>
 
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-3">
                 {service.features.map((feature, idx) => (
                   <li key={idx} className="flex items-center text-slate-600">
                     <CheckCircle className="h-5 w-5 text-emerald-500 mr-3 flex-shrink-0" />
@@ -103,14 +103,6 @@ export default function Services({ lang, servicesData }: ServicesProps) {
                   </li>
                 ))}
               </ul>
-
-              <Button
-                variant="outline"
-                className="w-full group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all"
-              >
-                {lang === "es" ? "Más Información" : "Mehr Informationen"}
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
             </div>
           ))}
         </div>
