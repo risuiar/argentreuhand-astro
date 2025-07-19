@@ -16,6 +16,11 @@ body {
   min-height: 100vh;
 }
 
+/* Prevent horizontal scroll on all elements */
+* {
+  max-width: 100%;
+}
+
 /* Ensure all containers respect viewport */
 .container {
   max-width: 100%;

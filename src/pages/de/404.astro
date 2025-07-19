@@ -51,8 +51,8 @@ const t = translations[lang];
 					<div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
 						<Button
 							size="lg"
-							class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg"
-							onclick="window.location.href='/de/'"
+							className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg"
+							onClick={() => window.location.href = '/de/'}
 						>
 							<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
@@ -63,8 +63,8 @@ const t = translations[lang];
 						<Button
 							size="lg"
 							variant="outline"
-							class="border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-4 text-lg"
-							onclick="window.location.href='/de/reservar/'"
+							className="border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-4 text-lg"
+							onClick={() => window.location.href = '/de/reservar/'}
 						>
 							<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4h3a1 1 0 011 1v9a2 2 0 01-2 2H5a2 2 0 01-2-2V8a1 1 0 011-1h3z"></path>
