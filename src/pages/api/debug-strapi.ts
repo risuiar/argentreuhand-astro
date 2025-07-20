@@ -19,7 +19,7 @@ export const GET: APIRoute = async ({ url }) => {
       );
     }
 
-    const strapiUrl = `${CMS_API_URL}/arg-home?filters[locale][$eq]=${locale}&populate[hero][populate]=image&populate[services][populate][service][populate]=feature&populate[whyChooseUs][populate]=why_point&populate[testimonials][populate][testimonialItem][populate]=photo&populate[contact][populate]=contact_info&populate[footer][populate]=footer_info`;
+    const strapiUrl = `${CMS_API_URL}/arg-home?filters[locale][$eq]=${locale}&populate[hero]=*&populate[slider][populate][slides][populate]=image&populate[services][populate][service][populate]=feature&populate[whyChooseUs][populate]=why_point&populate[testimonials][populate][testimonialItem][populate]=photo&populate[contact][populate]=contacts`;
 
     console.log("🔍 Fetching from Strapi:", strapiUrl);
 

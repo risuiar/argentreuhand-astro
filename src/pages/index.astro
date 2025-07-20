@@ -3,6 +3,7 @@ import '@/styles/globals.css'
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero';
+import ImageCarousel from '../components/Slider';
 import Services from '../components/Services';
 import WhyChooseUs from '../components/WhyChooseUs';
 import Testimonials from '../components/Testimonials';
@@ -51,6 +52,7 @@ export const cache = {
 	) : homeData ? (
 		<>
 			<Hero lang={lang} heroData={homeData.hero} />
+			<ImageCarousel lang={lang} sliderData={homeData.slider} client:load />
 			<Services lang={lang} servicesData={homeData.services} />
 			<WhyChooseUs lang={lang} whyChooseUsData={homeData.whyChooseUs} />
 			<Testimonials lang={lang} testimonialsData={homeData.testimonials} />

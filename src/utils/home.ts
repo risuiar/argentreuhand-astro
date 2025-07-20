@@ -50,7 +50,7 @@ export async function fetchHomeData(locale: "de" | "es"): Promise<HomeData> {
     throw new Error("CMS_BEARER_TOKEN environment variable is not set");
   }
 
-  const url = `${CMS_API_URL}/arg-home?filters[locale][$eq]=${locale}&populate[hero][populate]=image&populate[services][populate][service][populate]=feature&populate[whyChooseUs][populate]=why_point&populate[testimonials][populate][testimonialItem][populate]=photo&populate[contact][populate]=contacts`;
+  const url = `${CMS_API_URL}/arg-home?filters[locale][$eq]=${locale}&populate[hero]=*&populate[slider][populate][slides][populate]=image&populate[services][populate][service][populate]=feature&populate[whyChooseUs][populate]=why_point&populate[testimonials][populate][testimonialItem][populate]=photo&populate[contact][populate]=contacts`;
 
   console.log(`🔄 Fetching fresh data for ${locale} from API...`);
 
