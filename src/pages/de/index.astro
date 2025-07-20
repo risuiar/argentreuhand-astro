@@ -56,7 +56,7 @@ export const cache = {
 			<Services lang={lang} servicesData={homeData.services} />
 			<WhyChooseUs lang={lang} whyChooseUsData={homeData.whyChooseUs} />
 			<Testimonials lang={lang} testimonialsData={homeData.testimonials} />
-			<Contact lang={lang} contactData={homeData.contact} />
+			<Contact lang={lang} contactData={homeData.contact} client:load />
 		</>
 	) : (
 		<main class="pt-32">

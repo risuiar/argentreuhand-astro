@@ -1,6 +1,23 @@
-import { Phone, Mail, MapPin, Clock, Send } from "lucide-react";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  Send,
+  CheckCircle,
+  AlertCircle,
+  RefreshCw,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getLocalizedLink } from "@/lib/i18n";
+import { useState, useEffect } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface ContactItem {
   id: number;
@@ -20,7 +37,87 @@ interface ContactProps {
   contactData: ContactData;
 }
 
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  type: string;
+  message: string;
+  captchaAnswer: string;
+}
+
+interface FormErrors {
+  name?: string;
+  email?: string;
+  type?: string;
+  message?: string;
+  captchaAnswer?: string;
+}
+
+interface CaptchaData {
+  question: string;
+  answer: number;
+}
+
 export default function Contact({ lang, contactData }: ContactProps) {
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    email: "",
+    phone: "",
+    type: "",
+    message: "",
+    captchaAnswer: "",
+  });
+
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
+  const [submitMessage, setSubmitMessage] = useState("");
+  const [captcha, setCaptcha] = useState<CaptchaData>({
+    question: "",
+    answer: 0,
+  });
+
+  // Generate captcha on component mount
+  useEffect(() => {
+    generateCaptcha();
+  }, []);
+
+  // Generate a simple math captcha
+  const generateCaptcha = () => {
+    const num1 = Math.floor(Math.random() * 10) + 1;
+    const num2 = Math.floor(Math.random() * 10) + 1;
+    const operators = ["+", "-", "×"];
+    const operator = operators[Math.floor(Math.random() * operators.length)];
+
+    let answer: number;
+    let question: string;
+
+    switch (operator) {
+      case "+":
+        answer = num1 + num2;
+        question = `${num1} + ${num2}`;
+        break;
+      case "-":
+        answer = num1 - num2;
+        question = `${num1} - ${num2}`;
+        break;
+      case "×":
+        answer = num1 * num2;
+        question = `${num1} × ${num2}`;
+        break;
+      default:
+        answer = num1 + num2;
+        question = `${num1} + ${num2}`;
+    }
+
+    setCaptcha({ question, answer });
+    // Clear previous captcha answer
+    setFormData((prev) => ({ ...prev, captchaAnswer: "" }));
+  };
+
   // Map icon names to components
   const iconMap: { [key: string]: any } = {
     "lucide-phone": Phone,
@@ -35,6 +132,129 @@ export default function Contact({ lang, contactData }: ContactProps) {
     "bg-purple-100 text-purple-600",
     "bg-yellow-100 text-yellow-600",
   ];
+
+  const handleInputChange = (field: keyof FormData, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    // Clear error when user starts typing
+    if (errors[field as keyof FormErrors]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name =
+        lang === "es" ? "El nombre es requerido" : "Name ist erforderlich";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email =
+        lang === "es" ? "El email es requerido" : "E-Mail ist erforderlich";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = lang === "es" ? "Email inválido" : "Ungültige E-Mail";
+    }
+
+    if (!formData.type || formData.type === "") {
+      newErrors.type =
+        lang === "es" ? "El asunto es requerido" : "Betreff ist erforderlich";
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message =
+        lang === "es"
+          ? "El mensaje es requerido"
+          : "Nachricht ist erforderlich";
+    }
+
+    if (!formData.captchaAnswer.trim()) {
+      newErrors.captchaAnswer =
+        lang === "es"
+          ? "Por favor resuelve el captcha"
+          : "Bitte lösen Sie das Captcha";
+    } else if (parseInt(formData.captchaAnswer) !== captcha.answer) {
+      newErrors.captchaAnswer =
+        lang === "es" ? "Respuesta incorrecta" : "Falsche Antwort";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    try {
+      const response = await fetch(
+        "https://cms.mateando.com/api/arg-contacts",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + (import.meta.env.STRAPI_TOKEN || ""),
+          },
+          body: JSON.stringify({
+            data: {
+              name: formData.name,
+              email: formData.email,
+              phone: formData.phone,
+              type: formData.type,
+              message: formData.message,
+              language: lang,
+            },
+          }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus("success");
+        setSubmitMessage(
+          lang === "es"
+            ? "¡Mensaje enviado con éxito! Te contactaremos pronto."
+            : "Nachricht erfolgreich gesendet! Wir werden uns bald bei Ihnen melden."
+        );
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          type: "",
+          message: "",
+          captchaAnswer: "",
+        });
+        // Clear errors
+        setErrors({});
+        // Generate new captcha
+        generateCaptcha();
+      } else {
+        setSubmitStatus("error");
+        setSubmitMessage(
+          lang === "es"
+            ? "Error al enviar el mensaje. Inténtalo de nuevo."
+            : "Fehler beim Senden der Nachricht. Versuchen Sie es erneut."
+        );
+      }
+    } catch (error) {
+      setSubmitStatus("error");
+      setSubmitMessage(
+        lang === "es"
+          ? "Error de conexión. Inténtalo de nuevo."
+          : "Verbindungsfehler. Versuchen Sie es erneut."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section id="contacto" className="py-20 bg-white">
@@ -115,29 +335,58 @@ export default function Contact({ lang, contactData }: ContactProps) {
                 : "Senden Sie uns eine Nachricht"}
             </h3>
 
-            <form className="space-y-6">
+            {/* Status Messages */}
+            {submitStatus === "success" && (
+              <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl flex items-center">
+                <CheckCircle className="h-5 w-5 text-green-600 mr-3" />
+                <span className="text-green-800">{submitMessage}</span>
+              </div>
+            )}
+
+            {submitStatus === "error" && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-center">
+                <AlertCircle className="h-5 w-5 text-red-600 mr-3" />
+                <span className="text-red-800">{submitMessage}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">
-                    {lang === "es" ? "Nombre" : "Name"}
+                    {lang === "es" ? "Nombre" : "Name"} *
                   </label>
                   <input
                     type="text"
-                    className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    value={formData.name}
+                    onChange={(e) => handleInputChange("name", e.target.value)}
+                    className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                      errors.name ? "border-red-300" : "border-slate-200"
+                    }`}
                     placeholder={lang === "es" ? "Tu nombre" : "Ihr Name"}
                   />
+                  {errors.name && (
+                    <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">
-                    {lang === "es" ? "Email" : "E-Mail"}
+                    {lang === "es" ? "Email" : "E-Mail"} *
                   </label>
                   <input
                     type="email"
-                    className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange("email", e.target.value)}
+                    className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                      errors.email ? "border-red-300" : "border-slate-200"
+                    }`}
                     placeholder={
                       lang === "es" ? "tu@email.com" : "ihre@email.com"
                     }
                   />
+                  {errors.email && (
+                    <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                  )}
                 </div>
               </div>
 
@@ -147,6 +396,8 @@ export default function Contact({ lang, contactData }: ContactProps) {
                 </label>
                 <input
                   type="tel"
+                  value={formData.phone}
+                  onChange={(e) => handleInputChange("phone", e.target.value)}
                   className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="+41 76 510 03 80"
                 />
@@ -154,47 +405,144 @@ export default function Contact({ lang, contactData }: ContactProps) {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
-                  {lang === "es" ? "Asunto" : "Betreff"}
+                  {lang === "es" ? "Asunto" : "Betreff"} *
                 </label>
-                <select className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                  <option>
-                    {lang === "es" ? "Consulta general" : "Allgemeine Anfrage"}
-                  </option>
-                  <option>
-                    {lang === "es"
-                      ? "Declaración de impuestos"
-                      : "Steuererklärung"}
-                  </option>
-                  <option>
-                    {lang === "es"
-                      ? "Constitución de empresa"
-                      : "Unternehmensgründung"}
-                  </option>
-                  <option>
-                    {lang === "es" ? "Planificación fiscal" : "Steuerplanung"}
-                  </option>
-                  <option>{lang === "es" ? "Otros" : "Andere"}</option>
-                </select>
+                <Select
+                  value={formData.type}
+                  onValueChange={(value) => handleInputChange("type", value)}
+                >
+                  <SelectTrigger
+                    className={`w-full h-12 px-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                      errors.type ? "border-red-300" : "border-slate-200"
+                    }`}
+                  >
+                    <SelectValue
+                      placeholder={
+                        lang === "es"
+                          ? "Selecciona un asunto"
+                          : "Betreff auswählen"
+                      }
+                    />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white border border-slate-200 rounded-xl shadow-lg">
+                    <SelectItem value="general">
+                      {lang === "es"
+                        ? "Consulta general"
+                        : "Allgemeine Anfrage"}
+                    </SelectItem>
+                    <SelectItem value="taxes">
+                      {lang === "es"
+                        ? "Declaración de impuestos"
+                        : "Steuererklärung"}
+                    </SelectItem>
+                    <SelectItem value="company">
+                      {lang === "es"
+                        ? "Constitución de empresa"
+                        : "Unternehmensgründung"}
+                    </SelectItem>
+                    <SelectItem value="planning">
+                      {lang === "es" ? "Planificación fiscal" : "Steuerplanung"}
+                    </SelectItem>
+                    <SelectItem value="other">
+                      {lang === "es" ? "Otros" : "Andere"}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                {errors.type && (
+                  <p className="mt-1 text-sm text-red-600">{errors.type}</p>
+                )}
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
-                  {lang === "es" ? "Mensaje" : "Nachricht"}
+                  {lang === "es" ? "Mensaje" : "Nachricht"} *
                 </label>
                 <textarea
                   rows={4}
-                  className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  value={formData.message}
+                  onChange={(e) => handleInputChange("message", e.target.value)}
+                  className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    errors.message ? "border-red-300" : "border-slate-200"
+                  }`}
                   placeholder={
                     lang === "es"
                       ? "Describe tu consulta..."
                       : "Beschreiben Sie Ihre Anfrage..."
                   }
                 ></textarea>
+                {errors.message && (
+                  <p className="mt-1 text-sm text-red-600">{errors.message}</p>
+                )}
               </div>
 
-              <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 text-lg">
-                {lang === "es" ? "Enviar Mensaje" : "Nachricht senden"}
-                <Send className="ml-2 h-5 w-5" />
+              {/* Captcha Section */}
+              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                <label className="block text-sm font-medium text-slate-700 mb-3">
+                  {lang === "es"
+                    ? "Verificación de Seguridad"
+                    : "Sicherheitsüberprüfung"}{" "}
+                  *
+                </label>
+                <div className="flex items-center space-x-4">
+                  <div className="flex-1">
+                    <div className="text-center mb-2">
+                      <span className="text-lg font-mono bg-white px-4 py-2 rounded-lg border border-blue-300">
+                        {captcha.question} = ?
+                      </span>
+                    </div>
+                    <input
+                      type="number"
+                      value={formData.captchaAnswer}
+                      onChange={(e) =>
+                        handleInputChange("captchaAnswer", e.target.value)
+                      }
+                      className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                        errors.captchaAnswer
+                          ? "border-red-300"
+                          : "border-slate-200"
+                      }`}
+                      placeholder={
+                        lang === "es" ? "Tu respuesta" : "Ihre Antwort"
+                      }
+                    />
+                    {errors.captchaAnswer && (
+                      <p className="mt-1 text-sm text-red-600">
+                        {errors.captchaAnswer}
+                      </p>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={generateCaptcha}
+                    className="p-3 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-xl transition-colors"
+                    title={lang === "es" ? "Nuevo captcha" : "Neues Captcha"}
+                  >
+                    <RefreshCw className="h-5 w-5" />
+                  </button>
+                </div>
+                <p className="text-xs text-slate-500 mt-2">
+                  {lang === "es"
+                    ? "Resuelve esta operación matemática para verificar que eres humano"
+                    : "Lösen Sie diese mathematische Operation, um zu bestätigen, dass Sie ein Mensch sind"}
+                </p>
+              </div>
+
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white py-4 text-lg"
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    {lang === "es" ? "Enviando..." : "Wird gesendet..."}
+                  </span>
+                ) : (
+                  <span className="flex items-center">
+                    {lang === "es" ? "Enviar Mensaje" : "Nachricht senden"}
+                    <Send className="ml-2 h-5 w-5" />
+                  </span>
+                )}
               </Button>
             </form>
           </div>
