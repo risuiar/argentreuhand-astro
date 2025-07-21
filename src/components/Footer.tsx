@@ -15,9 +15,14 @@ interface FooterProps {
     title: string;
     contacts: ContactItem[];
   };
+  description?: string;
 }
 
-export default function Footer({ lang, contactData }: FooterProps) {
+export default function Footer({
+  lang,
+  contactData,
+  description,
+}: FooterProps) {
   // Map icon names to components
   const iconMap: { [key: string]: any } = {
     "lucide-phone": Phone,
@@ -53,9 +58,10 @@ export default function Footer({ lang, contactData }: FooterProps) {
               </div>
             </div>
             <p className="text-slate-400 leading-relaxed">
-              {lang === "es"
-                ? "Expertos en consultoría fiscal y empresarial con más de 15 años de experiencia ayudando a emprendedores y empresas a crecer."
-                : "Experten für Steuer- und Unternehmensberatung mit über 15 Jahren Erfahrung, die Unternehmern und Unternehmen beim Wachstum helfen."}
+              {description ||
+                (lang === "es"
+                  ? "Expertos en consultoría fiscal y empresarial con más de 15 años de experiencia ayudando a emprendedores y empresas a crecer."
+                  : "Experten für Steuer- und Unternehmensberatung mit über 15 Jahren Erfahrung, die Unternehmern und Unternehmen beim Wachstum helfen.")}
             </p>
           </div>
 

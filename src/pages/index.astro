@@ -32,7 +32,7 @@ export const cache = {
 };
 ---
 
-<Layout title="Argenta Treuhand - Expertos en Consultoría Fiscal y Empresarial">
+<Layout title="Argenta Treuhand - Expertos en Consultoría Fiscal y Empresarial" description={homeData?.hero?.description}>
 	<Header />
 
 	{error ? (
@@ -74,5 +74,5 @@ export const cache = {
 		</main>
 	)}
 
-	<Footer lang={lang} contactData={homeData?.contact} />
+	<Footer lang={lang} contactData={homeData?.contact} description={homeData?.hero?.description} />
 </Layout>

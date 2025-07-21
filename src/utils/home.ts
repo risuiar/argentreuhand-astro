@@ -1,5 +1,45 @@
 declare const process: any;
 // Import the HomeData interface from the hook file
+interface FounderImage {
+  id: number;
+  url: string;
+  formats?: {
+    small?: { url: string };
+    medium?: { url: string };
+    thumbnail?: { url: string };
+    [key: string]: any;
+  };
+}
+
+interface FounderCredential {
+  id: number;
+  credential: string;
+}
+
+interface Founder {
+  id: number;
+  name: string;
+  title: string;
+  description: string;
+  image: FounderImage;
+  founder_credential: FounderCredential[];
+}
+
+interface WhyPoint {
+  id: number;
+  title: string;
+  text: string;
+  icon?: string | null;
+}
+
+interface WhyChooseUs {
+  id: number;
+  sectionTitle: string;
+  description: string;
+  why_point: WhyPoint[];
+  founder?: Founder;
+}
+
 interface HomeData {
   id: number;
   documentId: string;
@@ -9,7 +49,7 @@ interface HomeData {
   locale: string;
   hero: any;
   services: any;
-  whyChooseUs: any;
+  whyChooseUs: WhyChooseUs;
   testimonials: any;
   contact: any;
 }
@@ -50,7 +90,7 @@ export async function fetchHomeData(locale: "de" | "es"): Promise<HomeData> {
     throw new Error("CMS_BEARER_TOKEN environment variable is not set");
   }
 
-  const url = `${CMS_API_URL}/arg-home?filters[locale][$eq]=${locale}&populate[hero]=*&populate[slider][populate][slides][populate]=image&populate[services][populate][service][populate]=feature&populate[whyChooseUs][populate]=why_point&populate[testimonials][populate][testimonialItem][populate]=photo&populate[contact][populate]=contacts`;
+  const url = `${CMS_API_URL}/arg-home?filters[locale][$eq]=${locale}&populate[hero]=*&populate[slider][populate][slides][populate]=image&populate[services][populate][service][populate]=feature&populate[whyChooseUs][populate][why_point]=true&populate[whyChooseUs][populate][founder][populate][image]=true&populate[whyChooseUs][populate][founder][populate][founder_credential]=true&populate[testimonials][populate][testimonialItem][populate]=photo&populate[contact][populate]=contacts`;
 
   console.log(`🔄 Fetching fresh data for ${locale} from API...`);
 
