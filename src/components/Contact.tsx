@@ -195,27 +195,20 @@ export default function Contact({ lang, contactData }: ContactProps) {
     setSubmitStatus("idle");
 
     try {
-      console.log("VITE_CMS_URL en el form:", import.meta.env.VITE_CMS_URL);
-      const response = await fetch(
-        `${import.meta.env.VITE_CMS_URL}/api/arg-contacts`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + (import.meta.env.CMS_BEARER_TOKEN || ""),
-          },
-          body: JSON.stringify({
-            data: {
-              name: formData.name,
-              email: formData.email,
-              phone: formData.phone,
-              type: formData.type,
-              message: formData.message,
-              language: lang,
-            },
-          }),
-        }
-      );
+      const response = await fetch("/api/submit-contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          type: formData.type,
+          message: formData.message,
+          language: lang,
+        }),
+      });
 
       const result = await response.json();
 
