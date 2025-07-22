@@ -1,5 +1,8 @@
 import type { APIRoute } from "astro";
 
+// @ts-ignore
+declare const process: any;
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
@@ -51,7 +54,7 @@ export const POST: APIRoute = async ({ request }) => {
     };
 
     // Get Strapi URL from environment
-    const strapiUrl = import.meta.env.VITE_CMS_URL;
+    const strapiUrl = process.env.VITE_CMS_URL;
     const strapiToken = import.meta.env.STRAPI_TOKEN;
 
     if (!strapiToken) {
