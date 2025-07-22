@@ -1,5 +1,4 @@
 import { Award, Clock, Users, Zap, Shield, HeartHandshake } from "lucide-react";
-import Founder from "./Founder";
 
 interface WhyPoint {
   id: number;
@@ -18,22 +17,6 @@ interface WhyChooseUsData {
     satisfaction: string;
     savings: string;
     response: string;
-  };
-  founder?: {
-    name: string;
-    title: string;
-    description: string;
-    founder_credential: {
-      credential: string;
-    }[];
-    image?: {
-      formats?: {
-        medium?: {
-          url: string;
-        };
-      };
-      url: string;
-    };
   };
 }
 
@@ -86,32 +69,6 @@ export default function WhyChooseUs({
             {whyChooseUsData.description}
           </p>
         </div>
-
-        {/* Founder Card */}
-        {whyChooseUsData.founder && (
-          <Founder
-            name={whyChooseUsData.founder.name}
-            title={whyChooseUsData.founder.title}
-            description={whyChooseUsData.founder.description}
-            credentials={whyChooseUsData.founder.founder_credential.map(
-              (c) => c.credential
-            )}
-            photo={
-              whyChooseUsData.founder.image?.formats?.medium?.url
-                ? whyChooseUsData.founder.image.formats.medium.url.startsWith(
-                    "http"
-                  )
-                  ? whyChooseUsData.founder.image.formats.medium.url
-                  : `https://cms.mateando.com${whyChooseUsData.founder.image.formats.medium.url}`
-                : whyChooseUsData.founder.image?.url
-                ? whyChooseUsData.founder.image.url.startsWith("http")
-                  ? whyChooseUsData.founder.image.url
-                  : `https://cms.mateando.com${whyChooseUsData.founder.image.url}`
-                : undefined
-            }
-            lang={lang}
-          />
-        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {reasons.map((reason, index) => (

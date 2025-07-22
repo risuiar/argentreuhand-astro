@@ -130,7 +130,7 @@ export default function Hero({ lang, heroData }: HeroProps) {
                   <TrendingUp className="h-6 w-6 text-emerald-600" />
                 </div>
                 <div className="text-3xl font-bold text-slate-900 mb-2">
-                  {heroData.stats?.savings || "€2M+"}
+                  {heroData.stats?.savings || "CHF M+"}
                 </div>
                 <div className="text-slate-600">
                   {lang === "es" ? "Ahorro Fiscal" : "Steuereinsparungen"}
