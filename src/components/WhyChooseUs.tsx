@@ -1,4 +1,5 @@
 import { Award, Clock, Users, Zap, Shield, HeartHandshake } from "lucide-react";
+import Founder from "./Founder";
 
 interface WhyPoint {
   id: number;
@@ -17,6 +18,17 @@ interface WhyChooseUsData {
     satisfaction: string;
     savings: string;
     response: string;
+  };
+  founder?: {
+    name: string;
+    title: string;
+    description: string;
+    founder_credential?: {
+      credential: string;
+    }[];
+    image?: {
+      url: string;
+    };
   };
 }
 
@@ -61,7 +73,7 @@ export default function WhyChooseUs({
       className="py-20 bg-gradient-to-br from-slate-50 to-white"
     >
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+        <div className="text-center mb-4">
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
             {whyChooseUsData.sectionTitle}
           </h2>
@@ -69,6 +81,25 @@ export default function WhyChooseUs({
             {whyChooseUsData.description}
           </p>
         </div>
+
+        {whyChooseUsData.founder && (
+          <Founder
+            name={whyChooseUsData.founder.name}
+            title={whyChooseUsData.founder.title}
+            description={whyChooseUsData.founder.description}
+            credentials={
+              whyChooseUsData.founder.founder_credential?.map(
+                (c) => c.credential
+              ) || []
+            }
+            photo={
+              whyChooseUsData.founder.image?.url
+                ? `https://cms.mateando.com${whyChooseUsData.founder.image.url}`
+                : ""
+            }
+            lang={lang}
+          />
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {reasons.map((reason, index) => (

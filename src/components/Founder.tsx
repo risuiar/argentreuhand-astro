@@ -18,7 +18,7 @@ const Founder: React.FC<FounderProps> = ({
   lang = "es",
 }) => {
   return (
-    <div className="mb-20">
+    <div className="mb-4">
       <div className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
           {/* Photo Section */}
