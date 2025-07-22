@@ -197,7 +197,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
     try {
       console.log("VITE_CMS_URL en el form:", import.meta.env.VITE_CMS_URL);
       const response = await fetch(
-        `${import.meta.env.PUBLIC_CMS_URL}/api/arg-contacts`,
+        `${import.meta.env.VITE_CMS_URL}/api/arg-contacts`,
         {
           method: "POST",
           headers: {

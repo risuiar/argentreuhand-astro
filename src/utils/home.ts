@@ -41,7 +41,7 @@ export async function fetchHomeData(locale: "de" | "es"): Promise<HomeData> {
   }
 
   // Use the correct CMS URL
-  const CMS_API_URL = `${import.meta.env.PUBLIC_CMS_URL}/api`;
+  const CMS_API_URL = `${import.meta.env.VITE_CMS_URL}/api`;
   const CMS_BEARER_TOKEN =
     getProcessEnv("CMS_BEARER_TOKEN") || import.meta.env.CMS_BEARER_TOKEN;
 

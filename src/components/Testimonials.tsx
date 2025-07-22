@@ -55,7 +55,7 @@ export default function Testimonials({
               <div className="flex items-center mb-6">
                 {testimonial.photo ? (
                   <img
-                    src={`${import.meta.env.PUBLIC_CMS_URL}${
+                    src={`${import.meta.env.VITE_CMS_URL}${
                       testimonial.photo.url
                     }`}
                     alt={testimonial.name}

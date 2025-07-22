@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 
 export const GET: APIRoute = async () => {
   try {
-    const cmsUrl = import.meta.env.PUBLIC_CMS_URL;
+    const cmsUrl = import.meta.env.VITE_CMS_URL;
 
     console.log("🔍 Testing CMS connectivity to:", cmsUrl);
 
@@ -55,7 +55,7 @@ export const GET: APIRoute = async () => {
         success: false,
         message: "Failed to connect to CMS",
         error: error instanceof Error ? error.message : "Unknown error",
-        url: import.meta.env.PUBLIC_CMS_URL,
+        url: import.meta.env.VITE_CMS_URL,
       }),
       {
         status: 200,

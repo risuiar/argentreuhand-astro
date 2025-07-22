@@ -94,7 +94,7 @@ export default function WhyChooseUs({
             }
             photo={
               whyChooseUsData.founder.image?.url
-                ? `${import.meta.env.PUBLIC_CMS_URL}${
+                ? `${import.meta.env.VITE_CMS_URL}${
                     whyChooseUsData.founder.image.url
                   }`
                 : ""

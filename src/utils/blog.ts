@@ -14,7 +14,7 @@ export async function fetchBlogPosts(
   pageSize: number = 10
 ): Promise<BlogResponse> {
   // Use the correct CMS URL
-  const CMS_API_URL = `${import.meta.env.PUBLIC_CMS_URL}/api`;
+  const CMS_API_URL = `${import.meta.env.VITE_CMS_URL}/api`;
   const CMS_BEARER_TOKEN =
     getProcessEnv("CMS_BEARER_TOKEN") || import.meta.env.CMS_BEARER_TOKEN;
 
@@ -46,7 +46,7 @@ export async function fetchBlogPost(
   locale: "de" | "es"
 ): Promise<BlogPostData | null> {
   // Use the correct CMS URL
-  const CMS_API_URL = `${import.meta.env.PUBLIC_CMS_URL}/api`;
+  const CMS_API_URL = `${import.meta.env.VITE_CMS_URL}/api`;
   const CMS_BEARER_TOKEN =
     getProcessEnv("CMS_BEARER_TOKEN") || import.meta.env.CMS_BEARER_TOKEN;
 
@@ -147,7 +147,7 @@ export async function findCorrespondingBlogPost(
 }
 
 export function transformBlogPost(post: any): BlogPostData {
-  const baseUrl = import.meta.env.PUBLIC_CMS_URL;
+  const baseUrl = import.meta.env.VITE_CMS_URL;
 
   // Try to get featured image from image1 or image2
   let featuredImage = undefined;
