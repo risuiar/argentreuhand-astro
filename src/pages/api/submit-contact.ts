@@ -1,8 +1,5 @@
 import type { APIRoute } from "astro";
 
-// @ts-ignore
-declare const process: any;
-
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
@@ -54,11 +51,14 @@ export const POST: APIRoute = async ({ request }) => {
     };
 
     // Get Strapi URL from environment
-    const strapiUrl = process.env.VITE_CMS_URL;
-    const strapiToken = import.meta.env.STRAPI_TOKEN;
+    const strapiUrl = import.meta.env.VITE_CMS_URL;
+    const strapiToken = import.meta.env.CMS_BEARER_TOKEN;
+
+    console.log("Strapi URL:", strapiUrl);
+    console.log("Strapi Token exists:", !!strapiToken);
 
     if (!strapiToken) {
-      console.error("STRAPI_TOKEN not configured");
+      console.error("CMS_BEARER_TOKEN not configured");
       return new Response(
         JSON.stringify({
           success: false,
