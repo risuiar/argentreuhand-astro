@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getLocalizedLink } from "@/lib/i18n";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Select,
   SelectContent,
@@ -79,6 +79,8 @@ export default function Contact({ lang, contactData }: ContactProps) {
     question: "",
     answer: 0,
   });
+
+  const formCardRef = useRef<HTMLDivElement>(null);
 
   // Generate captcha on component mount
   useEffect(() => {
@@ -258,6 +260,15 @@ export default function Contact({ lang, contactData }: ContactProps) {
     }
   };
 
+  useEffect(() => {
+    if (submitStatus === "success" && formCardRef.current) {
+      formCardRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [submitStatus]);
+
   return (
     <section id="contacto" className="py-20 bg-white">
       <div className="container mx-auto px-4">
@@ -330,7 +341,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-slate-50 rounded-2xl p-8">
+          <div ref={formCardRef} className="bg-slate-50 rounded-2xl p-8">
             <h3 className="text-2xl font-bold text-slate-900 mb-6">
               {lang === "es"
                 ? "Envíanos un Mensaje"
@@ -352,201 +363,216 @@ export default function Contact({ lang, contactData }: ContactProps) {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    {lang === "es" ? "Nombre" : "Name"} *
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => handleInputChange("name", e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      errors.name ? "border-red-300" : "border-slate-200"
-                    }`}
-                    placeholder={lang === "es" ? "Tu nombre" : "Ihr Name"}
-                  />
-                  {errors.name && (
-                    <p className="mt-1 text-sm text-red-600">{errors.name}</p>
-                  )}
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    {lang === "es" ? "Email" : "E-Mail"} *
-                  </label>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleInputChange("email", e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      errors.email ? "border-red-300" : "border-slate-200"
-                    }`}
-                    placeholder={
-                      lang === "es" ? "tu@email.com" : "ihre@email.com"
-                    }
-                  />
-                  {errors.email && (
-                    <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-                  )}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  {lang === "es" ? "Teléfono" : "Telefon"}
-                </label>
-                <input
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => handleInputChange("phone", e.target.value)}
-                  className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="+41 76 510 03 80"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  {lang === "es" ? "Asunto" : "Betreff"} *
-                </label>
-                <Select
-                  value={formData.type}
-                  onValueChange={(value) => handleInputChange("type", value)}
-                >
-                  <SelectTrigger
-                    className={`w-full h-12 px-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      errors.type ? "border-red-300" : "border-slate-200"
-                    }`}
-                  >
-                    <SelectValue
-                      placeholder={
-                        lang === "es"
-                          ? "Selecciona un asunto"
-                          : "Betreff auswählen"
-                      }
-                    />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white border border-slate-200 rounded-xl shadow-lg">
-                    <SelectItem value="general">
-                      {lang === "es"
-                        ? "Consulta general"
-                        : "Allgemeine Anfrage"}
-                    </SelectItem>
-                    <SelectItem value="taxes">
-                      {lang === "es"
-                        ? "Declaración de impuestos"
-                        : "Steuererklärung"}
-                    </SelectItem>
-                    <SelectItem value="company">
-                      {lang === "es"
-                        ? "Constitución de empresa"
-                        : "Unternehmensgründung"}
-                    </SelectItem>
-                    <SelectItem value="planning">
-                      {lang === "es" ? "Planificación fiscal" : "Steuerplanung"}
-                    </SelectItem>
-                    <SelectItem value="other">
-                      {lang === "es" ? "Otros" : "Andere"}
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-                {errors.type && (
-                  <p className="mt-1 text-sm text-red-600">{errors.type}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  {lang === "es" ? "Mensaje" : "Nachricht"} *
-                </label>
-                <textarea
-                  rows={4}
-                  value={formData.message}
-                  onChange={(e) => handleInputChange("message", e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.message ? "border-red-300" : "border-slate-200"
-                  }`}
-                  placeholder={
-                    lang === "es"
-                      ? "Describe tu consulta..."
-                      : "Beschreiben Sie Ihre Anfrage..."
-                  }
-                ></textarea>
-                {errors.message && (
-                  <p className="mt-1 text-sm text-red-600">{errors.message}</p>
-                )}
-              </div>
-
-              {/* Captcha Section */}
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-                <label className="block text-sm font-medium text-slate-700 mb-3">
-                  {lang === "es"
-                    ? "Verificación de Seguridad"
-                    : "Sicherheitsüberprüfung"}{" "}
-                  *
-                </label>
-                <div className="flex items-center space-x-4">
-                  <div className="flex-1">
-                    <div className="text-center mb-2">
-                      <span className="text-lg font-mono bg-white px-4 py-2 rounded-lg border border-blue-300">
-                        {captcha.question} = ?
-                      </span>
-                    </div>
+            {/* Mostrar el formulario solo si no es success */}
+            {submitStatus !== "success" && (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">
+                      {lang === "es" ? "Nombre" : "Name"} *
+                    </label>
                     <input
-                      type="number"
-                      value={formData.captchaAnswer}
+                      type="text"
+                      value={formData.name}
                       onChange={(e) =>
-                        handleInputChange("captchaAnswer", e.target.value)
+                        handleInputChange("name", e.target.value)
                       }
                       className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                        errors.captchaAnswer
-                          ? "border-red-300"
-                          : "border-slate-200"
+                        errors.name ? "border-red-300" : "border-slate-200"
+                      }`}
+                      placeholder={lang === "es" ? "Tu nombre" : "Ihr Name"}
+                    />
+                    {errors.name && (
+                      <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+                    )}
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">
+                      {lang === "es" ? "Email" : "E-Mail"} *
+                    </label>
+                    <input
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) =>
+                        handleInputChange("email", e.target.value)
+                      }
+                      className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                        errors.email ? "border-red-300" : "border-slate-200"
                       }`}
                       placeholder={
-                        lang === "es" ? "Tu respuesta" : "Ihre Antwort"
+                        lang === "es" ? "tu@email.com" : "ihre@email.com"
                       }
                     />
-                    {errors.captchaAnswer && (
+                    {errors.email && (
                       <p className="mt-1 text-sm text-red-600">
-                        {errors.captchaAnswer}
+                        {errors.email}
                       </p>
                     )}
                   </div>
-                  <button
-                    type="button"
-                    onClick={generateCaptcha}
-                    className="p-3 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-xl transition-colors"
-                    title={lang === "es" ? "Nuevo captcha" : "Neues Captcha"}
-                  >
-                    <RefreshCw className="h-5 w-5" />
-                  </button>
                 </div>
-                <p className="text-xs text-slate-500 mt-2">
-                  {lang === "es"
-                    ? "Resuelve esta operación matemática para verificar que eres humano"
-                    : "Lösen Sie diese mathematische Operation, um zu bestätigen, dass Sie ein Mensch sind"}
-                </p>
-              </div>
 
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white py-4 text-lg"
-              >
-                {isSubmitting ? (
-                  <span className="flex items-center">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    {lang === "es" ? "Enviando..." : "Wird gesendet..."}
-                  </span>
-                ) : (
-                  <span className="flex items-center">
-                    {lang === "es" ? "Enviar Mensaje" : "Nachricht senden"}
-                    <Send className="ml-2 h-5 w-5" />
-                  </span>
-                )}
-              </Button>
-            </form>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    {lang === "es" ? "Teléfono" : "Telefon"}
+                  </label>
+                  <input
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange("phone", e.target.value)}
+                    className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="+41 76 510 03 80"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    {lang === "es" ? "Asunto" : "Betreff"} *
+                  </label>
+                  <Select
+                    value={formData.type}
+                    onValueChange={(value) => handleInputChange("type", value)}
+                  >
+                    <SelectTrigger
+                      className={`w-full h-12 px-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                        errors.type ? "border-red-300" : "border-slate-200"
+                      }`}
+                    >
+                      <SelectValue
+                        placeholder={
+                          lang === "es"
+                            ? "Selecciona un asunto"
+                            : "Betreff auswählen"
+                        }
+                      />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border border-slate-200 rounded-xl shadow-lg">
+                      <SelectItem value="general">
+                        {lang === "es"
+                          ? "Consulta general"
+                          : "Allgemeine Anfrage"}
+                      </SelectItem>
+                      <SelectItem value="taxes">
+                        {lang === "es"
+                          ? "Declaración de impuestos"
+                          : "Steuererklärung"}
+                      </SelectItem>
+                      <SelectItem value="company">
+                        {lang === "es"
+                          ? "Constitución de empresa"
+                          : "Unternehmensgründung"}
+                      </SelectItem>
+                      <SelectItem value="planning">
+                        {lang === "es"
+                          ? "Planificación fiscal"
+                          : "Steuerplanung"}
+                      </SelectItem>
+                      <SelectItem value="other">
+                        {lang === "es" ? "Otros" : "Andere"}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {errors.type && (
+                    <p className="mt-1 text-sm text-red-600">{errors.type}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    {lang === "es" ? "Mensaje" : "Nachricht"} *
+                  </label>
+                  <textarea
+                    rows={4}
+                    value={formData.message}
+                    onChange={(e) =>
+                      handleInputChange("message", e.target.value)
+                    }
+                    className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                      errors.message ? "border-red-300" : "border-slate-200"
+                    }`}
+                    placeholder={
+                      lang === "es"
+                        ? "Describe tu consulta..."
+                        : "Beschreiben Sie Ihre Anfrage..."
+                    }
+                  ></textarea>
+                  {errors.message && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* Captcha Section */}
+                <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                  <label className="block text-sm font-medium text-slate-700 mb-3">
+                    {lang === "es"
+                      ? "Verificación de Seguridad"
+                      : "Sicherheitsüberprüfung"}{" "}
+                    *
+                  </label>
+                  <div className="flex items-center space-x-4">
+                    <div className="flex-1">
+                      <div className="text-center mb-2">
+                        <span className="text-lg font-mono bg-white px-4 py-2 rounded-lg border border-blue-300">
+                          {captcha.question} = ?
+                        </span>
+                      </div>
+                      <input
+                        type="number"
+                        value={formData.captchaAnswer}
+                        onChange={(e) =>
+                          handleInputChange("captchaAnswer", e.target.value)
+                        }
+                        className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                          errors.captchaAnswer
+                            ? "border-red-300"
+                            : "border-slate-200"
+                        }`}
+                        placeholder={
+                          lang === "es" ? "Tu respuesta" : "Ihre Antwort"
+                        }
+                      />
+                      {errors.captchaAnswer && (
+                        <p className="mt-1 text-sm text-red-600">
+                          {errors.captchaAnswer}
+                        </p>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={generateCaptcha}
+                      className="p-3 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-xl transition-colors"
+                      title={lang === "es" ? "Nuevo captcha" : "Neues Captcha"}
+                    >
+                      <RefreshCw className="h-5 w-5" />
+                    </button>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-2">
+                    {lang === "es"
+                      ? "Resuelve esta operación matemática para verificar que eres humano"
+                      : "Lösen Sie diese mathematische Operation, um zu bestätigen, dass Sie ein Mensch sind"}
+                  </p>
+                </div>
+
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white py-4 text-lg"
+                >
+                  {isSubmitting ? (
+                    <span className="flex items-center">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                      {lang === "es" ? "Enviando..." : "Wird gesendet..."}
+                    </span>
+                  ) : (
+                    <span className="flex items-center">
+                      {lang === "es" ? "Enviar Mensaje" : "Nachricht senden"}
+                      <Send className="ml-2 h-5 w-5" />
+                    </span>
+                  )}
+                </Button>
+              </form>
+            )}
           </div>
         </div>
       </div>
