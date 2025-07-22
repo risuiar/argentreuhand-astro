@@ -23,22 +23,10 @@ interface WhyChooseUsData {
     name: string;
     title: string;
     description: string;
-<<<<<<< HEAD
-    founder_credential: {
-      credential: string;
-    }[];
-    image?: {
-      formats?: {
-        medium?: {
-          url: string;
-        };
-      };
-=======
     founder_credential?: {
       credential: string;
     }[];
     image?: {
->>>>>>> origin/main
       url: string;
     };
   };
@@ -94,32 +82,11 @@ export default function WhyChooseUs({
           </p>
         </div>
 
-<<<<<<< HEAD
-        {/* Founder Card */}
-=======
->>>>>>> origin/main
         {whyChooseUsData.founder && (
           <Founder
             name={whyChooseUsData.founder.name}
             title={whyChooseUsData.founder.title}
             description={whyChooseUsData.founder.description}
-<<<<<<< HEAD
-            credentials={whyChooseUsData.founder.founder_credential.map(
-              (c) => c.credential
-            )}
-            photo={
-              whyChooseUsData.founder.image?.formats?.medium?.url
-                ? whyChooseUsData.founder.image.formats.medium.url.startsWith(
-                    "http"
-                  )
-                  ? whyChooseUsData.founder.image.formats.medium.url
-                  : `https://cms.mateando.com${whyChooseUsData.founder.image.formats.medium.url}`
-                : whyChooseUsData.founder.image?.url
-                ? whyChooseUsData.founder.image.url.startsWith("http")
-                  ? whyChooseUsData.founder.image.url
-                  : `https://cms.mateando.com${whyChooseUsData.founder.image.url}`
-                : undefined
-=======
             credentials={
               whyChooseUsData.founder.founder_credential?.map(
                 (c) => c.credential
@@ -131,7 +98,6 @@ export default function WhyChooseUs({
                     whyChooseUsData.founder.image.url
                   }`
                 : ""
->>>>>>> origin/main
             }
             lang={lang}
           />
