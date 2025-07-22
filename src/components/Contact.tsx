@@ -202,8 +202,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer " + (import.meta.env.PUBLIC_CMS_BEARER_TOKEN || ""),
+            Authorization: "Bearer " + (import.meta.env.CMS_BEARER_TOKEN || ""),
           },
           body: JSON.stringify({
             data: {
