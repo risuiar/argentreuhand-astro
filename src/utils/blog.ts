@@ -209,8 +209,12 @@ export function transformBlogPost(post: any): BlogPostData {
     id: post.id,
     documentId: post.documentId,
     title: post.title,
-    content: convertToHtml(post.body || []),
-    excerpt: stripHtmlTags(convertToHtml(post.description || [])),
+    content:
+      convertToHtml(post.body || []) ||
+      (post.Content1 || "") + (post.Content2 ? "\n\n" + post.Content2 : ""),
+    excerpt:
+      stripHtmlTags(convertToHtml(post.description || [])) ||
+      stripHtmlTags(post.description || ""),
     slug: post.documentId,
     publishedAt: post.publishedAt,
     updatedAt: post.updatedAt,

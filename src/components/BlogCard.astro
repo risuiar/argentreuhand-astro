@@ -1,6 +1,7 @@
 ---
 import type { BlogPostData } from '../types/blog';
 import { formatDate, truncateText } from '../utils/blog';
+import { translations } from '../lib/i18n';
 
 interface Props {
   post: BlogPostData;
@@ -9,6 +10,7 @@ interface Props {
 
 const { post, lang } = Astro.props;
 const locale = lang === 'de' ? 'de' : 'es';
+const t = translations[locale];
 ---
 
 <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
