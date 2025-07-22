@@ -193,13 +193,15 @@ export default function Contact({ lang, contactData }: ContactProps) {
     setSubmitStatus("idle");
 
     try {
+      console.log("VITE_CMS_URL en el form:", import.meta.env.VITE_CMS_URL);
       const response = await fetch(
-        "https://cms.mateando.com/api/arg-contacts",
+        `${import.meta.env.PUBLIC_CMS_URL}/api/arg-contacts`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + (import.meta.env.STRAPI_TOKEN || ""),
+            Authorization:
+              "Bearer " + (import.meta.env.PUBLIC_CMS_BEARER_TOKEN || ""),
           },
           body: JSON.stringify({
             data: {

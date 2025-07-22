@@ -5,7 +5,7 @@ export const GET: APIRoute = async ({ url }) => {
     const locale = url.searchParams.get("locale") || "es";
 
     // Use the correct CMS URL
-    const CMS_API_URL = "https://cms.mateando.com/api";
+    const CMS_API_URL = `${import.meta.env.PUBLIC_CMS_URL}/api`;
     const CMS_BEARER_TOKEN =
       process.env.CMS_BEARER_TOKEN || import.meta.env.CMS_BEARER_TOKEN;
 

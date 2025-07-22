@@ -51,7 +51,7 @@ export const POST: APIRoute = async ({ request }) => {
     };
 
     // Get Strapi URL from environment
-    const strapiUrl = import.meta.env.STRAPI_URL || "https://cms.mateando.com";
+    const strapiUrl = import.meta.env.PUBLIC_CMS_URL;
     const strapiToken = import.meta.env.STRAPI_TOKEN;
 
     if (!strapiToken) {

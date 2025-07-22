@@ -94,7 +94,9 @@ export default function WhyChooseUs({
             }
             photo={
               whyChooseUsData.founder.image?.url
-                ? `https://cms.mateando.com${whyChooseUsData.founder.image.url}`
+                ? `${import.meta.env.PUBLIC_CMS_URL}${
+                    whyChooseUsData.founder.image.url
+                  }`
                 : ""
             }
             lang={lang}

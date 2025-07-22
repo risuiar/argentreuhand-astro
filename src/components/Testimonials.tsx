@@ -55,7 +55,9 @@ export default function Testimonials({
               <div className="flex items-center mb-6">
                 {testimonial.photo ? (
                   <img
-                    src={`https://cms.mateando.com${testimonial.photo.url}`}
+                    src={`${import.meta.env.PUBLIC_CMS_URL}${
+                      testimonial.photo.url
+                    }`}
                     alt={testimonial.name}
                     className="w-16 h-16 rounded-full object-cover mr-4"
                   />

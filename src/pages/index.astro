@@ -10,6 +10,7 @@ import Testimonials from '../components/Testimonials';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 import Founder from '../components/Founder';
+import EnvTest from '../components/EnvTest';
 import { getLangFromUrl } from '../lib/i18n';
 import { fetchHomeData } from '../utils/home';
 
@@ -58,6 +59,7 @@ export const cache = {
 			<WhyChooseUs lang={lang} whyChooseUsData={homeData.whyChooseUs} />
 			<Testimonials lang={lang} testimonialsData={homeData.testimonials} />
 			<Contact lang={lang} contactData={homeData.contact} client:load />
+			<EnvTest client:load />
 		</>
 	) : (
 		<main class="pt-32">

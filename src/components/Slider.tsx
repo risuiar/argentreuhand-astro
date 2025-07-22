@@ -105,7 +105,7 @@ export default function ImageCarousel({
                     <div className="relative h-96 md:h-[500px]">
                       {imageUrl ? (
                         <img
-                          src={`https://cms.mateando.com${imageUrl}`}
+                          src={`${import.meta.env.PUBLIC_CMS_URL}${imageUrl}`}
                           alt={slideImage?.alternativeText || slide.title}
                           className="w-full h-full object-cover"
                           loading="lazy"
