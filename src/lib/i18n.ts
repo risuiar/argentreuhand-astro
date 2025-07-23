@@ -385,6 +385,16 @@ export const translations = {
       home: "Ir al Inicio",
       cta: "Consulta Gratuita",
       note: "Nota Profesional:",
+      message:
+        "Nuestros expertos fiscales han revisado minuciosamente esta página y determinado que no es deducible de impuestos... porque no existe.",
+      solution:
+        "Pero no se preocupe, a diferencia de las leyes fiscales complejas, la solución aquí es simple:",
+      features: {
+        findable: "Nuestra asesoría fiscal es 100% localizable",
+        noHiddenCosts: "Sin costos ocultos ni páginas perdidas",
+        response24h: "Respuesta garantizada en menos de 24h",
+        first15min: "Primeros 15 minutos gratuitos",
+      },
     },
     blog: {
       readMore: "Leer más",
@@ -771,6 +781,16 @@ export const translations = {
       home: "Zur Startseite",
       cta: "Kostenlose Beratung",
       note: "Professioneller Hinweis:",
+      message:
+        "Unsere Steuerexperten haben diese Seite gründlich geprüft und festgestellt, dass sie steuerlich nicht absetzbar ist... weil sie nicht existiert.",
+      solution:
+        "Aber keine Sorge, im Gegensatz zu komplexen Steuergesetzen ist die Lösung hier einfach:",
+      features: {
+        findable: "Unsere Steuerberatung ist zu 100% auffindbar",
+        noHiddenCosts: "Keine versteckten Kosten oder Seiten",
+        response24h: "Garantierte Antwort in unter 24h",
+        first15min: "Erste 15 Minuten kostenlos",
+      },
     },
     blog: {
       readMore: "Weiterlesen",

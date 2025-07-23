@@ -1,7 +1,7 @@
 ---
 import type { BlogPostData } from '../types/blog';
 import { formatDate, truncateText } from '../utils/blog';
-import { translations } from '../lib/i18n';
+import { translations, getLocalizedLink } from '../lib/i18n';
 
 interface Props {
   post: BlogPostData;
@@ -9,8 +9,7 @@ interface Props {
 }
 
 const { post, lang } = Astro.props;
-const locale = lang === 'de' ? 'de' : 'es';
-const t = translations[locale];
+const t = translations[lang];
 ---
 
 <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
@@ -27,7 +26,7 @@ const t = translations[locale];
   <div class="p-6">
     <div class="flex items-center text-sm text-gray-500 mb-3">
       <time datetime={post.publishedAt}>
-        {formatDate(post.publishedAt, locale)}
+        {formatDate(post.publishedAt, lang)}
       </time>
       {post.author && (
         <>
@@ -38,7 +37,7 @@ const t = translations[locale];
     </div>
 
     <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
-      <a href={`/${lang === 'de' ? 'de/' : ''}blog/${post.documentId}`} class="hover:text-brand-teal transition-colors">
+      <a href={getLocalizedLink(`/blog/${post.documentId}`, lang)} class="hover:text-brand-teal transition-colors">
         {post.title}
       </a>
     </h3>
@@ -60,7 +59,7 @@ const t = translations[locale];
     )}
 
     <a
-      href={`/${lang === 'de' ? 'de/' : ''}blog/${post.documentId}`}
+      href={getLocalizedLink(`/blog/${post.documentId}`, lang)}
       class="inline-flex items-center text-brand-teal hover:text-brand-teal/80 font-medium transition-colors"
     >
       {t.blog.readMore}

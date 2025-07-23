@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer';
 import { Button } from '@/components/ui/button';
-import { getLangFromUrl, useTranslations, translations } from '../lib/i18n';
+import { getLangFromUrl, useTranslations, translations, getLocalizedLink } from '../lib/i18n';
 
 const lang = getLangFromUrl(Astro.url);
 const t = translations[lang];
@@ -40,23 +40,17 @@ const t = translations[lang];
 					<!-- Humorous but serious message -->
 					<div class="space-y-4 text-lg text-slate-600 mb-8">
 						<p>
-							{lang === 'de'
-								? 'Unsere Steuerexperten haben diese Seite gründlich geprüft und festgestellt, dass sie steuerlich nicht absetzbar ist... weil sie nicht existiert.'
-								: 'Nuestros expertos fiscales han revisado minuciosamente esta página y determinado que no es deducible de impuestos... porque no existe.'
-							}
+							{t.notFound.message}
 						</p>
 						<p class="text-base">
-							{lang === 'de'
-								? 'Aber keine Sorge, im Gegensatz zu komplexen Steuergesetzen ist die Lösung hier einfach:'
-								: 'Pero no se preocupe, a diferencia de las leyes fiscales complejas, la solución aquí es simple:'
-							}
+							{t.notFound.solution}
 						</p>
 					</div>
 
 					<!-- Action Buttons -->
 					<div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
 						<a
-							href={lang === 'de' ? '/de/' : '/'}
+							href={getLocalizedLink('/', lang)}
 							class="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg rounded-lg font-medium transition-colors"
 						>
 							<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -66,7 +60,7 @@ const t = translations[lang];
 						</a>
 
 						<a
-							href={lang === 'de' ? '/de/reservar/' : '/reservar/'}
+							href={getLocalizedLink('/reservar/', lang)}
 							class="inline-flex items-center justify-center border border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-4 text-lg rounded-lg font-medium transition-colors"
 						>
 							<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -88,12 +82,7 @@ const t = translations[lang];
 										<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
 									</svg>
 								</div>
-								<span>
-									{lang === 'de'
-										? 'Unsere Steuerberatung ist zu 100% auffindbar'
-										: 'Nuestra asesoría fiscal es 100% localizable'
-									}
-								</span>
+								<span>{t.notFound.features.findable}</span>
 							</div>
 							<div class="flex items-start space-x-3">
 								<div class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -101,12 +90,7 @@ const t = translations[lang];
 										<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
 									</svg>
 								</div>
-								<span>
-									{lang === 'de'
-										? 'Keine versteckten Kosten oder Seiten'
-										: 'Sin costos ocultos ni páginas perdidas'
-									}
-								</span>
+								<span>{t.notFound.features.noHiddenCosts}</span>
 							</div>
 							<div class="flex items-start space-x-3">
 								<div class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -114,12 +98,7 @@ const t = translations[lang];
 										<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
 									</svg>
 								</div>
-								<span>
-									{lang === 'de'
-										? 'Garantierte Antwort in unter 24h'
-										: 'Respuesta garantizada en menos de 24h'
-									}
-								</span>
+								<span>{t.notFound.features.response24h}</span>
 							</div>
 							<div class="flex items-start space-x-3">
 								<div class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -127,12 +106,7 @@ const t = translations[lang];
 										<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
 									</svg>
 								</div>
-								<span>
-									{lang === 'de'
-										? 'Erste 15 Minuten kostenlos'
-										: 'Primeros 15 minutos gratuitos'
-									}
-								</span>
+								<span>{t.notFound.features.first15min}</span>
 							</div>
 						</div>
 					</div>
