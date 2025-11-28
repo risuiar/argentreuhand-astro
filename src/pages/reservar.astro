@@ -1,0 +1,23 @@
+---
+import '@/styles/globals.css'
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import BookingCalendar from '../components/BookingCalendar';
+import Footer from '../components/Footer';
+import { getLangFromUrl, translations } from '../lib/i18n';
+
+const lang = getLangFromUrl(Astro.url);
+const t = translations[lang];
+---
+
+<Layout title="Reservar Consulta - Argenta Treuhand">
+	<Header />
+
+	<main class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-slate-50 py-20">
+		<div class="container mx-auto px-4">
+			<BookingCalendar lang={lang} translations={t} client:load />
+		</div>
+	</main>
+
+	<Footer lang={lang} />
+</Layout>

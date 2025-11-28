@@ -1,0 +1,143 @@
+---
+import '@/styles/globals.css'
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer';
+import { Button } from '@/components/ui/button';
+import { getLangFromUrl, useTranslations, translations, getLocalizedLink } from '../lib/i18n';
+
+const lang = getLangFromUrl(Astro.url);
+const t = translations[lang];
+---
+
+<Layout title="404 - Página no encontrada | Argenta Treuhand">
+	<Header />
+
+	<main class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-slate-50 flex items-center justify-center py-20">
+		<div class="container mx-auto px-4">
+			<div class="max-w-4xl mx-auto text-center">
+				<!-- Error Code -->
+				<div class="mb-8">
+					<h1 class="text-9xl md:text-[12rem] font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800 leading-none">
+						404
+					</h1>
+				</div>
+
+				<!-- Main Content -->
+				<div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-8 md:p-12 mb-8">
+					<!-- Icon -->
+					<div class="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+						<svg class="w-12 h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+						</svg>
+					</div>
+
+					<!-- Title -->
+					<h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+						{t.notFound.title}
+					</h2>
+
+					<!-- Humorous but serious message -->
+					<div class="space-y-4 text-lg text-slate-600 mb-8">
+						<p>
+							{t.notFound.message}
+						</p>
+						<p class="text-base">
+							{t.notFound.solution}
+						</p>
+					</div>
+
+					<!-- Action Buttons -->
+					<div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+						<a
+							href={getLocalizedLink('/', lang)}
+							class="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg rounded-lg font-medium transition-colors"
+						>
+							<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+							</svg>
+							{t.notFound.home}
+						</a>
+
+						<a
+							href={getLocalizedLink('/reservar/', lang)}
+							class="inline-flex items-center justify-center border border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-4 text-lg rounded-lg font-medium transition-colors"
+						>
+							<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4h3a1 1 0 011 1v9a2 2 0 01-2 2H5a2 2 0 01-2-2V8a1 1 0 011-1h3z"></path>
+							</svg>
+							{t.notFound.cta}
+						</a>
+					</div>
+
+					<!-- Professional humor section -->
+					<div class="bg-slate-50 rounded-2xl p-6 border border-slate-200">
+						<h3 class="text-xl font-semibold text-slate-900 mb-4">
+							{t.notFound.note}
+						</h3>
+						<div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-600">
+							<div class="flex items-start space-x-3">
+								<div class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+									<svg class="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+										<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+									</svg>
+								</div>
+								<span>{t.notFound.features.findable}</span>
+							</div>
+							<div class="flex items-start space-x-3">
+								<div class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+									<svg class="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+										<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+									</svg>
+								</div>
+								<span>{t.notFound.features.noHiddenCosts}</span>
+							</div>
+							<div class="flex items-start space-x-3">
+								<div class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+									<svg class="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+										<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+									</svg>
+								</div>
+								<span>{t.notFound.features.response24h}</span>
+							</div>
+							<div class="flex items-start space-x-3">
+								<div class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+									<svg class="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+										<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+									</svg>
+								</div>
+								<span>{t.notFound.features.first15min}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</main>
+
+	<Footer lang={lang} />
+</Layout>
+
+<style>
+	/* Animación sutil para el 404 */
+	h1 {
+		animation: float 6s ease-in-out infinite;
+	}
+
+	@keyframes float {
+		0%, 100% {
+			transform: translateY(0px);
+		}
+		50% {
+			transform: translateY(-10px);
+		}
+	}
+
+	/* Hover effects */
+	.container > div > div:hover {
+		transform: translateY(-2px);
+		transition: transform 0.3s ease;
+	}
+</style>

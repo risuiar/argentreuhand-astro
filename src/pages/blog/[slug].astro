@@ -1,0 +1,194 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer';
+import { fetchBlogPost, formatDate, fetchBlogPosts } from '../../utils/blog';
+import type { BlogPostData } from '../../types/blog';
+import { getLangFromUrl, translations } from '../../lib/i18n';
+
+export async function getStaticPaths() {
+  try {
+    const response = await fetchBlogPosts('es', 1, 100); // Get all posts for static generation
+    return response.data.map((post: any) => ({
+      params: { slug: post.documentId },
+      props: { post: post.documentId }
+    }));
+  } catch (error) {
+    console.error('Error generating static paths for blog posts:', error);
+    return [];
+  }
+}
+
+const { slug } = Astro.params;
+let post: BlogPostData | null = null;
+let error = null;
+
+if (slug) {
+  try {
+    post = await fetchBlogPost(slug, 'es');
+  } catch (err) {
+    error = err instanceof Error ? err.message : 'Unknown error occurred';
+    console.error('Error fetching blog post:', err);
+  }
+}
+
+if (!post && !error) {
+  return Astro.redirect('/blog');
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = translations[lang];
+---
+
+<Layout title={post?.title || 'Blog Post'} lang="es">
+  <Header />
+
+  <main class="pt-32">
+    <div class="container mx-auto px-4">
+      {error ? (
+        <div class="text-center py-12">
+          <div class="text-red-600 mb-4">
+            <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            </svg>
+            <p class="text-lg font-semibold">Error al cargar la publicación del blog</p>
+            <p class="text-sm text-gray-500 mt-2">{error}</p>
+          </div>
+          <a href="/blog" class="text-brand-teal hover:underline">
+            Volver al blog
+          </a>
+        </div>
+      ) : post ? (
+        <article class="max-w-4xl mx-auto py-8">
+          <nav class="mb-8">
+            <a href="/blog" class="text-brand-teal hover:underline flex items-center">
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+              Volver al blog
+            </a>
+          </nav>
+
+          <header class="mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">{post.title}</h1>
+
+            <div class="flex items-center text-gray-600 mb-6">
+              <time datetime={post.publishedAt}>
+                {formatDate(post.publishedAt, 'es')}
+              </time>
+              {post.author && (
+                <>
+                  <span class="mx-2">•</span>
+                  <span>{post.author}</span>
+                </>
+              )}
+            </div>
+
+            {post.tags && post.tags.length > 0 && (
+              <div class="flex flex-wrap gap-2 mb-6">
+                {post.tags.map(tag => (
+                  <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </header>
+
+          {post.featuredImageLarge && (
+            <div class="mb-8">
+              <img
+                src={post.featuredImageLarge}
+                alt={post.title}
+                class="w-full h-64 md:h-96 object-contain rounded-lg"
+              />
+            </div>
+          )}
+
+          <div class="prose prose-lg max-w-none">
+            <div set:html={post.content} />
+          </div>
+
+          {post.image2 && (
+            <div class="mt-8">
+              <img
+                src={post.image2}
+                alt={`${post.title} - Imagen adicional`}
+                class="w-full h-64 md:h-96 object-contain rounded-lg"
+              />
+            </div>
+          )}
+
+          <footer class="mt-12 pt-8 border-t border-gray-200">
+            <div class="flex items-center justify-between">
+              <div class="text-sm text-gray-600">
+                <p>Publicado el {formatDate(post.publishedAt, 'es')}</p>
+                {post.updatedAt && post.updatedAt !== post.publishedAt && (
+                  <p>Actualizado el {formatDate(post.updatedAt, 'es')}</p>
+                )}
+              </div>
+              <a href="/blog" class="text-brand-teal hover:underline">
+                Ver todas las publicaciones
+              </a>
+            </div>
+          </footer>
+        </article>
+      ) : null}
+    </div>
+  </main>
+
+  	<Footer lang={lang} />
+</Layout>
+
+<style>
+  .prose {
+    color: #374151;
+    line-height: 1.75;
+  }
+
+  .prose h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #111827;
+  }
+
+  .prose h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #111827;
+  }
+
+  .prose p {
+    margin-bottom: 1.25rem;
+  }
+
+  .prose ul, .prose ol {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+  }
+
+  .prose li {
+    margin-bottom: 0.5rem;
+  }
+
+  .prose blockquote {
+    border-left: 4px solid #267272;
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: #6b7280;
+  }
+
+  .prose a {
+    color: #267272;
+    text-decoration: underline;
+  }
+
+  .prose a:hover {
+    color: #1f5f5f;
+  }
+</style>

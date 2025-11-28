@@ -1,0 +1,16 @@
+traefik.enable=true
+traefik.http.middlewares.gzip.compress=true
+traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+traefik.http.routers.http-0-v4wwsg8w8ocww4s0w8c4k0g8.entryPoints=http
+traefik.http.routers.http-0-v4wwsg8w8ocww4s0w8c4k0g8.middlewares=redirect-to-https
+traefik.http.routers.http-0-v4wwsg8w8ocww4s0w8c4k0g8.rule=Host(`argentatreuhand.travix.app`) && PathPrefix(`/`)
+traefik.http.routers.http-0-v4wwsg8w8ocww4s0w8c4k0g8.service=http-0-v4wwsg8w8ocww4s0w8c4k0g8
+traefik.http.routers.https-0-v4wwsg8w8ocww4s0w8c4k0g8.entryPoints=https
+traefik.http.routers.https-0-v4wwsg8w8ocww4s0w8c4k0g8.middlewares=gzip
+traefik.http.routers.https-0-v4wwsg8w8ocww4s0w8c4k0g8.rule=Host(`argentatreuhand.travix.app`) && PathPrefix(`/`)
+traefik.http.routers.https-0-v4wwsg8w8ocww4s0w8c4k0g8.service=https-0-v4wwsg8w8ocww4s0w8c4k0g8
+traefik.http.routers.https-0-v4wwsg8w8ocww4s0w8c4k0g8.tls.certresolver=letsencrypt
+traefik.http.routers.https-0-v4wwsg8w8ocww4s0w8c4k0g8.tls=true
+traefik.http.services.http-0-v4wwsg8w8ocww4s0w8c4k0g8.loadbalancer.server.port=4321
+traefik.http.services.https-0-v4wwsg8w8ocww4s0w8c4k0g8.loadbalancer.server.port=4321
+

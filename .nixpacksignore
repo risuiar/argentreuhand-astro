@@ -1,0 +1,13 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+README.md
+.env
+.env.local
+.env.production
+.astro
+dist
+.DS_Store
+*.log
+src/pages/api/debug-strapi.ts
