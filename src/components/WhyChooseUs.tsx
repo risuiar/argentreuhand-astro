@@ -93,11 +93,7 @@ export default function WhyChooseUs({
               ) || []
             }
             photo={
-              whyChooseUsData.founder.image?.url
-                ? `${import.meta.env.VITE_CMS_URL}${
-                    whyChooseUsData.founder.image.url
-                  }`
-                : ""
+              whyChooseUsData.founder.image?.url || ""
             }
             lang={lang}
           />

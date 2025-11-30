@@ -147,8 +147,6 @@ export async function findCorrespondingBlogPost(
 }
 
 export function transformBlogPost(post: any): BlogPostData {
-  const baseUrl = import.meta.env.VITE_CMS_URL;
-
   // Try to get featured image from image1 or image2
   let featuredImage = undefined;
   let featuredImageLarge = undefined;
@@ -160,15 +158,15 @@ export function transformBlogPost(post: any): BlogPostData {
 
     if (img1) {
       if (img1.formats?.thumbnail?.url) {
-        featuredImage = `${baseUrl}${img1.formats.thumbnail.url}`;
+        featuredImage = img1.formats.thumbnail.url;
       } else if (img1.url) {
-        featuredImage = `${baseUrl}${img1.url}`;
+        featuredImage = img1.url;
       }
 
       if (img1.formats?.large?.url) {
-        featuredImageLarge = `${baseUrl}${img1.formats.large.url}`;
+        featuredImageLarge = img1.formats.large.url;
       } else if (img1.url) {
-        featuredImageLarge = `${baseUrl}${img1.url}`;
+        featuredImageLarge = img1.url;
       }
     }
   }
@@ -179,15 +177,15 @@ export function transformBlogPost(post: any): BlogPostData {
 
     if (img2) {
       if (img2.formats?.thumbnail?.url) {
-        featuredImage = `${baseUrl}${img2.formats.thumbnail.url}`;
+        featuredImage = img2.formats.thumbnail.url;
       } else if (img2.url) {
-        featuredImage = `${baseUrl}${img2.url}`;
+        featuredImage = img2.url;
       }
 
       if (img2.formats?.large?.url) {
-        featuredImageLarge = `${baseUrl}${img2.formats.large.url}`;
+        featuredImageLarge = img2.formats.large.url;
       } else if (img2.url) {
-        featuredImageLarge = `${baseUrl}${img2.url}`;
+        featuredImageLarge = img2.url;
       }
     }
   }
@@ -198,9 +196,9 @@ export function transformBlogPost(post: any): BlogPostData {
 
     if (img2) {
       if (img2.formats?.large?.url) {
-        image2 = `${baseUrl}${img2.formats.large.url}`;
+        image2 = img2.formats.large.url;
       } else if (img2.url) {
-        image2 = `${baseUrl}${img2.url}`;
+        image2 = img2.url;
       }
     }
   }

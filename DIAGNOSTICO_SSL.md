@@ -103,3 +103,5 @@ Si necesitas que funcione urgentemente, puedes:
 2. Acceder solo por HTTP hasta resolver el SSL
 3. O usar un certificado SSL manual si Coolify no lo genera
 
+
+

@@ -105,7 +105,7 @@ export default function ImageCarousel({
                     <div className="relative h-96 md:h-[500px]">
                       {imageUrl ? (
                         <img
-                          src={`${import.meta.env.VITE_CMS_URL}${imageUrl}`}
+                          src={imageUrl}
                           alt={slideImage?.alternativeText || slide.title}
                           className="w-full h-full object-cover"
                           loading="lazy"
