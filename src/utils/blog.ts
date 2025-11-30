@@ -147,61 +147,26 @@ export async function findCorrespondingBlogPost(
 }
 
 export function transformBlogPost(post: any): BlogPostData {
-  // Try to get featured image from image1 or image2
-  let featuredImage = undefined;
-  let featuredImageLarge = undefined;
-  let image2 = undefined;
+  // Helper to extract image object
+  const extractImageObject = (img: any) => {
+    if (!img) return undefined;
+    return {
+      id: img.id,
+      url: img.url,
+      width: img.width,
+      height: img.height,
+      alternativeText: img.alternativeText,
+      caption: img.caption,
+      formats: img.formats || null,
+    };
+  };
 
-  // Check image1 first (can be object or array)
-  if (post.image1) {
-    const img1 = Array.isArray(post.image1) ? post.image1[0] : post.image1;
+  // Get images (can be object or array)
+  const img1 = post.image1 ? (Array.isArray(post.image1) ? post.image1[0] : post.image1) : null;
+  const img2 = post.image2 ? (Array.isArray(post.image2) ? post.image2[0] : post.image2) : null;
 
-    if (img1) {
-      if (img1.formats?.thumbnail?.url) {
-        featuredImage = img1.formats.thumbnail.url;
-      } else if (img1.url) {
-        featuredImage = img1.url;
-      }
-
-      if (img1.formats?.large?.url) {
-        featuredImageLarge = img1.formats.large.url;
-      } else if (img1.url) {
-        featuredImageLarge = img1.url;
-      }
-    }
-  }
-
-  // If no image1, try image2
-  if (!featuredImage && post.image2) {
-    const img2 = Array.isArray(post.image2) ? post.image2[0] : post.image2;
-
-    if (img2) {
-      if (img2.formats?.thumbnail?.url) {
-        featuredImage = img2.formats.thumbnail.url;
-      } else if (img2.url) {
-        featuredImage = img2.url;
-      }
-
-      if (img2.formats?.large?.url) {
-        featuredImageLarge = img2.formats.large.url;
-      } else if (img2.url) {
-        featuredImageLarge = img2.url;
-      }
-    }
-  }
-
-  // Set image2 separately
-  if (post.image2) {
-    const img2 = Array.isArray(post.image2) ? post.image2[0] : post.image2;
-
-    if (img2) {
-      if (img2.formats?.large?.url) {
-        image2 = img2.formats.large.url;
-      } else if (img2.url) {
-        image2 = img2.url;
-      }
-    }
-  }
+  const featuredImage = extractImageObject(img1 || img2);
+  const image2 = extractImageObject(img2);
 
   return {
     id: post.id,
@@ -218,7 +183,6 @@ export function transformBlogPost(post: any): BlogPostData {
     updatedAt: post.updatedAt,
     createdAt: post.createdAt,
     featuredImage,
-    featuredImageLarge,
     image2,
     author: undefined,
     tags: [],

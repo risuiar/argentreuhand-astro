@@ -64,6 +64,22 @@ export interface BlogResponse {
   };
 }
 
+export interface StrapiImageObject {
+  id?: number;
+  url: string;
+  width?: number;
+  height?: number;
+  alternativeText?: string;
+  caption?: string;
+  formats?: {
+    thumbnail?: { url: string; width: number; height: number };
+    small?: { url: string; width: number; height: number };
+    medium?: { url: string; width: number; height: number };
+    large?: { url: string; width: number; height: number };
+    [key: string]: { url: string; width: number; height: number } | undefined;
+  } | null;
+}
+
 export interface BlogPostData {
   id: number;
   documentId: string;
@@ -74,9 +90,8 @@ export interface BlogPostData {
   publishedAt: string;
   updatedAt: string;
   createdAt: string;
-  featuredImage?: string;
-  featuredImageLarge?: string;
-  image2?: string;
+  featuredImage?: StrapiImageObject;
+  image2?: StrapiImageObject;
   author?: string;
   tags?: string[];
 }

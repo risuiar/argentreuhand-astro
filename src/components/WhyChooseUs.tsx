@@ -1,5 +1,6 @@
 import { Award, Clock, Users, Zap, Shield, HeartHandshake } from "lucide-react";
 import Founder from "./Founder";
+import type { StrapiImage } from "../utils/imageHelpers";
 
 interface WhyPoint {
   id: number;
@@ -26,9 +27,7 @@ interface WhyChooseUsData {
     founder_credential?: {
       credential: string;
     }[];
-    image?: {
-      url: string;
-    };
+    image?: StrapiImage;
   };
 }
 
@@ -92,9 +91,7 @@ export default function WhyChooseUs({
                 (c) => c.credential
               ) || []
             }
-            photo={
-              whyChooseUsData.founder.image?.url || ""
-            }
+            photo={whyChooseUsData.founder.image || null}
             lang={lang}
           />
         )}

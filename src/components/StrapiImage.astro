@@ -1,0 +1,113 @@
+---
+/**
+ * StrapiImage.astro
+ *
+ * Componente optimizado para renderizar imágenes de Strapi v4/v5
+ * Utiliza srcset dinámico basado en los formats que Strapi ya procesó
+ * Evita doble procesamiento al no usar el optimizador de imágenes de Astro
+ */
+
+interface StrapiImageFormat {
+  url: string;
+  width: number;
+  height: number;
+}
+
+interface StrapiImageFormats {
+  thumbnail?: StrapiImageFormat;
+  small?: StrapiImageFormat;
+  medium?: StrapiImageFormat;
+  large?: StrapiImageFormat;
+  [key: string]: StrapiImageFormat | undefined;
+}
+
+interface StrapiImage {
+  url: string;
+  width?: number;
+  height?: number;
+  alternativeText?: string;
+  caption?: string;
+  formats?: StrapiImageFormats | null;
+}
+
+interface Props {
+  image: StrapiImage | StrapiImage[] | null | undefined;
+  sizes?: string;
+  class?: string;
+  loading?: "lazy" | "eager";
+  decoding?: "async" | "auto" | "sync";
+}
+
+const {
+  image,
+  sizes = "100vw",
+  class: className = "",
+  loading = "lazy",
+  decoding = "async",
+} = Astro.props;
+
+// Manejar array de imágenes (tomar la primera)
+const imageData: StrapiImage | null = Array.isArray(image)
+  ? image[0] || null
+  : image || null;
+
+// Si no hay imagen, no renderizar nada
+if (!imageData || !imageData.url) {
+  return null;
+}
+
+// Construir srcset dinámicamente desde formats
+let srcset: string | undefined = undefined;
+
+if (imageData.formats && typeof imageData.formats === "object") {
+  const srcsetParts: string[] = [];
+
+  // Orden de preferencia para los formatos (de menor a mayor)
+  const formatOrder = ["thumbnail", "small", "medium", "large"];
+
+  // Agregar formatos en orden
+  for (const formatKey of formatOrder) {
+    const format = imageData.formats[formatKey];
+    if (format && format.url && format.width) {
+      srcsetParts.push(`${format.url} ${format.width}w`);
+    }
+  }
+
+  // Agregar cualquier otro formato que no esté en la lista
+  for (const [key, format] of Object.entries(imageData.formats)) {
+    if (!formatOrder.includes(key) && format && format.url && format.width) {
+      srcsetParts.push(`${format.url} ${format.width}w`);
+    }
+  }
+
+  // Si hay formatos disponibles, crear el srcset
+  if (srcsetParts.length > 0) {
+    // Incluir siempre la imagen original al final del srcset como respaldo
+    if (imageData.width) {
+      srcsetParts.push(`${imageData.url} ${imageData.width}w`);
+    } else {
+      // Si no hay width, agregar sin descriptor
+      srcsetParts.push(imageData.url);
+    }
+    srcset = srcsetParts.join(", ");
+  }
+}
+
+// Si no hay srcset (ej. SVGs sin formats), usar solo src
+const src = imageData.url;
+const alt = imageData.alternativeText || imageData.caption || "";
+const width = imageData.width;
+const height = imageData.height;
+---
+
+<img
+  src={src}
+  srcset={srcset}
+  sizes={srcset ? sizes : undefined}
+  alt={alt}
+  width={width}
+  height={height}
+  loading={loading}
+  decoding={decoding}
+  class={className}
+/>

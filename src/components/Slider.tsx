@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { buildSrcset, getImageData, type StrapiImage } from "../utils/imageHelpers";
 
 interface SlideImage {
   id: number;
@@ -96,19 +97,24 @@ export default function ImageCarousel({
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
               {slides.map((slide) => {
-                const slideImage = slide.image?.[0];
-                const imageUrl =
-                  slideImage?.formats?.large?.url || slideImage?.url;
+                const slideImage = slide.image?.[0] as StrapiImage | undefined;
+                const imageData = getImageData(slideImage);
+                const srcset = buildSrcset(slideImage);
 
                 return (
                   <div key={slide.id} className="w-full flex-shrink-0 relative">
                     <div className="relative h-96 md:h-[500px]">
-                      {imageUrl ? (
+                      {imageData ? (
                         <img
-                          src={imageUrl}
-                          alt={slideImage?.alternativeText || slide.title}
+                          src={imageData.url}
+                          srcSet={srcset}
+                          sizes="100vw"
+                          alt={imageData.alternativeText || slide.title}
+                          width={imageData.width}
+                          height={imageData.height}
                           className="w-full h-full object-cover"
                           loading="lazy"
+                          decoding="async"
                         />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-r from-blue-900 to-blue-700" />

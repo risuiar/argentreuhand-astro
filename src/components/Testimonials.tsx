@@ -1,17 +1,12 @@
 import { Star, Quote } from "lucide-react";
+import { buildSrcset, getImageData, type StrapiImage } from "../utils/imageHelpers";
 
 interface TestimonialItem {
   id: number;
   name: string;
   position: string;
   quote: string;
-  photo: {
-    id: number;
-    url: string;
-    width: number;
-    height: number;
-    alternativeText?: string;
-  } | null;
+  photo: StrapiImage | null;
 }
 
 interface TestimonialsData {
@@ -53,13 +48,24 @@ export default function Testimonials({
               </div>
 
               <div className="flex items-center mb-6">
-                {testimonial.photo ? (
-                  <img
-                    src={testimonial.photo.url}
-                    alt={testimonial.name}
-                    className="w-16 h-16 rounded-full object-cover mr-4"
-                  />
-                ) : (
+                {testimonial.photo ? (() => {
+                  const photoData = getImageData(testimonial.photo);
+                  if (!photoData) return null;
+                  const srcset = buildSrcset(testimonial.photo);
+                  return (
+                    <img
+                      src={photoData.url}
+                      srcSet={srcset}
+                      sizes="64px"
+                      alt={photoData.alternativeText || testimonial.name}
+                      width={photoData.width}
+                      height={photoData.height}
+                      className="w-16 h-16 rounded-full object-cover mr-4"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  );
+                })() : (
                   <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mr-4">
                     <span className="text-blue-600 font-bold text-lg">
                       {testimonial.name.charAt(0)}

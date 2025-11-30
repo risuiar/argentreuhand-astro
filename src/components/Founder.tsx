@@ -1,11 +1,12 @@
 import React from "react";
+import { buildSrcset, getImageData, type StrapiImage } from "../utils/imageHelpers";
 
 interface FounderProps {
   name: string;
   title: string;
   description: string;
   credentials: string[];
-  photo: string;
+  photo: StrapiImage | null;
   lang?: "es" | "de";
 }
 
@@ -24,11 +25,24 @@ const Founder: React.FC<FounderProps> = ({
           {/* Photo Section */}
           <div className="relative">
             <div className="aspect-square lg:aspect-auto lg:h-full relative overflow-hidden">
-              <img
-                src={photo}
-                alt={name}
-                className="w-full h-full object-cover object-center"
-              />
+              {photo ? (() => {
+                const photoData = getImageData(photo);
+                if (!photoData) return null;
+                const srcset = buildSrcset(photo);
+                return (
+                  <img
+                    src={photoData.url}
+                    srcSet={srcset}
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    alt={photoData.alternativeText || name}
+                    width={photoData.width}
+                    height={photoData.height}
+                    className="w-full h-full object-cover object-center"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                );
+              })() : null}
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent lg:hidden"></div>
             </div>
           </div>

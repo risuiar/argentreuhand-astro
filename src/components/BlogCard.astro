@@ -2,6 +2,7 @@
 import type { BlogPostData } from '../types/blog';
 import { formatDate, truncateText } from '../utils/blog';
 import { translations, getLocalizedLink } from '../lib/i18n';
+import StrapiImage from './StrapiImage.astro';
 
 interface Props {
   post: BlogPostData;
@@ -15,9 +16,9 @@ const t = translations[lang];
 <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
   {post.featuredImage && (
     <div class="aspect-video overflow-hidden">
-      <img
-        src={post.featuredImage}
-        alt={post.title}
+      <StrapiImage
+        image={post.featuredImage}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
       />
     </div>

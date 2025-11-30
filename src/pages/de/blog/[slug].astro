@@ -5,6 +5,7 @@ import Footer from '../../../components/Footer';
 import { fetchBlogPost, formatDate, fetchBlogPosts } from '../../../utils/blog';
 import type { BlogPostData } from '../../../types/blog';
 import { getLangFromUrl, translations } from '../../../lib/i18n';
+import StrapiImage from '../../../components/StrapiImage.astro';
 
 export async function getStaticPaths() {
   try {
@@ -95,11 +96,11 @@ const t = translations[lang];
             )}
           </header>
 
-          {post.featuredImageLarge && (
+          {post.featuredImage && (
             <div class="mb-8">
-              <img
-                src={post.featuredImageLarge}
-                alt={post.title}
+              <StrapiImage
+                image={post.featuredImage}
+                sizes="(max-width: 768px) 100vw, 800px"
                 class="w-full h-64 md:h-96 object-contain rounded-lg"
               />
             </div>
@@ -111,8 +112,9 @@ const t = translations[lang];
 
           {post.image2 && (
             <div class="mt-8">
-              <img
-                src={post.image2}
+              <StrapiImage
+                image={post.image2}
+                sizes="(max-width: 768px) 100vw, 800px"
                 alt={`${post.title} - Additional image`}
                 class="w-full h-64 md:h-96 object-contain rounded-lg"
               />
