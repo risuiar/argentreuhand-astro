@@ -19,13 +19,14 @@ export default function CalComBooking({ lang, translations }: CalComBookingProps
     })();
   }, []);
 
-  // Get the Cal.com link from environment variable or use default
-  const baseCalLink = import.meta.env.PUBLIC_CALCOM_LINK || "usuario-de-tu-amiga/consulta-30min";
-  const calLink = `${baseCalLink}?lang=${lang}`;
+  // Links hardcoded según el idioma
+  const calLink = lang === "de" 
+    ? "argentatreuhand/beratung"
+    : "argentatreuhand/consulta";
 
   return (
-    <div className="w-full max-w-7xl mx-auto">
-      <div className="mb-8 text-center">
+    <div className="w-full max-w-7xl mt-2 mx-auto">
+      <div className="text-center">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
           {lang === "de" ? "Beratung buchen" : "Reservar Consulta"}
         </h1>
@@ -36,10 +37,11 @@ export default function CalComBooking({ lang, translations }: CalComBookingProps
         </p>
       </div>
       
-      <div className="bg-white rounded-lg shadow-xl overflow-hidden">
+      <div className="rounded-lg shadow-xl overflow-hidden mt-4">
         <Cal
+          key={lang}
           calLink={calLink}
-          style={{ width: "100%", height: "700px", overflow: "auto" }}
+          style={{ width: "100%", overflow: "auto" }}
           config={{ layout: "month_view" }}
         />
       </div>
