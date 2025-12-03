@@ -41,10 +41,20 @@ export const POST: APIRoute = async ({ request }) => {
 
 export const GET: APIRoute = async () => {
   try {
+    console.log("🔄 Clear cache request received (GET)");
+
+    // Clear all cache
+    console.log("🧹 Clearing all cache");
+    clearHomeCache();
+
+    // Return cache status
     const status = getCacheStatus();
+    console.log("📊 Cache status after clearing:", status);
 
     return new Response(
       JSON.stringify({
+        success: true,
+        message: "Cache cleared successfully",
         cacheStatus: status,
       }),
       {
@@ -53,10 +63,16 @@ export const GET: APIRoute = async () => {
       }
     );
   } catch (error) {
-    console.error("Error getting cache status:", error);
-    return new Response(JSON.stringify({ error: "Internal server error" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    console.error("Error clearing cache:", error);
+    return new Response(
+      JSON.stringify({
+        error: "Internal server error",
+        message: error instanceof Error ? error.message : "Unknown error",
+      }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   }
 };
