@@ -20,7 +20,8 @@ export default function CalComBooking({ lang, translations }: CalComBookingProps
   }, []);
 
   // Get the Cal.com link from environment variable or use default
-  const calLink = import.meta.env.PUBLIC_CALCOM_LINK || "usuario-de-tu-amiga/consulta-30min";
+  const baseCalLink = import.meta.env.PUBLIC_CALCOM_LINK || "usuario-de-tu-amiga/consulta-30min";
+  const calLink = `${baseCalLink}?lang=${lang}`;
 
   return (
     <div className="w-full max-w-7xl mx-auto">
