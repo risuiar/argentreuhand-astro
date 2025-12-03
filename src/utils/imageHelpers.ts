@@ -79,3 +79,6 @@ export function getImageData(image: StrapiImage | StrapiImage[] | null | undefin
   return Array.isArray(image) ? image[0] || null : image || null;
 }
 
+
+
+
