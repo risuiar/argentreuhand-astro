@@ -1,11 +1,46 @@
 import tailwindcssAnimate from "tailwindcss-animate";
+import typography from "@tailwindcss/typography";
 
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ["class"],
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+  plugins: [
+    tailwindcssAnimate,
+    typography,
+  ],
   theme: {
     extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: '680px',
+            color: '#374151',
+            lineHeight: '1.8',
+            fontSize: '1.125rem',
+            'h2, h3': {
+              marginTop: '2.5rem',
+              color: '#111827',
+            },
+            'li': {
+              marginTop: '0.75rem',
+              marginBottom: '0.75rem',
+            },
+            'img': {
+              borderRadius: '12px',
+              boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+            },
+            blockquote: {
+              borderLeftColor: '#267272',
+              backgroundColor: '#f9fafb',
+              fontStyle: 'normal',
+              fontWeight: '400',
+              padding: '1rem',
+              borderRadius: '0 8px 8px 0',
+            },
+          },
+        },
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -78,5 +113,5 @@ export default {
       },
     },
   },
-  plugins: [tailwindcssAnimate],
 };
+
