@@ -10,11 +10,5 @@ export default defineConfig({
   adapter: node({
     mode: "standalone",
   }),
-  integrations: [
-    react(),
-    tailwind(),
-    sitemap({
-      filter: (page) => !page.includes("/api/"),
-    }),
-  ],
+  integrations: [react(), tailwind(), sitemap()],
 });
