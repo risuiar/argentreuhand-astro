@@ -1,21 +1,24 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
-import Header from '../../../components/Header.astro';
-import Footer from '../../../components/Footer';
-import { fetchBlogPost, formatDate, fetchBlogPosts } from '../../../utils/blog';
-import type { BlogPostData } from '../../../types/blog';
-import { getLangFromUrl, translations } from '../../../lib/i18n';
-import StrapiImage from '../../../components/StrapiImage.astro';
+import Layout from "../../../layouts/Layout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer";
+import { fetchBlogPost, formatDate, fetchBlogPosts } from "../../../utils/blog";
+import type { BlogPostData } from "../../../types/blog";
+import { getLangFromUrl, translations } from "../../../lib/i18n";
+import StrapiImage from "../../../components/StrapiImage.astro";
 
 export async function getStaticPaths() {
   try {
-    const response = await fetchBlogPosts('de', 1, 100); // Get all posts for static generation
+    const response = await fetchBlogPosts("de", 1, 100); // Get all posts for static generation
     return response.data.map((post: any) => ({
       params: { slug: post.documentId },
-      props: { post: post.documentId }
+      props: { post: post.documentId },
     }));
   } catch (error) {
-    console.error('Error generating static paths for German blog posts:', error);
+    console.error(
+      "Error generating static paths for German blog posts:",
+      error,
+    );
     return [];
   }
 }
@@ -26,120 +29,142 @@ let error = null;
 
 if (slug) {
   try {
-    post = await fetchBlogPost(slug, 'de');
+    post = await fetchBlogPost(slug, "de");
   } catch (err) {
-    error = err instanceof Error ? err.message : 'Unknown error occurred';
-    console.error('Error fetching blog post:', err);
+    error = err instanceof Error ? err.message : "Unknown error occurred";
+    console.error("Error fetching blog post:", err);
   }
 }
 
 if (!post && !error) {
-  return Astro.redirect('/de/blog');
+  return Astro.redirect("/de/blog");
 }
 
 const lang = getLangFromUrl(Astro.url);
 const t = translations[lang];
 ---
 
-<Layout title={post?.title || 'Blog Post'} lang="de">
+<Layout title={post?.title || "Blog Post"} lang="de">
   <Header />
 
   <main class="pt-32">
     <div class="container mx-auto px-4">
-      {error ? (
-        <div class="text-center py-12">
-          <div class="text-red-600 mb-4">
-            <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
-            </svg>
-            <p class="text-lg font-semibold">Fehler beim Laden des Blog-Beitrags</p>
-            <p class="text-sm text-gray-500 mt-2">{error}</p>
-          </div>
-          <a href="/de/blog" class="text-brand-teal hover:underline">
-            Zurück zum Blog
-          </a>
-        </div>
-      ) : post ? (
-        <article class="max-w-4xl mx-auto py-8">
-          <nav class="mb-8">
-            <a href="/de/blog" class="text-brand-teal hover:underline flex items-center">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      {
+        error ? (
+          <div class="text-center py-12">
+            <div class="text-red-600 mb-4">
+              <svg
+                class="w-16 h-16 mx-auto mb-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                />
               </svg>
+              <p class="text-lg font-semibold">
+                Fehler beim Laden des Blog-Beitrags
+              </p>
+              <p class="text-sm text-gray-500 mt-2">{error}</p>
+            </div>
+            <a href="/de/blog" class="text-brand-teal hover:underline">
               Zurück zum Blog
             </a>
-          </nav>
-
-          <header class="mb-8">
-            <h1 class="text-4xl font-bold text-gray-900 mb-4">{post.title}</h1>
-
-            <div class="flex items-center text-gray-600 mb-6">
-              <time datetime={post.publishedAt}>
-                {formatDate(post.publishedAt, 'de')}
-              </time>
-              {post.author && (
-                <>
-                  <span class="mx-2">•</span>
-                  <span>{post.author}</span>
-                </>
-              )}
-            </div>
-
-            {post.tags && post.tags.length > 0 && (
-              <div class="flex flex-wrap gap-2 mb-6">
-                {post.tags.map(tag => (
-                  <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
-          </header>
-
-          {post.featuredImage && (
-            <div class="mb-8">
-              <StrapiImage
-                image={post.featuredImage}
-                sizes="(max-width: 768px) 100vw, 800px"
-                class="w-full h-64 md:h-96 object-contain rounded-lg"
-              />
-            </div>
-          )}
-
-          <div class="prose prose-lg max-w-none">
-            <div set:html={post.content} />
           </div>
+        ) : post ? (
+          <article class="max-w-4xl mx-auto py-8">
+            <nav class="mb-8">
+              <a
+                href="/de/blog"
+                class="text-brand-teal hover:underline flex items-center"
+              >
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+                Zurück zum Blog
+              </a>
+            </nav>
 
-          {post.image2 && (
-            <div class="mt-8">
-              <StrapiImage
-                image={post.image2}
-                sizes="(max-width: 768px) 100vw, 800px"
-                alt={`${post.title} - Additional image`}
-                class="w-full h-64 md:h-96 object-contain rounded-lg"
-              />
-            </div>
-          )}
+            <header class="mb-8">
+              <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                {post.title}
+              </h1>
 
-          <footer class="mt-12 pt-8 border-t border-gray-200">
-            <div class="flex items-center justify-between">
-              <div class="text-sm text-gray-600">
-                <p>Veröffentlicht am {formatDate(post.publishedAt, 'de')}</p>
-                {post.updatedAt && post.updatedAt !== post.publishedAt && (
-                  <p>Aktualisiert am {formatDate(post.updatedAt, 'de')}</p>
+              <div class="flex items-center text-gray-600 mb-6">
+                <time datetime={post.customDate || post.publishedAt}>
+                  {formatDate(post.customDate || post.publishedAt, "de")}
+                </time>
+                {post.author && (
+                  <>
+                    <span class="mx-2">•</span>
+                    <span>{post.author}</span>
+                  </>
                 )}
               </div>
-              <a href="/de/blog" class="text-brand-teal hover:underline">
-                Alle Beiträge anzeigen
-              </a>
+
+              {post.tags && post.tags.length > 0 && (
+                <div class="flex flex-wrap gap-2 mb-6">
+                  {post.tags.map((tag) => (
+                    <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </header>
+
+            {post.featuredImage && (
+              <div class="mb-8">
+                <StrapiImage
+                  image={post.featuredImage}
+                  sizes="(max-width: 768px) 100vw, 800px"
+                  class="w-full h-64 md:h-96 object-contain rounded-lg"
+                />
+              </div>
+            )}
+
+            <div class="prose prose-lg max-w-none">
+              <div set:html={post.content} />
             </div>
-          </footer>
-        </article>
-      ) : null}
+
+            {post.image2 && (
+              <div class="mt-8">
+                <StrapiImage
+                  image={post.image2}
+                  sizes="(max-width: 768px) 100vw, 800px"
+                  class="w-full h-64 md:h-96 object-contain rounded-lg"
+                />
+              </div>
+            )}
+
+            <footer class="mt-12 pt-8 border-t border-gray-200">
+              <div class="flex items-center justify-end">
+                <a href="/de/blog" class="text-brand-teal hover:underline">
+                  Alle Beiträge anzeigen
+                </a>
+              </div>
+            </footer>
+          </article>
+        ) : null
+      }
     </div>
   </main>
 
-  	<Footer lang={lang} />
+  <Footer lang={lang} />
 </Layout>
 
 <style>
@@ -168,7 +193,8 @@ const t = translations[lang];
     margin-bottom: 1.25rem;
   }
 
-  .prose ul, .prose ol {
+  .prose ul,
+  .prose ol {
     margin-bottom: 1.25rem;
     padding-left: 1.5rem;
   }

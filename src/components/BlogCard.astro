@@ -1,71 +1,93 @@
 ---
-import type { BlogPostData } from '../types/blog';
-import { formatDate, truncateText } from '../utils/blog';
-import { translations, getLocalizedLink } from '../lib/i18n';
-import StrapiImage from './StrapiImage.astro';
+import type { BlogPostData } from "../types/blog";
+import { formatDate, truncateText } from "../utils/blog";
+import { translations, getLocalizedLink } from "../lib/i18n";
+import StrapiImage from "./StrapiImage.astro";
 
 interface Props {
   post: BlogPostData;
-  lang: 'de' | 'es';
+  lang: "de" | "es";
 }
 
 const { post, lang } = Astro.props;
 const t = translations[lang];
 ---
 
-<article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-  {post.featuredImage && (
-    <div class="aspect-video overflow-hidden">
-      <StrapiImage
-        image={post.featuredImage}
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-      />
-    </div>
-  )}
+<article
+  class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+>
+  {
+    post.featuredImage && (
+      <div class="aspect-video overflow-hidden">
+        <StrapiImage
+          image={post.featuredImage}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+        />
+      </div>
+    )
+  }
 
   <div class="p-6">
     <div class="flex items-center text-sm text-gray-500 mb-3">
-      <time datetime={post.publishedAt}>
-        {formatDate(post.publishedAt, lang)}
+      <time datetime={post.customDate || post.publishedAt}>
+        {formatDate(post.customDate || post.publishedAt, lang)}
       </time>
-      {post.author && (
-        <>
-          <span class="mx-2">•</span>
-          <span>{post.author}</span>
-        </>
-      )}
+      {
+        post.author && (
+          <>
+            <span class="mx-2">•</span>
+            <span>{post.author}</span>
+          </>
+        )
+      }
     </div>
 
     <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
-      <a href={getLocalizedLink(`/blog/${post.documentId}`, lang)} class="hover:text-brand-teal transition-colors">
+      <a
+        href={getLocalizedLink(`/blog/${post.documentId}`, lang)}
+        class="hover:text-brand-teal transition-colors"
+      >
         {post.title}
       </a>
     </h3>
 
-    {post.excerpt && (
-      <p class="text-gray-600 mb-4 line-clamp-3">
-        {truncateText(post.excerpt, 120)}
-      </p>
-    )}
+    {
+      post.excerpt && (
+        <p class="text-gray-600 mb-4 line-clamp-3">
+          {truncateText(post.excerpt, 120)}
+        </p>
+      )
+    }
 
-    {post.tags && post.tags.length > 0 && (
-      <div class="flex flex-wrap gap-2 mb-4">
-        {post.tags.slice(0, 3).map(tag => (
-          <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
-            {tag}
-          </span>
-        ))}
-      </div>
-    )}
+    {
+      post.tags && post.tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mb-4">
+          {post.tags.slice(0, 3).map((tag) => (
+            <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )
+    }
 
     <a
       href={getLocalizedLink(`/blog/${post.documentId}`, lang)}
       class="inline-flex items-center text-brand-teal hover:text-brand-teal/80 font-medium transition-colors"
     >
       {t.blog.readMore}
-      <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      <svg
+        class="w-4 h-4 ml-1"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"></path>
       </svg>
     </a>
   </div>

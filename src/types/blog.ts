@@ -4,6 +4,7 @@ export interface BlogPost {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
+  customDate?: string;
   locale: string;
   title: string;
   description?: any[];
@@ -88,6 +89,7 @@ export interface BlogPostData {
   excerpt?: string;
   slug: string;
   publishedAt: string;
+  customDate?: string;
   updatedAt: string;
   createdAt: string;
   featuredImage?: StrapiImageObject;

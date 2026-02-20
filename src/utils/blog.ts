@@ -23,7 +23,7 @@ export async function fetchBlogPosts(
     throw new Error("CMS_BEARER_TOKEN environment variable is not set");
   }
 
-  const url = `${CMS_API_URL}/arg-blogs/?filters[locale][$eq]=${locale}&sort=publishedAt:desc&pagination[page]=${page}&pagination[pageSize]=${pageSize}&populate[0]=image1&populate[1]=image2`;
+  const url = `${CMS_API_URL}/arg-blogs/?filters[locale][$eq]=${locale}&sort=customDate:desc&pagination[page]=${page}&pagination[pageSize]=${pageSize}&populate[0]=image1&populate[1]=image2`;
 
   const response = await fetch(url, {
     headers: {
@@ -180,6 +180,7 @@ export function transformBlogPost(post: any): BlogPostData {
       stripHtmlTags(post.description || ""),
     slug: post.documentId,
     publishedAt: post.publishedAt,
+    customDate: post.customDate,
     updatedAt: post.updatedAt,
     createdAt: post.createdAt,
     featuredImage,
