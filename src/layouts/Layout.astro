@@ -1,43 +1,108 @@
 ---
 interface Props {
-	title: string;
-	lang?: string;
-	description?: string;
+  title: string;
+  lang?: string;
+  description?: string;
+  image?: string;
+  canonicalURL?: string;
 }
 
-const { title, lang = "es", description: customDescription } = Astro.props;
-const description = customDescription || {
-	es: "Argenta Treuhand - Expertos en impuestos, contabilidad y asesoría empresarial en Zúrich. Personalizados, confiables y eficientes para autónomos y pymes",
-	de: "Argenta Treuhand – Ihre Experten für Steuern, Buchhaltung und Unternehmensberatung in Zürich. Persönlich, zuverlässig und effizient für Selbständige und KMU.",
+const {
+  title,
+  lang = "es",
+  description: customDescription,
+  image = "/apple-touch-icon.png",
+  canonicalURL,
+} = Astro.props;
+
+const siteUrl = "https://argentatreuhand.com";
+const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+const canonical = canonicalURL || currentUrl;
+
+const descriptions = {
+  es: "Argenta Treuhand - Expertos en impuestos, contabilidad y asesoría empresarial en Zúrich. Personalizados, confiables y eficientes para autónomos y pymes",
+  de: "Argenta Treuhand – Ihre Experten für Steuern, Buchhaltung und Unternehmensberatung in Zürich. Persönlich, zuverlässig und effizient für Selbständige und KMU.",
 };
+
+const metaDescription =
+  customDescription || descriptions[lang] || descriptions.es;
+
+// Generate alternating language links
+// Note: This assumes simple path-based localization where /de/... maps to /...
+const alternateLangLinks = [
+  {
+    lang: "es",
+    href: new URL(Astro.url.pathname.replace(/^\/de/, "") || "/", siteUrl).href,
+  },
+  {
+    lang: "de",
+    href: new URL(
+      "/de" + (Astro.url.pathname.replace(/^\/de/, "") || "/"),
+      siteUrl,
+    ).href,
+  },
+];
 ---
 
 <!doctype html>
 <html lang={lang}>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content={typeof description === 'string' ? description : description[lang]} />
-		<meta name="keywords" content="Argenta Treuhand, Impuestos, Contabilidad, Asesoría Empresarial, Zúrich, Autónomos, Pymes" />
-		<meta name="author" content="Ricardo Vögeli - hello@travix.app" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
-		<meta name="robots" content="noindex, nofollow" />
+  <head>
+    <meta charset="UTF-8" />
+    <title>{title}</title>
+    <meta name="description" content={metaDescription} />
+    <meta
+      name="keywords"
+      content="Argenta Treuhand, Impuestos, Contabilidad, Asesoría Empresarial, Zúrich, Autónomos, Pymes, Steuern, Buchhaltung, Treuhand, Zürich"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="author" content="Argenta Treuhand" />
 
-		<!-- Favicons and App Icons -->
-		<link rel="icon" type="image/x-icon" href="/favicon.ico">
-		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-		<link rel="manifest" href="/site.webmanifest">
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
 
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+    {
+      alternateLangLinks.map((link) => (
+        <link rel="alternate" hreflang={link.lang} href={link.href} />
+      ))
+    }
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={alternateLangLinks.find((l) => l.lang === "es").href}
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:image" content={new URL(image, siteUrl)} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonical} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={metaDescription} />
+    <meta property="twitter:image" content={new URL(image, siteUrl)} />
+
+    <!-- Favicons and App Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>
 
 <style is:global>
-	@import '../styles/globals.css';
+  @import "../styles/globals.css";
 </style>
