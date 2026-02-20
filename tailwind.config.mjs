@@ -18,21 +18,34 @@ export default {
             color: '#374151',
             lineHeight: '1.8',
             fontSize: '1.125rem',
+            p: {
+              marginTop: '1.25rem',
+              marginBottom: '1.25rem',
+            },
             'h2, h3': {
-              marginTop: '2.5rem',
+              marginTop: '2rem',
+              marginBottom: '1rem',
               color: '#111827',
             },
+            'ul, ol': {
+              marginTop: '1.25rem',
+              marginBottom: '1.25rem',
+            },
             'li': {
-              marginTop: '0.75rem',
-              marginBottom: '0.75rem',
+              marginTop: '0.4rem',
+              marginBottom: '0.4rem',
             },
             'img': {
               borderRadius: '12px',
+              marginTop: '2rem',
+              marginBottom: '2rem',
               boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
             },
             blockquote: {
               borderLeftColor: '#267272',
               backgroundColor: '#f9fafb',
+              marginTop: '1.5rem',
+              marginBottom: '1.5rem',
               fontStyle: 'normal',
               fontWeight: '400',
               padding: '1rem',

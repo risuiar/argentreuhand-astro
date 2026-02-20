@@ -47,7 +47,7 @@ const t = translations[lang];
 <Layout title={post?.title || "Blog Post"} lang="de">
   <Header />
 
-  <main class="pt-32">
+  <main class="pt-24 md:pt-28">
     <div class="container mx-auto px-4">
       {
         error ? (
@@ -76,7 +76,7 @@ const t = translations[lang];
             </a>
           </div>
         ) : post ? (
-          <article class="max-w-4xl mx-auto py-8">
+          <article class="max-w-[680px] mx-auto pt-4 pb-8">
             <nav class="mb-8">
               <a
                 href="/de/blog"
@@ -128,32 +128,35 @@ const t = translations[lang];
             </header>
 
             {post.featuredImage && (
-              <div class="mb-8">
+              <div class="mb-8 mx-auto max-w-[680px]">
                 <StrapiImage
                   image={post.featuredImage}
                   sizes="(max-width: 768px) 100vw, 800px"
-                  class="w-full h-64 md:h-96 object-contain rounded-lg"
+                  class="w-full h-auto object-contain rounded-xl shadow-md"
                 />
               </div>
             )}
 
-            <div class="prose prose-lg max-w-none">
+            <div class="prose prose-slate mx-auto">
               <div set:html={post.content} />
             </div>
 
             {post.image2 && (
-              <div class="mt-8">
+              <div class="mt-12 mx-auto max-w-[680px]">
                 <StrapiImage
                   image={post.image2}
                   sizes="(max-width: 768px) 100vw, 800px"
-                  class="w-full h-64 md:h-96 object-contain rounded-lg"
+                  class="w-full h-auto object-contain rounded-xl shadow-md"
                 />
               </div>
             )}
 
-            <footer class="mt-12 pt-8 border-t border-gray-200">
+            <footer class="mt-12 pt-8 border-t border-gray-200 mx-auto max-w-[680px]">
               <div class="flex items-center justify-end">
-                <a href="/de/blog" class="text-brand-teal hover:underline">
+                <a
+                  href="/de/blog"
+                  class="text-brand-teal hover:underline font-medium"
+                >
                   Alle Beiträge anzeigen
                 </a>
               </div>
@@ -167,56 +170,24 @@ const t = translations[lang];
   <Footer lang={lang} />
 </Layout>
 
-<style>
+<style is:global>
+  /* Personalización adicional para UX Writing */
   .prose {
-    color: #374151;
-    line-height: 1.75;
+    text-align: left;
   }
 
-  .prose h2 {
-    font-size: 1.875rem;
-    font-weight: 700;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    color: #111827;
+  .prose img {
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .prose h3 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
-    color: #111827;
-  }
-
-  .prose p {
-    margin-bottom: 1.25rem;
-  }
-
-  .prose ul,
-  .prose ol {
-    margin-bottom: 1.25rem;
-    padding-left: 1.5rem;
-  }
-
-  .prose li {
-    margin-bottom: 0.5rem;
-  }
-
-  .prose blockquote {
+  .special-note {
     border-left: 4px solid #267272;
-    padding-left: 1rem;
-    margin: 1.5rem 0;
-    font-style: italic;
-    color: #6b7280;
-  }
-
-  .prose a {
-    color: #267272;
-    text-decoration: underline;
-  }
-
-  .prose a:hover {
-    color: #1f5f5f;
+    background-color: #f9fafb;
+    padding: 1.25rem;
+    margin: 2rem 0;
+    border-radius: 0 12px 12px 0;
+    font-size: 1.125rem;
+    color: #374151;
   }
 </style>

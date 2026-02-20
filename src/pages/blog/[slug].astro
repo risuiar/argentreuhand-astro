@@ -44,7 +44,7 @@ const t = translations[lang];
 <Layout title={post?.title || "Blog Post"} lang="es">
   <Header />
 
-  <main class="pt-32">
+  <main class="pt-24 md:pt-28">
     <div class="container mx-auto px-4">
       {
         error ? (
@@ -73,7 +73,7 @@ const t = translations[lang];
             </a>
           </div>
         ) : post ? (
-          <article class="max-w-[680px] mx-auto py-8">
+          <article class="max-w-[680px] mx-auto pt-4 pb-8">
             <nav class="mb-8">
               <a
                 href="/blog"
@@ -125,16 +125,16 @@ const t = translations[lang];
             </header>
 
             {post.featuredImage && (
-              <div class="mb-8">
+              <div class="mb-8 mx-auto max-w-[680px]">
                 <StrapiImage
                   image={post.featuredImage}
                   sizes="(max-width: 768px) 100vw, 800px"
-                  class="w-full h-64 md:h-96 object-contain rounded-lg"
+                  class="w-full h-auto object-contain rounded-xl shadow-md"
                 />
               </div>
             )}
 
-            <div class="prose prose-slate prose-lg mx-auto">
+            <div class="prose prose-slate mx-auto">
               <div set:html={post.content} />
             </div>
 

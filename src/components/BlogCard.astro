@@ -18,13 +18,16 @@ const t = translations[lang];
 >
   {
     post.featuredImage && (
-      <div class="aspect-video overflow-hidden">
+      <a
+        href={getLocalizedLink(`/blog/${post.documentId}`, lang)}
+        class="block aspect-video overflow-hidden"
+      >
         <StrapiImage
           image={post.featuredImage}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
         />
-      </div>
+      </a>
     )
   }
 

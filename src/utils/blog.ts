@@ -174,7 +174,8 @@ export function transformBlogPost(post: any): BlogPostData {
     title: post.title,
     content:
       convertToHtml(post.body || []) ||
-      (post.Content1 || "") + (post.Content2 ? "\n\n" + post.Content2 : ""),
+      convertToHtml(post.description || []) ||
+      ((post.Content1 || "") + (post.Content2 ? "\n\n" + post.Content2 : "")).replace(/\n/g, "<br>"),
     excerpt:
       stripHtmlTags(convertToHtml(post.description || [])) ||
       stripHtmlTags(post.description || ""),
@@ -191,23 +192,50 @@ export function transformBlogPost(post: any): BlogPostData {
 }
 
 function convertToHtml(content: any[]): string {
-  if (!Array.isArray(content)) return "";
+  if (!Array.isArray(content) || content.length === 0) return "";
 
   return content
     .map((block) => {
-      if (block.type === "paragraph") {
-        const text =
-          block.children
-            ?.map((child: any) => {
-              if (child.bold) {
-                return `<strong>${child.text}</strong>`;
-              }
-              return child.text || "";
-            })
-            .join("") || "";
-        return `<p>${text}</p>`;
+      const renderChildren = (children: any[]) => {
+        return children
+          ?.map((child: any) => {
+            let text = child.text || "";
+            if (child.bold) text = `<strong>${text}</strong>`;
+            if (child.italic) text = `<em>${text}</em>`;
+            if (child.underline) text = `<u>${text}</u>`;
+            if (child.strikethrough) text = `<del>${text}</del>`;
+            if (child.code) text = `<code>${text}</code>`;
+            return text;
+          })
+          .join("") || "";
+      };
+
+      switch (block.type) {
+        case "paragraph":
+          const childrenContent = renderChildren(block.children);
+          if (!childrenContent) return "";
+          return `<p>${childrenContent}</p>`;
+        case "heading":
+          const level = block.level || 1;
+          const headingContent = renderChildren(block.children);
+          if (!headingContent) return "";
+          return `<h${level}>${headingContent}</h${level}>`;
+        case "list":
+          const tag = block.format === "ordered" ? "ol" : "ul";
+          const listItems = block.children?.map((li: any) => `<li>${renderChildren(li.children)}</li>`).join("");
+          if (!listItems) return "";
+          return `<${tag}>${listItems}</${tag}>`;
+        case "quote":
+          const quoteContent = renderChildren(block.children);
+          if (!quoteContent) return "";
+          return `<blockquote>${quoteContent}</blockquote>`;
+        case "code":
+          const codeContent = renderChildren(block.children);
+          if (!codeContent) return "";
+          return `<pre><code>${codeContent}</code></pre>`;
+        default:
+          return "";
       }
-      return "";
     })
     .join("");
 }
