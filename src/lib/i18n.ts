@@ -16,8 +16,8 @@ export const translations = {
       blog: "Blog",
       contacto: "Contacto",
     },
-    cta: "Primeros 15 min gratis",
-    ctaSubtext: "Luego 150 CHF/hora",
+    cta: "Consulta Online",
+    ctaSubtext: "Asesoría profesional",
     location: "Zurich, Suiza",
     phone: "+41 76 510 03 80",
     email: "info@argentatreuhand.com",
@@ -189,7 +189,7 @@ export const translations = {
     // Contact
     contact: {
       title: "Contáctanos",
-      subtitle: "Estamos aquí para ayudarte. Consulta gratuita sin compromiso.",
+      subtitle: "Estamos aquí para ayudarte. Consulta profesional sin compromiso.",
       info: {
         title: "Información de Contacto",
         phone: "Teléfono",
@@ -298,9 +298,9 @@ export const translations = {
           accounting: "Contabilidad",
           other: "Otros",
         },
-        continue: "Reservar Consulta Gratuita",
+        continue: "Reservar Consulta Online",
         disclaimer:
-          "Al reservar, aceptas nuestros términos de servicio y política de privacidad. Los primeros 15 minutos son completamente gratuitos. Consultas adicionales: 150 CHF/hora.",
+          "Al reservar, aceptas nuestros términos de servicio y política de privacidad. Consulta profesional personalizada.",
       },
       includes: {
         title: "¿Qué incluye tu primera consulta gratuita?",
@@ -320,20 +320,20 @@ export const translations = {
       info: {
         title: "Información importante",
         items: [
-          "Primera consulta: 15 minutos gratuitos",
-          "Consultas adicionales: 150 CHF/hora",
+          "Duración: 60 minutos",
+          "Consultas adicionales según requirimientos",
           "Modalidad: Presencial u online",
           "Horario: Lunes a Viernes 9:00 - 18:00",
           "Confirmación inmediata por email",
         ],
       },
       confirmation: {
-        title: "¡Consulta Gratuita Reservada!",
-        title_de: "¡Kostenlose Beratung gebucht!",
+        title: "¡Consulta Online Reservada!",
+        title_de: "¡Online Beratung gebucht!",
         message:
-          "Tu consulta gratuita de 15 minutos ha sido confirmada. Te enviaremos un email de confirmación en breve.",
+          "Tu consulta online ha sido confirmada. Te enviaremos un email de confirmación en breve.",
         message_de:
-          "Ihre kostenlose 15-minütige Erstberatung wurde bestätigt. Sie erhalten in Kürze eine Bestätigungs-E-Mail.",
+          "Ihre Online Beratung wurde bestätigt. Sie erhalten in Kürze eine Bestätigungs-E-Mail.",
         details: "Detalles de tu consulta:",
         details_de: "Details Ihrer Beratung:",
         date: "Fecha:",
@@ -348,8 +348,8 @@ export const translations = {
         email_de: "E-Mail:",
         price: "Precio:",
         price_de: "Preis:",
-        free: "GRATIS (15 min)",
-        free_de: "KOSTENLOS (15 Min)",
+        free: "Consulta Online",
+        free_de: "Online Beratung",
         bookAnother: "Reservar Otra Consulta",
         bookAnother_de: "Weitere Beratung buchen",
         errorPayment:
@@ -383,7 +383,7 @@ export const translations = {
     notFound: {
       title: "Página no encontrada",
       home: "Ir al Inicio",
-      cta: "Consulta Gratuita",
+      cta: "Consulta Online",
       note: "Nota Profesional:",
       message:
         "Nuestros expertos fiscales han revisado minuciosamente esta página y determinado que no es deducible de impuestos... porque no existe.",
@@ -393,7 +393,7 @@ export const translations = {
         findable: "Nuestra asesoría fiscal es 100% localizable",
         noHiddenCosts: "Sin costos ocultos ni páginas perdidas",
         response24h: "Respuesta garantizada en menos de 24h",
-        first15min: "Primeros 15 minutos gratuitos",
+        first15min: "Primeros 15 minutos de orientación",
       },
     },
     blog: {
@@ -411,8 +411,8 @@ export const translations = {
       blog: "Blog",
       contacto: "Kontakt",
     },
-    cta: "Erste 15 Min kostenlos",
-    ctaSubtext: "Dann 150 CHF/Std",
+    cta: "Online Beratung",
+    ctaSubtext: "Professionelle Beratung",
     location: "Zürich, Schweiz",
     phone: "+41 76 510 03 80",
     email: "info@argentatreuhand.com",
@@ -585,7 +585,7 @@ export const translations = {
     contact: {
       title: "Kontaktieren Sie uns",
       subtitle:
-        "Wir sind hier, um Ihnen zu helfen. Kostenlose Beratung ohne Verpflichtung.",
+        "Wir sind hier, um Ihnen zu helfen. Professionelle Beratung ohne Verpflichtung.",
       info: {
         title: "Kontaktinformationen",
         phone: "Telefon",
@@ -694,12 +694,12 @@ export const translations = {
           accounting: "Buchhaltung",
           other: "Andere",
         },
-        continue: "Kostenlose Beratung buchen",
+        continue: "Online Beratung buchen",
         disclaimer:
-          "Mit der Buchung akzeptieren Sie unsere Nutzungsbedingungen und Datenschutzrichtlinie. Die ersten 15 Minuten sind völlig kostenlos. Weitere Beratungen: 150 CHF/Stunde.",
+          "Mit der Buchung akzeptieren Sie unsere Nutzungsbedingungen und Datenschutzrichtlinie. Personalisierte professionelle Beratung.",
       },
       includes: {
-        title: "Was beinhaltet Ihre kostenlose Erstberatung?",
+        title: "Was beinhaltet Ihre Online Beratung?",
         items: [
           "Erstbewertung Ihrer Steuersituation",
           "Identifikation der wichtigsten Möglichkeiten",
@@ -710,26 +710,26 @@ export const translations = {
       guarantee: {
         title: "Qualitätsverpflichtung",
         description:
-          "Ihre erste 15-minütige Beratung ist völlig kostenlos. Sie zahlen nur, wenn Sie sich für die Fortsetzung unserer Dienstleistungen entscheiden.",
-        period: "Weitere Beratungen: 150 CHF/Stunde",
+          "Wir bieten Ihnen eine hochqualifizierte professionelle Beratung an, die auf Ihre speziellen Bedürfnisse zugeschnitten ist.",
+        period: "Individuelle Beratung nach Bedarf",
       },
       info: {
         title: "Wichtige Informationen",
         items: [
-          "Erstberatung: 15 Minuten kostenlos",
-          "Weitere Beratungen: 150 CHF/Stunde",
+          "Dauer: 60 Minuten",
+          "Weitere Beratungen nach Bedarf",
           "Modalität: Vor Ort oder online",
           "Öffnungszeiten: Montag bis Freitag 9:00 - 18:00",
           "Sofortige Bestätigung per E-Mail",
         ],
       },
       confirmation: {
-        title: "¡Consulta Gratuita Reservada!",
-        title_de: "¡Kostenlose Beratung gebucht!",
+        title: "¡Consulta Online Reservada!",
+        title_de: "¡Online Beratung gebucht!",
         message:
-          "Ihre kostenlose 15-minütige Erstberatung wurde bestätigt. Sie erhalten in Kürze eine Bestätigungs-E-Mail.",
+          "Tu consulta online ha sido confirmada. Te enviaremos un email de confirmación en breve.",
         message_de:
-          "Ihre kostenlose 15-minütige Erstberatung wurde bestätigt. Sie erhalten in Kürze eine Bestätigungs-E-Mail.",
+          "Ihre Online Beratung wurde bestätigt. Sie erhalten in Kürze eine Bestätigungs-E-Mail.",
         details: "Details Ihrer Beratung:",
         details_de: "Details Ihrer Beratung:",
         date: "Datum:",
@@ -744,8 +744,8 @@ export const translations = {
         email_de: "E-Mail:",
         price: "Preis:",
         price_de: "Preis:",
-        free: "KOSTENLOS (15 Min)",
-        free_de: "KOSTENLOS (15 Min)",
+        free: "Consulta Online",
+        free_de: "Online Beratung",
         bookAnother: "Weitere Beratung buchen",
         bookAnother_de: "Weitere Beratung buchen",
         errorPayment:
@@ -779,7 +779,7 @@ export const translations = {
     notFound: {
       title: "Seite nicht gefunden",
       home: "Zur Startseite",
-      cta: "Kostenlose Beratung",
+      cta: "Online Beratung",
       note: "Professioneller Hinweis:",
       message:
         "Unsere Steuerexperten haben diese Seite gründlich geprüft und festgestellt, dass sie steuerlich nicht absetzbar ist... weil sie nicht existiert.",
@@ -789,7 +789,7 @@ export const translations = {
         findable: "Unsere Steuerberatung ist zu 100% auffindbar",
         noHiddenCosts: "Keine versteckten Kosten oder Seiten",
         response24h: "Garantierte Antwort in unter 24h",
-        first15min: "Erste 15 Minuten kostenlos",
+        first15min: "Consultoría Profesional",
       },
     },
     blog: {

@@ -270,8 +270,8 @@ export default function Contact({ lang, contactData }: ContactProps) {
           </h2>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
             {lang === "es"
-              ? "Estamos aquí para ayudarte. Consulta gratuita sin compromiso."
-              : "Wir sind hier, um Ihnen zu helfen. Kostenlose Beratung ohne Verpflichtung."}
+              ? "Estamos aquí para ayudarte. Consulta profesional sin compromiso."
+              : "Wir sind hier, um Ihnen zu helfen. Professionelle Beratung ohne Verpflichtung."}
           </p>
         </div>
 
