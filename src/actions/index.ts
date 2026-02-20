@@ -12,7 +12,7 @@ export const server = {
     }),
     handler: async (input) => {
       const transporter = nodemailer.createTransport({
-        host: import.meta.env.ZOHO_HOST || "smtp.zoho.eu",
+        host: (import.meta.env.ZOHO_HOST || "smtp.zoho.eu").replace("ssl://", "").replace("https://", ""),
         port: Number(import.meta.env.ZOHO_PORT) || 465,
         secure: true,
         auth: {

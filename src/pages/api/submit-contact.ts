@@ -3,7 +3,25 @@ import type { APIRoute } from "astro";
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
-    const { name, email, phone, type, message, language } = body;
+    const { name, email, phone, type, message, language, website } = body;
+
+    // 1. Honeypot check for spam bots
+    if (website) {
+      console.warn("Spam detected: Honeypot field filled by bot");
+      // Return a fake success to fool the bot
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: "Contact form submitted successfully",
+        }),
+        {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
 
     // Validation
     if (!name || !email || !message) {
@@ -104,7 +122,7 @@ export const POST: APIRoute = async ({ request }) => {
     // Send email notification via Nodemailer (Zoho SMTP)
     const zohoUser = import.meta.env.ZOHO_USER;
     const zohoPass = import.meta.env.ZOHO_PASS;
-    const zohoHost = import.meta.env.ZOHO_HOST;
+    const zohoHost = import.meta.env.ZOHO_HOST?.replace("ssl://", "").replace("https://", "");
     const zohoPort = import.meta.env.ZOHO_PORT;
 
     if (zohoUser && zohoPass) {
@@ -113,11 +131,12 @@ export const POST: APIRoute = async ({ request }) => {
         const transporter = nodemailer.createTransport({
           host: zohoHost || "smtp.zoho.eu",
           port: Number(zohoPort) || 465,
-          secure: true,
+          secure: true, // Use SSL
           auth: {
             user: zohoUser,
             pass: zohoPass,
           },
+          // Additional logging/debugging can be added here
         });
 
         const emailHtml = `

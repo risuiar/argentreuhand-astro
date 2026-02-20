@@ -44,6 +44,7 @@ interface FormData {
   type: string;
   message: string;
   captchaAnswer: string;
+  website: string;
 }
 
 interface FormErrors {
@@ -67,6 +68,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
     type: "",
     message: "",
     captchaAnswer: "",
+    website: "",
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
@@ -207,6 +209,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
           type: formData.type,
           message: formData.message,
           language: lang,
+          website: formData.website,
         }),
       });
 
@@ -227,6 +230,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
           type: "",
           message: "",
           captchaAnswer: "",
+          website: "",
         });
         // Clear errors
         setErrors({});
@@ -358,6 +362,17 @@ export default function Contact({ lang, contactData }: ContactProps) {
             {/* Mostrar el formulario solo si no es success */}
             {submitStatus !== "success" && (
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Honeypot field - Invisible to humans */}
+                <div className="hidden" aria-hidden="true">
+                  <input
+                    type="text"
+                    name="website"
+                    value={formData.website}
+                    onChange={(e) => handleInputChange("website", e.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">
