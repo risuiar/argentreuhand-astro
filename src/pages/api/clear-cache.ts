@@ -1,4 +1,6 @@
 import type { APIRoute } from "astro";
+
+export const prerender = false;
 import { clearHomeCache, getCacheStatus } from "../../utils/home";
 
 // Helper function to validate secret

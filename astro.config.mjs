@@ -6,9 +6,15 @@ import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
   site: "https://argentatreuhand.com",
-  output: "server",
+  output: "hybrid",
   adapter: node({
     mode: "standalone",
   }),
-  integrations: [react(), tailwind(), sitemap()],
+  integrations: [
+    react(),
+    tailwind(),
+    sitemap({
+      filter: (page) => !page.includes("/api/"),
+    }),
+  ],
 });
