@@ -101,10 +101,25 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // Send email notification via Resend
-    const resendApiKey = import.meta.env.RESEND_API_KEY;
-    if (resendApiKey) {
+    // Send email notification via Nodemailer (Zoho SMTP)
+    const zohoUser = import.meta.env.ZOHO_USER;
+    const zohoPass = import.meta.env.ZOHO_PASS;
+    const zohoHost = import.meta.env.ZOHO_HOST;
+    const zohoPort = import.meta.env.ZOHO_PORT;
+
+    if (zohoUser && zohoPass) {
       try {
+        const nodemailer = await import("nodemailer");
+        const transporter = nodemailer.createTransport({
+          host: zohoHost || "smtp.zoho.eu",
+          port: Number(zohoPort) || 465,
+          secure: true,
+          auth: {
+            user: zohoUser,
+            pass: zohoPass,
+          },
+        });
+
         const emailHtml = `
           <h2>Nuevo mensaje de contacto</h2>
           <p><strong>Nombre:</strong> ${name}</p>
@@ -116,29 +131,20 @@ export const POST: APIRoute = async ({ request }) => {
           <p style="white-space: pre-wrap;">${message}</p>
         `;
 
-        const emailTo = import.meta.env.CONTACT_EMAIL_TO || "info@argentatreuhand.com";
-        const emailFrom = import.meta.env.CONTACT_EMAIL_FROM || "Argenta Treuhand <onboarding@resend.dev>";
-
-        await fetch("https://api.resend.com/emails", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${resendApiKey}`,
-          },
-          body: JSON.stringify({
-            from: emailFrom,
-            to: [emailTo],
-            subject: `Nuevo contacto: ${name} (${type})`,
-            html: emailHtml,
-          }),
+        await transporter.sendMail({
+          from: `"Argenta Treuhand" <${zohoUser}>`,
+          replyTo: email,
+          to: zohoUser,
+          subject: `Nuevo contacto: ${name} (${type})`,
+          html: emailHtml,
         });
-        console.log("Email notification sent successfully");
+
+        console.log("Email notification sent successfully via Zoho");
       } catch (emailError) {
-        console.error("Error sending email notification:", emailError);
-        // We don't return error here because Strapi already saved the contact
+        console.error("Error sending email notification via Zoho:", emailError);
       }
     } else {
-      console.warn("RESEND_API_KEY not configured, skipping email notification");
+      console.warn("Zoho SMTP credentials not configured, skipping email notification");
     }
 
     const result = await response.json();
