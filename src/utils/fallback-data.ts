@@ -296,3 +296,16 @@ export const fallbackHomeData = {
     },
   },
 };
+
+export const fallbackConsultationData = {
+  es: {
+    title: "Reservar Consulta",
+    description: "Selecciona una fecha y hora conveniente para tu consulta",
+    price: "80€",
+  },
+  de: {
+    title: "Beratung buchen",
+    description: "Wählen Sie einen passenden Termin für Ihre Beratung",
+    price: "80€",
+  },
+};
