@@ -26,7 +26,8 @@ try {
 }
 
 // Cache this page for 5 minutes
-export const prerender = true;
+// SSR for this page to allow cache clearing via webhook
+export const prerender = false;
 export const cache = {
   maxAge: 5 * 60, // 5 minutes
   staleWhileRevalidate: 10 * 60, // 10 minutes

@@ -99,8 +99,9 @@ export async function fetchHomeData(locale: "de" | "es"): Promise<HomeData> {
       Authorization: `Bearer ${CMS_BEARER_TOKEN}`,
       "Content-Type": "application/json",
     },
-    // Add cache headers for better performance
-    cache: "force-cache", // Use Next.js cache or similar
+    // Do not use force-cache, as we manage our own in-memory cache.
+    // Using no-store ensures that when we DO hit the network, we get fresh data.
+    cache: "no-store",
   });
 
   if (!response.ok) {

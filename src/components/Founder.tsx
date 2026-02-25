@@ -21,10 +21,10 @@ const Founder: React.FC<FounderProps> = ({
   return (
     <div className="mb-4">
       <div className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-0">
           {/* Photo Section */}
-          <div className="relative">
-            <div className="aspect-square lg:aspect-auto lg:h-full relative overflow-hidden">
+          <div className="lg:col-span-2 relative overflow-hidden bg-slate-100">
+            <div className="aspect-[4/5] lg:aspect-auto lg:h-[450px] relative overflow-hidden">
               {photo ? (() => {
                 const photoData = getImageData(photo);
                 if (!photoData) return null;
@@ -33,11 +33,11 @@ const Founder: React.FC<FounderProps> = ({
                   <img
                     src={photoData.url}
                     srcSet={srcset}
-                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    sizes="(max-width: 1024px) 100vw, 40vw"
                     alt={photoData.alternativeText || name}
                     width={photoData.width}
                     height={photoData.height}
-                    className="w-full h-full object-cover object-center"
+                    className="w-full h-full object-cover object-top"
                     loading="lazy"
                     decoding="async"
                   />
@@ -48,7 +48,7 @@ const Founder: React.FC<FounderProps> = ({
           </div>
 
           {/* Content Section */}
-          <div className="p-8 lg:p-12 flex flex-col justify-center">
+          <div className="lg:col-span-3 p-8 lg:p-12 flex flex-col justify-center">
             <div className="mb-6">
               <h3 className="text-3xl font-bold text-slate-900 mb-2">{name}</h3>
               <p className="text-xl text-blue-600 font-semibold mb-4">
