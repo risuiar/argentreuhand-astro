@@ -51,7 +51,7 @@ const Founder: React.FC<FounderProps> = ({
           <div className="lg:col-span-3 p-8 lg:p-12 flex flex-col justify-center">
             <div className="mb-6">
               <h3 className="text-3xl font-bold text-slate-900 mb-2">{name}</h3>
-              <p className="text-xl text-blue-600 font-semibold mb-4">
+              <p className="text-xl text-brand-blue font-semibold mb-4">
                 {title}
               </p>
             </div>
@@ -66,7 +66,7 @@ const Founder: React.FC<FounderProps> = ({
               </h4>
               {credentials.map((credential, index) => (
                 <div key={index} className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="w-2 h-2 bg-brand-blue rounded-full mt-2 flex-shrink-0"></div>
                   <span className="text-slate-600">{credential}</span>
                 </div>
               ))}

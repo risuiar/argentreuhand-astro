@@ -101,6 +101,7 @@ export default {
           5: "hsl(var(--chart-5))",
         },
         "brand-teal": "#267272",
+        "brand-blue": "#173981",
       },
       keyframes: {
         "accordion-down": {

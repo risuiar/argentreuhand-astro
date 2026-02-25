@@ -6,10 +6,12 @@ interface SlideImage {
   id: number;
   url: string;
   alternativeText?: string;
+  width?: number;
+  height?: number;
   formats?: {
-    large?: { url: string };
-    medium?: { url: string };
-    small?: { url: string };
+    large?: { url: string; width: number; height: number };
+    medium?: { url: string; width: number; height: number };
+    small?: { url: string; width: number; height: number };
   };
 }
 
@@ -117,7 +119,7 @@ export default function ImageCarousel({
                           decoding="async"
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-r from-blue-900 to-blue-700" />
+                        <div className="w-full h-full bg-gradient-to-r from-brand-blue to-brand-blue/80" />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
                       <div className="absolute inset-0 flex items-center">
@@ -204,7 +206,7 @@ export default function ImageCarousel({
           {/* Progress bar */}
           <div className="mt-6 w-full bg-slate-200 rounded-full h-1 overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-blue-600 to-blue-800 transition-all duration-500 ease-in-out"
+              className="h-full bg-gradient-to-r from-brand-blue to-brand-blue/80 transition-all duration-500 ease-in-out"
               style={{
                 width: `${((currentIndex + 1) / slides.length) * 100}%`,
               }}

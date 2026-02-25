@@ -75,7 +75,7 @@ const getLocalizedLink = (path: string, lang: string) => {
 >
   <!-- Top contact bar - Solo desktop -->
   <div
-    class="hidden md:block bg-blue-900 text-white py-1.5 transition-all duration-300"
+    class="hidden md:block bg-brand-blue text-white py-1.5 transition-all duration-300"
   >
     <div class="container mx-auto px-4">
       <div class="flex justify-between items-center text-xs">
@@ -162,7 +162,7 @@ const getLocalizedLink = (path: string, lang: string) => {
       <div class="flex items-center space-x-3">
         <a
           href={getLocalizedLink("/", currentLang)}
-          class="nav-link text-slate-700 hover:text-blue-600 transition-colors text-sm font-medium"
+          class="nav-link text-slate-700 hover:text-brand-blue transition-colors text-sm font-medium"
           data-section="inicio"
         >
           {t.nav.inicio}
@@ -213,7 +213,7 @@ const getLocalizedLink = (path: string, lang: string) => {
           </svg>
           <a
             href={getLocalizedUrl("es")}
-            class={`px-2 py-1 rounded text-xs font-medium transition-colors ${currentLang === "es" ? "bg-blue-100 text-blue-600" : "text-slate-600 hover:text-blue-600"}`}
+            class={`px-2 py-1 rounded text-xs font-medium transition-colors ${currentLang === "es" ? "bg-brand-blue/10 text-brand-blue" : "text-slate-600 hover:text-brand-blue"}`}
             data-lang="es"
             data-blog-detail={isBlogDetailPage ? "true" : "false"}
             data-blog-id={blogDocumentId || ""}
@@ -223,7 +223,7 @@ const getLocalizedLink = (path: string, lang: string) => {
           </a>
           <a
             href={getLocalizedUrl("de")}
-            class={`px-2 py-1 rounded text-xs font-medium transition-colors ${currentLang === "de" ? "bg-blue-100 text-blue-600" : "text-slate-600 hover:text-blue-600"}`}
+            class={`px-2 py-1 rounded text-xs font-medium transition-colors ${currentLang === "de" ? "bg-brand-blue/10 text-brand-blue" : "text-slate-600 hover:text-brand-blue"}`}
             data-lang="de"
             data-blog-detail={isBlogDetailPage ? "true" : "false"}
             data-blog-id={blogDocumentId || ""}
@@ -237,7 +237,7 @@ const getLocalizedLink = (path: string, lang: string) => {
         <div class="relative group overflow-hidden">
           <a
             href={getLocalizedLink("/reservar/", currentLang)}
-            class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors block text-center"
+            class="bg-brand-blue hover:bg-brand-blue/90 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors block text-center shadow-sm shadow-brand-blue/20"
           >
             {t.cta}
           </a>
@@ -278,7 +278,7 @@ const getLocalizedLink = (path: string, lang: string) => {
           <div class="flex items-center space-x-1 bg-slate-100 rounded-lg p-1">
             <a
               href={getLocalizedUrl("es")}
-              class={`px-2 py-1 rounded text-xs font-medium transition-colors ${currentLang === "es" ? "bg-white text-blue-600 shadow-sm" : "text-slate-600"}`}
+              class={`px-2 py-1 rounded text-xs font-medium transition-colors ${currentLang === "es" ? "bg-white text-brand-blue shadow-sm" : "text-slate-600"}`}
               data-lang="es"
               data-blog-detail={isBlogDetailPage ? "true" : "false"}
               data-blog-id={blogDocumentId || ""}
@@ -288,7 +288,7 @@ const getLocalizedLink = (path: string, lang: string) => {
             </a>
             <a
               href={getLocalizedUrl("de")}
-              class={`px-2 py-1 rounded text-xs font-medium transition-colors ${currentLang === "de" ? "bg-white text-blue-600 shadow-sm" : "text-slate-600"}`}
+              class={`px-2 py-1 rounded text-xs font-medium transition-colors ${currentLang === "de" ? "bg-white text-brand-blue shadow-sm" : "text-slate-600"}`}
               data-lang="de"
               data-blog-detail={isBlogDetailPage ? "true" : "false"}
               data-blog-id={blogDocumentId || ""}
@@ -499,7 +499,7 @@ const getLocalizedLink = (path: string, lang: string) => {
       <div class="text-center">
         <a
           href={getLocalizedLink("/reservar/", currentLang)}
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-xl font-medium transition-colors text-center block"
+          class="w-full bg-brand-blue hover:bg-brand-blue/90 text-white px-6 py-4 rounded-xl font-medium transition-colors text-center block"
         >
           {t.cta}
         </a>
@@ -663,15 +663,15 @@ const getLocalizedLink = (path: string, lang: string) => {
 
   .mobile-menu-item:hover {
     background-color: #f1f5f9;
-    color: #2563eb;
-    border-left-color: #2563eb;
+    color: #173981;
+    border-left-color: #173981;
   }
 
   /* Active state for mobile menu */
   .mobile-menu-item-active {
     background-color: #eff6ff !important;
-    color: #2563eb !important;
-    border-left-color: #2563eb !important;
+    color: #173981 !important;
+    border-left-color: #173981 !important;
     font-weight: 600;
   }
   .mobile-menu-item svg {
@@ -710,7 +710,7 @@ const getLocalizedLink = (path: string, lang: string) => {
 
   /* Active navigation styles for desktop */
   .nav-link.active {
-    color: #2563eb !important;
+    color: #173981 !important;
     font-weight: 600;
     position: relative;
   }
@@ -722,7 +722,7 @@ const getLocalizedLink = (path: string, lang: string) => {
     left: 0;
     right: 0;
     height: 2px;
-    background: #2563eb;
+    background: #173981;
     border-radius: 1px;
   }
 </style>
@@ -751,7 +751,7 @@ const getLocalizedLink = (path: string, lang: string) => {
         const linkSection = link.getAttribute("data-section");
         if (linkSection === section) {
           link.classList.add("active");
-          (link as HTMLElement).style.color = "#2563eb";
+          (link as HTMLElement).style.color = "#173981";
           (link as HTMLElement).style.fontWeight = "600";
         } else {
           link.classList.remove("active");

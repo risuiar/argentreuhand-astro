@@ -21,7 +21,7 @@ export default function CalComBooking({
       const cal = await getCalApi();
       cal("ui", {
         theme: "light",
-        styles: { branding: { brandColor: "#2563eb" } },
+        styles: { branding: { brandColor: "#173981" } },
         hideEventTypeDetails: false,
         layout: "month_view",
       });
@@ -51,7 +51,7 @@ export default function CalComBooking({
 
         {price && (
           <div className="bg-white border border-slate-200 shadow-sm rounded-3xl px-8 py-5 flex flex-col items-center justify-center min-w-[160px] animate-in fade-in slide-in-from-right-4 duration-700">
-            <span className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-1">
+            <span className="text-xs font-bold text-brand-blue uppercase tracking-widest mb-1">
               {lang === "de" ? "Preis" : "Precio"}
             </span>
             <span className="text-3xl font-black text-slate-900">{price}</span>
@@ -60,7 +60,7 @@ export default function CalComBooking({
 
       </div>
 
-      <div className="rounded-3xl shadow-2xl shadow-blue-100/50 overflow-hidden mt-4 border border-slate-100 bg-white">
+      <div className="rounded-3xl shadow-2xl shadow-brand-blue/10 overflow-hidden mt-4 border border-slate-100 bg-white">
         <Cal
           key={lang}
           calLink={calLink}

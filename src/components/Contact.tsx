@@ -131,7 +131,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
   };
 
   const colors = [
-    "bg-blue-100 text-blue-600",
+    "bg-brand-blue/10 text-brand-blue",
     "bg-emerald-100 text-emerald-600",
     "bg-purple-100 text-purple-600",
     "bg-yellow-100 text-yellow-600",
@@ -282,7 +282,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div className="space-y-8">
-            <div className="bg-gradient-to-br from-blue-50 to-slate-50 rounded-2xl p-8">
+            <div className="bg-gradient-to-br from-brand-blue/5 to-slate-50 rounded-2xl p-8">
               <h3 className="text-2xl font-bold text-slate-900 mb-6">
                 {lang === "es"
                   ? "Información de Contacto"
@@ -316,7 +316,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
             </div>
 
             {/* CTA Box */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-8 text-white">
+            <div className="bg-gradient-to-r from-brand-blue to-brand-blue/80 rounded-2xl p-8 text-white">
               <h3 className="text-2xl font-bold mb-4">
                 {lang === "es"
                   ? "¿Necesitas Asesoría Profesional?"
@@ -329,7 +329,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
               </p>
               <a
                 href={getLocalizedLink("/reservar/", lang)}
-                className="inline-flex items-center justify-center bg-white text-blue-600 hover:bg-slate-100 w-full px-6 py-3 rounded-lg font-medium transition-colors"
+                className="inline-flex items-center justify-center bg-white text-brand-blue hover:bg-slate-100 w-full px-6 py-3 rounded-lg font-medium transition-colors"
               >
                 {lang === "es" ? "Reservar Consulta" : "Beratung buchen"}
               </a>
@@ -384,7 +384,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
                       onChange={(e) =>
                         handleInputChange("name", e.target.value)
                       }
-                      className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                      className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent ${
                         errors.name ? "border-red-300" : "border-slate-200"
                       }`}
                       placeholder={lang === "es" ? "Tu nombre" : "Ihr Name"}
@@ -403,7 +403,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
                       onChange={(e) =>
                         handleInputChange("email", e.target.value)
                       }
-                      className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                      className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent ${
                         errors.email ? "border-red-300" : "border-slate-200"
                       }`}
                       placeholder={
@@ -426,7 +426,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => handleInputChange("phone", e.target.value)}
-                    className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent"
                     placeholder="+41 76 510 03 80"
                   />
                 </div>
@@ -440,7 +440,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
                     onValueChange={(value) => handleInputChange("type", value)}
                   >
                     <SelectTrigger
-                      className={`w-full h-12 px-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                      className={`w-full h-12 px-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent ${
                         errors.type ? "border-red-300" : "border-slate-200"
                       }`}
                     >
@@ -493,7 +493,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
                     onChange={(e) =>
                       handleInputChange("message", e.target.value)
                     }
-                    className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent ${
                       errors.message ? "border-red-300" : "border-slate-200"
                     }`}
                     placeholder={
@@ -510,7 +510,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
                 </div>
 
                 {/* Captcha Section */}
-                <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                <div className="bg-brand-blue/5 border border-brand-blue/20 rounded-xl p-4">
                   <label className="block text-sm font-medium text-slate-700 mb-3">
                     {lang === "es"
                       ? "Verificación de Seguridad"
@@ -530,7 +530,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
                         onChange={(e) =>
                           handleInputChange("captchaAnswer", e.target.value)
                         }
-                        className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                        className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent ${
                           errors.captchaAnswer
                             ? "border-red-300"
                             : "border-slate-200"
@@ -548,7 +548,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
                     <button
                       type="button"
                       onClick={generateCaptcha}
-                      className="p-3 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-xl transition-colors"
+                      className="p-3 bg-brand-blue/10 hover:bg-brand-blue/20 text-brand-blue rounded-xl transition-colors"
                       title={lang === "es" ? "Nuevo captcha" : "Neues Captcha"}
                     >
                       <RefreshCw className="h-5 w-5" />
@@ -564,7 +564,7 @@ export default function Contact({ lang, contactData }: ContactProps) {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white py-4 text-lg"
+                  className="w-full bg-brand-blue hover:bg-brand-blue/90 disabled:bg-brand-blue/50 text-white py-4 text-lg"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center">

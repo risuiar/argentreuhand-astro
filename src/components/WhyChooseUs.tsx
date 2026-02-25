@@ -51,7 +51,7 @@ export default function WhyChooseUs({
   };
 
   const colors = [
-    "bg-blue-50 text-blue-600",
+    "bg-brand-blue/5 text-brand-blue",
     "bg-emerald-50 text-emerald-600",
     "bg-purple-50 text-purple-600",
     "bg-yellow-50 text-yellow-600",
@@ -124,7 +124,7 @@ export default function WhyChooseUs({
           <div className="mt-20 bg-white rounded-3xl p-8 shadow-xl border border-slate-200">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               <div className="text-center">
-                <div className="text-4xl font-bold text-blue-600 mb-2">
+                <div className="text-4xl font-bold text-brand-blue mb-2">
                   {whyChooseUsData.stats.clients || "500+"}
                 </div>
                 <div className="text-slate-600">

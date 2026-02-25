@@ -38,7 +38,7 @@ export default function Hero({ lang, heroData }: HeroProps) {
     return (
       <section
         id="inicio"
-        className="relative bg-gradient-to-br from-blue-50 via-white to-slate-50 pt-28 pb-20"
+        className="relative bg-gradient-to-br from-brand-blue/5 via-white to-slate-50 pt-28 pb-20"
       >
         <div className="container mx-auto px-4 relative">
           <div className="max-w-4xl mx-auto text-center">
@@ -54,11 +54,11 @@ export default function Hero({ lang, heroData }: HeroProps) {
   return (
     <section
       id="inicio"
-      className="relative bg-gradient-to-br from-blue-50 via-white to-slate-50 pt-28 pb-20"
+      className="relative bg-gradient-to-br from-brand-blue/5 via-white to-slate-50 pt-28 pb-20"
     >
       {/* Background decoration */}
       <div className="absolute inset-0 opacity-30">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-slate-100/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/5 to-slate-100/50"></div>
         <div
           className="absolute inset-0"
           style={{
@@ -70,7 +70,7 @@ export default function Hero({ lang, heroData }: HeroProps) {
 
       <div className="container mx-auto px-4 relative">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
+          <div className="inline-flex items-center bg-brand-blue/10 text-brand-blue px-4 py-2 rounded-full text-sm font-medium mb-6">
             <Shield className="h-4 w-4 mr-2" />
             {heroData.moto ||
               (lang === "es"
@@ -94,7 +94,7 @@ export default function Hero({ lang, heroData }: HeroProps) {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <a
               href={getLocalizedLink("/reservar/", lang)}
-              className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg rounded-lg font-medium transition-colors"
+              className="inline-flex items-center justify-center bg-brand-blue hover:bg-brand-blue/90 text-white px-8 py-4 text-lg rounded-lg font-medium transition-colors shadow-lg shadow-brand-blue/20"
             >
               {heroData.ctaText ||
                 (lang === "es" ? "Reservar Consulta" : "Beratung buchen")}
@@ -102,7 +102,7 @@ export default function Hero({ lang, heroData }: HeroProps) {
             </a>
             <a
               href={getLocalizedLink("/#servicios", lang)}
-              className="inline-flex items-center justify-center border border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-4 text-lg rounded-lg font-medium transition-colors"
+              className="inline-flex items-center justify-center border border-brand-blue text-brand-blue hover:bg-brand-blue/5 px-8 py-4 text-lg rounded-lg font-medium transition-colors"
             >
               {lang === "es" ? "Ver Servicios" : "Dienstleistungen anzeigen"}
             </a>
@@ -112,8 +112,8 @@ export default function Hero({ lang, heroData }: HeroProps) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
             <div className="text-center">
               <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-200">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-xl mb-4">
-                  <Users className="h-6 w-6 text-blue-600" />
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-brand-blue/10 rounded-xl mb-4">
+                  <Users className="h-6 w-6 text-brand-blue" />
                 </div>
                 <div className="text-3xl font-bold text-slate-900 mb-2">
                   {heroData.stats?.clients || "500+"}
