@@ -1,0 +1,46 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer";
+import { fetchLegalContent } from "../utils/legal";
+import { getLangFromUrl } from "../lib/i18n";
+
+export const prerender = false;
+
+const lang = "es";
+const content = await fetchLegalContent("declaracion-de-privacidad", lang);
+let error = !content
+  ? "No se encontró el contenido en Strapi (Key: declaracion-de-privacidad, Locale: es)"
+  : null;
+
+const title = content?.title || "Declaración de Privacidad";
+const body = content?.content || "";
+---
+
+<Layout title={`${title} | Argenta Treuhand`} lang={lang}>
+  <Header />
+  <main class="pt-32 md:pt-40 pb-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-[680px] mx-auto">
+        <h1 class="text-4xl font-bold mb-8 text-slate-900 border-b pb-4">
+          {title}
+        </h1>
+        {
+          error ? (
+            <div class="bg-red-50 border border-red-200 text-red-700 p-6 rounded-xl">
+              <p class="font-bold text-lg mb-2">Error de Contenido:</p>
+              <p>{error}</p>
+              <p class="mt-4 text-sm">
+                Verifica en Strapi que el tipo "arg-content" tenga un elemento
+                con la clave (key) "declaracion-de-privacidad" y el idioma "es".
+              </p>
+            </div>
+          ) : (
+            <div class="prose prose-slate max-w-none" set:html={body} />
+          )
+        }
+      </div>
+    </div>
+  </main>
+  <Footer lang={lang} />
+</Layout>

@@ -2,7 +2,8 @@
 // Detectar idioma desde la URL o usar español por defecto
 const url = new URL(Astro.request.url);
 const pathname = url.pathname;
-const currentLang = pathname.startsWith("/de") ? "de" : "es";
+const currentLang =
+  pathname === "/de" || pathname.startsWith("/de/") ? "de" : "es";
 
 // Detectar página actual para estado activo
 const isBookingPage = pathname.includes("/reservar");
@@ -51,13 +52,55 @@ const t = translations[currentLang];
 
 // URLs para cambio de idioma
 const getLocalizedUrl = (lang: string) => {
+  // Mapping para páginas legales que tienen diferentes slugs
+  const legalMapping = {
+    "declaracion-de-privacidad": {
+      es: "/declaracion-de-privacidad/",
+      de: "/de/datenschutz/",
+    },
+    datenschutz: { es: "/declaracion-de-privacidad/", de: "/de/datenschutz/" },
+    "condiciones-generales": {
+      es: "/condiciones-generales/",
+      de: "/de/allgemeine-geschaeftsbedingungen/",
+    },
+    "allgemeine-geschaeftsbedingungen": {
+      es: "/condiciones-generales/",
+      de: "/de/allgemeine-geschaeftsbedingungen/",
+    },
+  };
+
+  // Buscar si la ruta actual coincide con alguna página legal
+  for (const [key, mapping] of Object.entries(legalMapping)) {
+    if (pathname.includes(key)) {
+      return mapping[lang];
+    }
+  }
+
   // Para otras páginas, usar la lógica normal
+  const standardPaths = ["/", "/reservar/", "/blog/"];
+  const isStandard = standardPaths.some(
+    (p) =>
+      pathname === p ||
+      pathname === p.replace(/\/$/, "") ||
+      pathname === "/de" + p ||
+      pathname === "/de" + p.replace(/\/$/, ""),
+  );
+  const isHash =
+    pathname === "/" || pathname === "/de/" || pathname.includes("#");
+
+  if (!isStandard && !isHash) {
+    return lang === "es" ? "/" : "/de/";
+  }
+
+  const isDe = pathname === "/de" || pathname.startsWith("/de/");
+
   if (lang === "es") {
-    return pathname.replace("/de", "") || "/";
+    return isDe ? pathname.replace(/^\/de/, "") || "/" : pathname;
   } else {
-    return pathname.startsWith("/de")
-      ? pathname
-      : `/de${pathname === "/" ? "" : pathname}`;
+    // Si ya estamos en alemán, mantener la ruta
+    if (isDe) return pathname;
+    // Si estamos en español, añadir el prefijo /de
+    return `/de${pathname === "/" ? "" : pathname}`;
   }
 };
 
@@ -870,32 +913,73 @@ const getLocalizedLink = (path: string, lang: string) => {
 </script>
 
 <script>
-  // Handle language switching for blog detail pages
+  // Handle language switching
   document.addEventListener("DOMContentLoaded", function () {
     const langLinks = document.querySelectorAll("[data-lang]");
 
     langLinks.forEach((link) => {
       link.addEventListener("click", function (e) {
-        const isBlogDetail = this.getAttribute("data-blog-detail") === "true";
         const targetLang = this.getAttribute("data-lang");
+        const pathname = window.location.pathname;
+        const isBlogDetail = this.getAttribute("data-blog-detail") === "true";
 
-        // Only handle blog detail pages
-        if (!isBlogDetail) {
-          return; // Let normal navigation happen
+        // Mapping para páginas legales
+        const legalMapping = {
+          "declaracion-de-privacidad": {
+            es: "/declaracion-de-privacidad/",
+            de: "/de/datenschutz/",
+          },
+          datenschutz: {
+            es: "/declaracion-de-privacidad/",
+            de: "/de/datenschutz/",
+          },
+          "condiciones-generales": {
+            es: "/condiciones-generales/",
+            de: "/de/allgemeine-geschaeftsbedingungen/",
+          },
+          "allgemeine-geschaeftsbedingungen": {
+            es: "/condiciones-generales/",
+            de: "/de/allgemeine-geschaeftsbedingungen/",
+          },
+        };
+
+        // 1. Check legal pages
+        for (const [key, mapping] of Object.entries(legalMapping)) {
+          if (pathname.includes(key)) {
+            e.preventDefault();
+            window.location.href = mapping[targetLang];
+            return;
+          }
         }
 
-        e.preventDefault();
+        // 2. Check blog detail pages
+        if (isBlogDetail) {
+          e.preventDefault();
+          const blogPath = targetLang === "de" ? "/de/blog/" : "/blog/";
+          window.location.href = blogPath;
+          return;
+        }
 
-        // For blog detail pages, redirect to the blog list in the target language
-        // This is a simpler approach that avoids 404 errors
-        const getLocalizedLink = (path, lang) => {
-          if (lang === "de") {
-            return path === "/" ? "/de/" : `/de${path}`;
-          }
-          return path;
-        };
-        const newUrl = getLocalizedLink("/blog", targetLang);
-        window.location.href = newUrl;
+        // 3. Normal logic for standard pages
+        const standardPaths = ["/", "/reservar/", "/blog/"];
+        const isStandard = standardPaths.some(
+          (p) =>
+            pathname === p ||
+            pathname === p.replace(/\/$/, "") ||
+            pathname === "/de" + p ||
+            pathname === "/de" + p.replace(/\/$/, ""),
+        );
+        const isHash =
+          pathname === "/" || pathname === "/de/" || pathname.includes("#");
+
+        if (!isStandard && !isHash) {
+          // If we are on an unknown page (could be a 404 or a newly deleted page)
+          e.preventDefault();
+          window.location.href = targetLang === "de" ? "/de/" : "/";
+          return;
+        }
+
+        // 4. Default behavior handled by href for standard pages
       });
     });
 

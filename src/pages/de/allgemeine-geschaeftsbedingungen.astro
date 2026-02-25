@@ -1,0 +1,47 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer";
+import { fetchLegalContent } from "../../utils/legal";
+import { getLangFromUrl } from "../../lib/i18n";
+
+export const prerender = false;
+
+const lang = getLangFromUrl(Astro.url);
+const content = await fetchLegalContent("condiciones-generales", lang);
+let error = !content
+  ? "Inhalt in Strapi nicht gefunden (Key: condiciones-generales)"
+  : null;
+
+const title = content?.title || "Legal";
+const body = content?.content || "";
+---
+
+<Layout title={`${title} | Argenta Treuhand`} lang={lang}>
+  <Header />
+  <main class="pt-32 md:pt-40 pb-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-[680px] mx-auto">
+        <h1 class="text-4xl font-bold mb-8 text-slate-900 border-b pb-4">
+          {title}
+        </h1>
+        {
+          error ? (
+            <div class="bg-red-50 border border-red-200 text-red-700 p-6 rounded-xl">
+              <p class="font-bold text-lg mb-2">Inhaltsfehler:</p>
+              <p>{error}</p>
+              <p class="mt-4 text-sm">
+                Überprüfen Sie in Strapi, ob der Typ "arg-content" ein Element
+                con la clave (key) "condiciones-generales" y el idioma
+                correctos.
+              </p>
+            </div>
+          ) : (
+            <div class="prose prose-slate max-w-none" set:html={body} />
+          )
+        }
+      </div>
+    </div>
+  </main>
+  <Footer lang={lang} />
+</Layout>

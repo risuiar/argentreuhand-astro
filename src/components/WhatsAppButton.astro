@@ -8,8 +8,8 @@ const { lang = "es" } = Astro.props;
 const phone = "41765100380";
 
 const messages = {
-  es: "Estimado/a, gracias por contactar con ARGENTATREUHAND. Por favor, indíquenos en qué podemos ayudarle.",
-  de: "Sehr geehrte Damen und Herren, danke für Ihre Kontaktaufnahme mit ARGENTATREUHAND. Bitte teilen Sie uns mit, wie wir Ihnen helfen können.",
+  es: "Hola, me gustaría solicitar información sobre sus servicios de asesoría. ¿Podrían ayudarme?",
+  de: "Hallo, ich würde gerne Informationen über Ihre Beratungsdienstleistungen anfordern. Könnten Sie mir helfen?",
 };
 
 const message = messages[lang as keyof typeof messages] || messages.es;

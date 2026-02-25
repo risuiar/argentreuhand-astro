@@ -171,6 +171,32 @@ export default function Footer({
         </div>
 
         <div className="border-t border-slate-800 mt-12 pt-8 text-center">
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-4 text-sm text-slate-400">
+            <a
+              href={
+                lang === "es"
+                  ? "/declaracion-de-privacidad/"
+                  : "/de/datenschutz/"
+              }
+              className="hover:text-white transition-colors"
+            >
+              {lang === "es"
+                ? "Declaración de Privacidad"
+                : "Datenschutzerklärung"}
+            </a>
+            <a
+              href={
+                lang === "es"
+                  ? "/condiciones-generales/"
+                  : "/de/allgemeine-geschaeftsbedingungen/"
+              }
+              className="hover:text-white transition-colors"
+            >
+              {lang === "es"
+                ? "Condiciones Generales"
+                : "Allgemeine Geschäftsbedingungen"}
+            </a>
+          </div>
           <p className="text-slate-400">
             © {new Date().getFullYear()} Argenta Treuhand.{" "}
             {lang === "es"

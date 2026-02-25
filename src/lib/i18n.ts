@@ -259,8 +259,8 @@ export const translations = {
       },
       legal: {
         copyright: "© 2024 Argenta Treuhand. Todos los derechos reservados.",
-        privacy: "Política de Privacidad",
-        terms: "Términos de Uso",
+        privacy: "Declaración de Privacidad",
+        terms: "Condiciones Generales",
         cookies: "Cookies",
       },
     },
@@ -655,8 +655,8 @@ export const translations = {
       },
       legal: {
         copyright: `© ${new Date().getFullYear()} Argenta Treuhand. Alle Rechte vorbehalten.`,
-        privacy: "Datenschutzrichtlinie",
-        terms: "Nutzungsbedingungen",
+        privacy: "Datenschutzerklärung",
+        terms: "Allgemeine Geschäftsbedingungen",
         cookies: "Cookies",
       },
     },
