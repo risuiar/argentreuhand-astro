@@ -43,7 +43,7 @@ export default function Footer({
                 className="hover:opacity-80 transition-opacity"
               >
                 <img
-                  src="/argentatreuhand-logo.webp"
+                  src="/logo-argentatreuhand_s.webp"
                   alt="Argenta Treuhand Logo"
                   className="h-16 w-auto object-contain"
                 />
